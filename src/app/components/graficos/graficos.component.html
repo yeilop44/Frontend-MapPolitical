@@ -1,0 +1,11 @@
+<div class="container">
+<h2 class="text-center">Profesiones</h2>
+</div>
+<div clss="container" >
+  <canvas baseChart
+              [data]="doughnutChartData"
+              [labels]="doughnutChartLabels"
+              [chartType]="doughnutChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+</div>

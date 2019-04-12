@@ -1,0 +1,130 @@
+<div class="container m-5" *ngIf="isNewAffiliate">
+	<form #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
+      <input type="hidden" name="president" #president="ngModel" [(ngModel)]="auth.user">
+	  <div class="form-row">
+	    <div class="form-group col-md-6">
+	      <label for="inputEmail4">Fecha</label>
+        <input type="text" class="form-control" name="date" #date="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.date" placeholder="date">
+      </div>
+
+      <div class="form-group col-md-6">
+          <label for="inputEmail4">Nombre Completo</label>
+          <input type="text" class="form-control" name="fullName" #fullName="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.fullName" placeholder="fullName">
+      </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Dirección</label>
+            <input type="text" class="form-control" name="address" #search [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="address">
+          <div class="container">
+            <div #map style="width:50%;height:250px"></div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Profesión</label>
+            <input type="text" class="form-control" name="profession" #profession="ngModel"
+            [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="profession">
+        </div>
+      </div>
+
+      
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">latitud</label>
+          <input type="text" class="form-control" name="positionLat" #positionLat="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">longitud</label>
+            <input type="text" class="form-control" name="positionLng" #positionLng="ngModel"
+            [(ngModel)]="affiliateService.selectedAfiliado.positionLng" placeholder="longitud">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">commisión</label>
+          <input type="text" class="form-control" name="commission" #commission="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.commission" placeholder="commission">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">No. Afiliación</label>
+            <input type="text" class="form-control" name="noAffiliate" #noAffiliate="ngModel"
+            [(ngModel)]="affiliateService.selectedAfiliado.noAffiliate" placeholder="noAffiliate">
+        </div>
+      </div>
+
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="inputEmail4">Identificación</label>
+              <input type="text" class="form-control" name="identification" #identification="ngModel"
+              [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="identification">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Observaciones</label>
+            <input type="text" class="form-control" name="observations" #observations="ngModel"
+            [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="observations">
+          </div>
+        </div>
+
+
+    <button type="submit" class="btn btn-primary" style="margin: 10px"><i class="far fa-save"></i> Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelar()"><i class="far fa-times-circle"></i> Cancelar</button>
+	</form>
+</div>
+
+
+
+<div class="container" *ngIf="isNewAffiliate==false">
+	<div class="container m-2">
+		<button (click)="NewAffiliate()" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo Afiliado</button>
+	</div>
+	<table class="table table-hover">
+	  <thead>
+	    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Avatar</th>
+	      <th scope="col">Nombres y Apellido</th>
+	      <th scope="col">Fecha</th>
+	      <th scope="col">Dirección</th>
+	      <th scope="col">Profesión</th>
+	      <th scope="col">Identificacón</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Eliminar</th>
+
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr *ngFor="let afiliado of affiliates; let i = index ">
+	      <th scope="row">{{i + 1}}</th>
+        <td><ngx-avatar size="50" [name]="afiliado.fullName"></ngx-avatar></td>
+        <td>{{ afiliado.fullName }}</td>
+	      <td>{{ afiliado.date }}</td>
+	      <td>{{ afiliado.address }}</td>
+	      <td>{{ afiliado.profession }}</td>
+	      <td>{{ afiliado.identification }}</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary" (click)="editAfiliado(afiliado)">
+              <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>Editar
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-outline-danger" (click)="deleteAfiliado(afiliado._id)">
+            <i class="fas fa-trash-alt" style="color: rgba(246, 74, 74, 0.863)"></i>Eliminar
+          </button>
+        </td>
+
+	    </tr>
+
+	  </tbody>
+  </table>  
+</div>
+

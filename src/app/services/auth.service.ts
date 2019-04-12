@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
+import { Usuario } from '../models/usuario.js';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  urlApi = 'http://localhost:3000/user/signin';
+  isLogged: any;
+  user: any;
+
+  constructor(private http: HttpClient) { }
+
+  login(user: Usuario) {
+    const httpOptions = {
+    headers: new HttpHeaders({'Content-Type':  'application/json', 'Accept': 'application/json'})};
+
+    return this.http.post(this.urlApi, user, httpOptions)
+      .pipe(map((data: any) => {
+            this.isLogged = data.ok;
+            this.user = user.email;
+            console.log(data);
+            console.log(this.user);
+      }));
+  }
+
+  logOut() {
+    this.isLogged = false;
+    console.log('Logout');
+  }
+
+}
+
+

@@ -1,0 +1,33 @@
+<div class="wrapper fadeInDown zero-raduis">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
+      <h2 class="my-5">Sign In</h2>
+    </div>
+
+    <!-- Login Form -->
+    <form (ngSubmit)="login(usuario)">
+      <div class="inner-addon left-addon">
+        <i class="fas fa-user fa-lg"></i>
+        <input type="text" id="email" [(ngModel)] = "usuario.email"  class="form-control fadeIn third zero-raduis" name="email" placeholder="email">
+      </div>
+      
+      <div class="inner-addon left-addon">
+        <i class="fas fa-lock fa-lg"></i>
+         <input type="text" id="password" [(ngModel)] = "usuario.password" class=" form-control fadeIn third zero-raduis" name="login" placeholder="password">
+      </div>
+     
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Forgot Password?</a>
+      </div>
+      <input type="submit" class="fadeIn fourth zero-raduis" value="login">
+    </form>
+
+  
+  </div>
+</div>
+
+

@@ -1,0 +1,168 @@
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { AffiliatesService } from '../../services/affiliates.service';
+import { AuthService } from '../../services/auth.service';
+import { NgForm } from '@angular/forms';
+import { Afiliado } from '../../models/afiliado';
+
+import {} from 'googlemaps';
+
+
+
+@Component({
+  selector: 'app-afiliados',
+  templateUrl: './afiliados.component.html',
+  styleUrls: ['./afiliados.component.css']
+})
+export class AfiliadosComponent implements OnInit, AfterViewInit {
+  
+  @ViewChild('map') mapElement: any;
+  @ViewChild('search') public searchElement: any;
+  map: google.maps.Map;
+
+  mapPro: google.maps.Map;
+  marker: any;
+
+  lat = 6.231928;
+  lng = -75.60116719999996;
+  places: any;
+  bounds: any;
+  searchBox: any;
+    
+  isNewAffiliate: boolean = false;
+  affiliates: any[] = [];
+
+  constructor(private affiliateService: AffiliatesService, public auth: AuthService) { }
+
+  ngOnInit() {
+    this.getAfiliados();     
+  }
+
+  ngMaps(){
+
+    setTimeout(() => {
+      let mapProp = {
+        center: new google.maps.LatLng(4.2223, -74.3333),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(this.mapElement.nativeElement, mapProp);
+  
+        var marker = new google.maps.Marker({
+          position: {lat: 4.2223, lng: -74.3333},
+          map: map,
+          draggable: true
+        });
+  
+  
+        var searchBox = new google.maps.places.SearchBox(this.searchElement.nativeElement);
+      
+        google.maps.event.addListener(searchBox, 'places_changed', () => {
+          var places = searchBox.getPlaces();
+          var bounds = new google.maps.LatLngBounds();
+          var i, place;
+          console.log(places[0].formatted_address);
+          console.log(places[0].geometry.location.lat());
+          console.log(places[0].geometry.location.lng());
+          var positionLat = places[0].geometry.location.lat();
+          var positionLng = places[0].geometry.location.lng();
+          
+
+          console.log(bounds);
+          /*for ( i = 0 ;  place = places[i]; i++) {
+            bounds.extend(place.geometry.location);
+            marker.setPosition(place.geometry.location);
+          }*/
+
+          bounds.extend(places[0].geometry.location);
+          marker.setPosition(places[0].geometry.location);
+          map.fitBounds(bounds);
+          map.setZoom(14);  
+          this.affiliateService.selectedAfiliado.positionLat = positionLat;
+          this.affiliateService.selectedAfiliado.positionLng = positionLng;
+
+
+        });
+  
+    }, 100);
+ 
+  }
+
+
+  ngAfterViewInit(){
+    console.log("afterinit");
+  }
+
+  getAfiliados() {
+    this.affiliateService.getAffiliatesByPresident(this.auth.user)
+    .subscribe((data: any ) => {
+      this.affiliates = data.Affiliates;
+      console.log(this.affiliates);
+    });
+  }
+
+  addAfiliado(form: NgForm) {
+    if (form.value._id) {
+      this.affiliateService.putAfiliado(form.value)
+        .subscribe(res => {
+          //this.resetForm(form);
+          console.log('Affiliate Updated');
+          this.getAfiliados();
+          this.isNewAffiliate = false;
+
+        });
+
+    } else {
+       this.affiliateService.postAfiliado(form.value)
+        .subscribe(res => {
+        //this.resetForm(form);
+        console.log('Affiliate Saved');
+        this.getAfiliados();
+        this.isNewAffiliate = false;
+      });
+    }
+  }
+
+  editAfiliado(afiliado: Afiliado) {
+    this.affiliateService.selectedAfiliado = afiliado;
+    this.isNewAffiliate = true;
+  }
+
+  deleteAfiliado(_id: string) {
+    if (confirm('Esta seguro de Eliminar este afiliado?')) {
+      this.affiliateService.deleteAfiliado(_id)
+        .subscribe(res => {
+        console.log('Affiliate deleted');
+        this.getAfiliados();
+      });
+    }
+  }
+
+
+
+  //clean the form
+  resetForm(form?: NgForm){
+  	if(form){
+  		form.reset();
+  		//this.affiliateService.selectedAfiliado = new Afiliado();
+  	}
+  }
+
+  NewAffiliate() {
+    
+    this.isNewAffiliate = true;
+    this.affiliateService.selectedAfiliado._id = null;
+    this.ngMaps();
+    
+
+    
+  }
+
+  cancelar() {
+    this.isNewAffiliate = false;
+  }
+
+
+
+
+
+}
