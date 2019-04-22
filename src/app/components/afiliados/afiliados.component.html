@@ -48,32 +48,25 @@
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="inputEmail4">commisión</label>
-          <input type="text" class="form-control" name="commission" #commission="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.commission" placeholder="commission">
+          <label for="inputEmail4">telefono</label>
+          <input type="text" class="form-control" name="phone" #phone="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="phone">
         </div>
 
         <div class="form-group col-md-6">
-            <label for="inputEmail4">No. Afiliación</label>
-            <input type="text" class="form-control" name="noAffiliate" #noAffiliate="ngModel"
-            [(ngModel)]="affiliateService.selectedAfiliado.noAffiliate" placeholder="noAffiliate">
-        </div>
+          <label for="inputEmail4">Identificación</label>
+          <input type="text" class="form-control" name="identification" #identification="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="identification">
+      </div>
       </div>
 
-
-        <div class="form-row">
-          <div class="form-group col-md-6">
-              <label for="inputEmail4">Identificación</label>
-              <input type="text" class="form-control" name="identification" #identification="ngModel"
-              [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="identification">
-          </div>
-
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Observaciones</label>
-            <input type="text" class="form-control" name="observations" #observations="ngModel"
-            [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="observations">
-          </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Observaciones</label>
+          <input type="text" class="form-control" name="observations" #observations="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="observations">
         </div>
+      </div>
 
 
     <button type="submit" class="btn btn-primary" style="margin: 10px"><i class="far fa-save"></i> Guardar</button>
