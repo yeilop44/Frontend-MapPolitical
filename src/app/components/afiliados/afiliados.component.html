@@ -6,20 +6,20 @@
 	    <div class="form-group col-md-6">
 	      <label for="inputEmail4">Fecha</label>
         <input type="text" class="form-control" name="date" #date="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.date" placeholder="date">
+        [(ngModel)]="affiliateService.selectedAfiliado.date" placeholder="Fecha de nacimiento">
       </div>
 
       <div class="form-group col-md-6">
           <label for="inputEmail4">Nombre Completo</label>
           <input type="text" class="form-control" name="fullName" #fullName="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.fullName" placeholder="fullName">
+          [(ngModel)]="affiliateService.selectedAfiliado.fullName" placeholder="Nombre completo">
       </div>
     </div>
 
     <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputEmail4">Dirección</label>
-            <input type="text" class="form-control" name="address" #search [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="address">
+            <input type="text" class="form-control" name="address" #search [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
           <div class="container">
             <div #map style="width:50%;height:250px"></div>
           </div>
@@ -27,7 +27,7 @@
         <div class="form-group col-md-6">
             <label for="inputEmail4">Profesión</label>
             <input type="text" class="form-control" name="profession" #profession="ngModel"
-            [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="profession">
+            [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="Profesión/Ocupación">
         </div>
       </div>
 
@@ -48,15 +48,15 @@
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="inputEmail4">telefono</label>
+          <label for="inputEmail4">Teléfono/celular</label>
           <input type="text" class="form-control" name="phone" #phone="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="phone">
+          [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
         </div>
 
         <div class="form-group col-md-6">
-          <label for="inputEmail4">Identificación</label>
+          <label for="inputEmail4">No. Identificación</label>
           <input type="text" class="form-control" name="identification" #identification="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="identification">
+          [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación">
       </div>
       </div>
 
@@ -64,7 +64,7 @@
         <div class="form-group col-md-6">
           <label for="inputEmail4">Observaciones</label>
           <input type="text" class="form-control" name="observations" #observations="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="observations">
+          [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Observaciones">
         </div>
       </div>
 

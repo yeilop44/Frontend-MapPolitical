@@ -31,10 +31,10 @@
           Opciones
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item"><i class="fas fa-user-circle"></i>  {{auth.user}}</a>
-          <a class="dropdown-item" (click)="changePassword()"><i class="fas fa-key"></i> Cambiar contraseña</a>
+          <a class="dropdown-item" style="cursor: pointer"><i class="fas fa-user-circle"></i>  {{auth.user}}</a>
+          <a class="dropdown-item" style="cursor: pointer" (click)="changePassword()"><i class="fas fa-key"></i> Cambiar contraseña</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" (click)="logOut()">Cerrar sesión  <i class="fas fa-sign-in-alt"></i></a>
+          <a class="dropdown-item" style="cursor: pointer" (click)="logOut()">Cerrar sesión  <i class="fas fa-sign-in-alt"></i></a>
         </div>
       </li>
     </ul>

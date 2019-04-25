@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-graficos',
@@ -19,9 +20,14 @@ export class GraficosComponent implements OnInit {
   countProfession3 = 0;
   countProfession4 = 0;
 
-  constructor(private affiliatesService: AffiliatesService, public auth: AuthService ) { }
+  constructor(private affiliatesService: AffiliatesService, public auth: AuthService, 
+              private router: Router  ) { }
 
   ngOnInit() {
+    if(!this.auth.isLogged){
+      this.router.navigate(['/login']);
+    }
+
     this.affiliatesService.getAffiliatesByPresident(this.auth.user)
       .subscribe((data: any) => {
         this.afilliates = data.Affiliates;

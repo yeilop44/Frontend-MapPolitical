@@ -1,9 +1,10 @@
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom"style="width:100%;height:600px">
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="width:100%;height:600px">
   <agm-marker *ngFor="let marcador of marcadores" [latitude]="marcador.positionLat" [longitude]="marcador.positionLng" [iconUrl]="icon">
     <agm-info-window>
       <ngx-avatar size="50" [name]="marcador.fullName"></ngx-avatar>
-      <strong>{{marcador.fullName}}</strong>
-      <p>C.C. {{marcador.identification}}</p>
+      <strong><i class="fas fa-user"></i> {{marcador.fullName}}</strong>
+      <p><i class="fas fa-id-card"></i> {{marcador.identification}}</p>
+      <p><i class="fas fa-phone"></i>  {{marcador.phone}}</p>
     </agm-info-window>
   </agm-marker>
 </agm-map>

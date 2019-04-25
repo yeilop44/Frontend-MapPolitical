@@ -3,7 +3,7 @@ import { AffiliatesService } from '../../services/affiliates.service';
 import { AuthService } from '../../services/auth.service';
 import { NgForm } from '@angular/forms';
 import { Afiliado } from '../../models/afiliado';
-
+import { Router } from '@angular/router';
 import {} from 'googlemaps';
 
 
@@ -31,9 +31,13 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   isNewAffiliate: boolean = false;
   affiliates: any[] = [];
 
-  constructor(private affiliateService: AffiliatesService, public auth: AuthService) { }
+  constructor(private affiliateService: AffiliatesService, public auth: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
+    if(!this.auth.isLogged){
+      this.router.navigate(['/login']);
+    }
     this.getAfiliados();     
   }
 
