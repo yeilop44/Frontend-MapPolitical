@@ -30,9 +30,14 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     
   isNewAffiliate: boolean = false;
   affiliates: any[] = [];
+  
+  userNameCurrent;
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
-              private router: Router) { }
+              private router: Router) { 
+    this.userNameCurrent = this.auth.user;
+    console.log(this.userNameCurrent);
+  }
 
   ngOnInit() {
     if(!this.auth.isLogged){
@@ -97,7 +102,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   }
 
   getAfiliados() {
-    this.affiliateService.getAffiliatesByPresident(this.auth.user)
+    this.affiliateService.getAffiliatesByUser(this.auth.user)
     .subscribe((data: any ) => {
       this.affiliates = data.Affiliates;
       console.log(this.affiliates);
@@ -108,7 +113,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     if (form.value._id) {
       this.affiliateService.putAfiliado(form.value)
         .subscribe(res => {
-          //this.resetForm(form);
+          this.resetForm(form);
           console.log('Affiliate Updated');
           this.getAfiliados();
           this.isNewAffiliate = false;
@@ -118,7 +123,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     } else {
        this.affiliateService.postAfiliado(form.value)
         .subscribe(res => {
-        //this.resetForm(form);
+        this.resetForm(form);
         console.log('Affiliate Saved');
         this.getAfiliados();
         this.isNewAffiliate = false;

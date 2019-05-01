@@ -32,7 +32,7 @@ export class MapaComponent implements OnInit {
   }
 
   getAfiliados() {
-    this.affiliateService.getAffiliatesByPresident(this.auth.user)
+    this.affiliateService.getAffiliatesByUser(this.auth.user)
     .subscribe((data: any ) => {
       this.marcadores = data.Affiliates;
       console.log(this.marcadores);

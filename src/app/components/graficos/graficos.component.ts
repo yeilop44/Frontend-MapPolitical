@@ -28,7 +28,7 @@ export class GraficosComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    this.affiliatesService.getAffiliatesByPresident(this.auth.user)
+    this.affiliatesService.getAffiliatesByUser(this.auth.user)
       .subscribe((data: any) => {
         this.afilliates = data.Affiliates;
         console.log(data.Affiliates);

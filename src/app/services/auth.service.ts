@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.js';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class AuthService {
     return this.http.post(this.urlApi, user, httpOptions)
       .pipe(map((data: any) => {
             this.isLogged = data.ok;
-            this.user = user.email;
+            this.user = user.userName;
             console.log(data);
             console.log(this.user);
       }));
