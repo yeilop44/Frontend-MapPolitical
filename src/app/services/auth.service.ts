@@ -20,7 +20,7 @@ export class AuthService {
     return this.http.post(this.urlApi, user, httpOptions)
       .pipe(map((data: any) => {
             this.isLogged = data.ok;
-            this.user = user.email;
+            this.user = user.userName;
             console.log(data);
             console.log(this.user);
       }));

@@ -22,6 +22,7 @@ import { AfiliadosComponent } from './components/afiliados/afiliados.component';
 import { CambiarComponent } from './components/cambiar/cambiar.component';
 import { GraficosComponent } from './components/graficos/graficos.component';
 import { MapaComponent } from './components/mapa/mapa.component';
+import { LoadingComponent } from './components/shared/loading/loading.component';
 
 
 const appRoutes: Routes = [
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     AfiliadosComponent,
     CambiarComponent,
     GraficosComponent,
-    MapaComponent
+    MapaComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

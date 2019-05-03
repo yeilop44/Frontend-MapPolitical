@@ -1,3 +1,4 @@
+<app-loading></app-loading>
 <div class="container m-5" *ngIf="isNewAffiliate">
 	<form #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
