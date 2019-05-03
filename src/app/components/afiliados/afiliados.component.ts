@@ -29,9 +29,12 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   searchBox: any;
     
   isNewAffiliate: boolean = false;
-  affiliates: any[] = [];
+  isLoading: boolean = false;
   
+  affiliates: any[] = [];
   userNameCurrent;
+
+ 
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private router: Router) { 
@@ -40,11 +43,13 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     }
     this.userNameCurrent = this.auth.user;
     console.log(this.userNameCurrent);
+    
   }
 
   ngOnInit() {
     
-    this.getAfiliados();     
+    this.getAfiliados();
+        
   }
 
   ngMaps(){
@@ -97,17 +102,19 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
  
   }
 
-
   ngAfterViewInit(){
     console.log("afterinit");
   }
 
   getAfiliados() {
+    this.isLoading = true;
     this.affiliateService.getAffiliatesByUser(this.auth.user)
     .subscribe((data: any ) => {
       this.affiliates = data.Affiliates;
       console.log(this.affiliates);
+      this.isLoading = false;
     });
+     
   }
 
   addAfiliado(form: NgForm) {

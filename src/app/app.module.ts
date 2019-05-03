@@ -19,11 +19,8 @@ import { AfiliadosComponent } from './components/afiliados/afiliados.component';
 import { CambiarComponent } from './components/cambiar/cambiar.component';
 import { GraficosComponent } from './components/graficos/graficos.component';
 import { MapaComponent } from './components/mapa/mapa.component';
-<<<<<<< HEAD
-import { LoadingComponent } from './components/shared/loading/loading.component';
-=======
 import { UsuarioComponent } from './components/usuario/usuario.component';
->>>>>>> develop
+import { LoadingComponent } from './components/shared/loading/loading.component';
 
 
 const appRoutes: Routes = [
@@ -49,11 +46,8 @@ const appRoutes: Routes = [
     CambiarComponent,
     GraficosComponent,
     MapaComponent,
-<<<<<<< HEAD
+    UsuarioComponent,
     LoadingComponent
-=======
-    UsuarioComponent
->>>>>>> develop
   ],
   imports: [
     BrowserModule,
