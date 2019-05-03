@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 })
 export class InicioComponent implements OnInit {
 
-  constructor(private auth: AuthService, private router: Router) { }
-
-  ngOnInit() {
+  constructor(private auth: AuthService, private router: Router) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
+  }
+
+  ngOnInit() {
+    
   }
 
 }

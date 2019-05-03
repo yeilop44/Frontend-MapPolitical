@@ -27,5 +27,8 @@ export class NavbarComponent implements OnInit {
   changePassword() {
     this.router.navigate(['/cambiar']);
   }
+  settingsUser() {
+    this.router.navigate(['/usuario']);
+  }
 
 }

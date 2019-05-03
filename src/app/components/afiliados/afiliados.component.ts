@@ -35,14 +35,15 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private router: Router) { 
+    if(!this.auth.isLogged){
+      this.router.navigate(['/login']);
+    }
     this.userNameCurrent = this.auth.user;
     console.log(this.userNameCurrent);
   }
 
   ngOnInit() {
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
+    
     this.getAfiliados();     
   }
 
@@ -134,6 +135,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   editAfiliado(afiliado: Afiliado) {
     this.affiliateService.selectedAfiliado = afiliado;
     this.isNewAffiliate = true;
+    this.ngMaps();
   }
 
   deleteAfiliado(_id: string) {
@@ -146,32 +148,31 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-
   //clean the form
   resetForm(form?: NgForm){
   	if(form){
   		form.reset();
-  		//this.affiliateService.selectedAfiliado = new Afiliado();
+  		this.affiliateService.selectedAfiliado = new Afiliado();
   	}
   }
 
-  NewAffiliate() {
-    
+  NewAffiliate(form: NgForm) {
     this.isNewAffiliate = true;
+    this.resetForm(form);
     this.affiliateService.selectedAfiliado._id = null;
     this.ngMaps();
-    
-
-    
   }
 
-  cancelar() {
+  cancelar(form: NgForm) {
     this.isNewAffiliate = false;
+    this.resetForm(form);
+    this.getAfiliados();  
+   
   }
 
-
-
+  ngDestroy(form: NgForm){
+    this.resetForm(form);
+  }
 
 
 }

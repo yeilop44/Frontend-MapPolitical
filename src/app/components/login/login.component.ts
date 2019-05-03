@@ -2,7 +2,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.js';
 import { AuthService } from './../../services/auth.service';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 
@@ -30,10 +29,15 @@ export class LoginComponent implements OnInit {
     
     this.auth.login(this.usuario)
       .subscribe(res=>{
+        console.log(this.auth.user);
   
          if(this.auth.isLogged){
              console.log('is true');
              this.router.navigate(['/inicio']);
+             this.auth.getUser(this.auth.user)
+               .subscribe((data:any) =>{
+                 console.log(this.auth.userInfo);
+               });
          }else{
             console.log('is false');
          }       
