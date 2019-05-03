@@ -17,10 +17,10 @@ export class AffiliatesService {
     this.selectedAfiliado = new Afiliado();
   }
 
-  getAffiliatesByPresident(president: string) {
+  getAffiliatesByUser(user: string) {
     const httpOptions = {
           headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
-    return this.http.get(`${this.urlApi}/${president}`, httpOptions);
+    return this.http.get(`${this.urlApi}/${user}`, httpOptions);
   }
 
   postAfiliado(Afiliado: Afiliado) {

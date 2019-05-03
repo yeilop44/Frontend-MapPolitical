@@ -1,4 +1,10 @@
 export interface Usuario {
-  email: string;
+  userName: string;
   password: string;
+  names?: string;
+  surnames?: string;
+  position?: string;
+  place?: string;
+  positionLat?: number;
+  positionLng?: number;
 }

@@ -1,9 +1,9 @@
 export class Afiliado {
-  constructor (_id = '', president='', date='', fullName='', address='', positionLat=0,
+  constructor (_id = '', userName='', date='', fullName='', address='', positionLat=0,
                 positionLng=0, proffesion='', phone=0, identification=0, observations='') {
     this._id = _id;
     this.date = date;
-    this.president = president;
+    this.userName = userName;
     this.fullName = fullName;
     this.address = address;
     this.positionLat= positionLat;
@@ -16,7 +16,7 @@ export class Afiliado {
 }
 
   _id: string;
-  president: string;
+  userName: string;
   date: string;
   fullName: string;
   address: string;

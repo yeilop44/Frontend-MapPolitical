@@ -5,10 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 import { AgmCoreModule } from '@agm/core';
-
 import { AvatarModule } from 'ngx-avatar';
-
-
 
 //services
 import { AuthService } from './services/auth.service';
@@ -22,7 +19,11 @@ import { AfiliadosComponent } from './components/afiliados/afiliados.component';
 import { CambiarComponent } from './components/cambiar/cambiar.component';
 import { GraficosComponent } from './components/graficos/graficos.component';
 import { MapaComponent } from './components/mapa/mapa.component';
+<<<<<<< HEAD
 import { LoadingComponent } from './components/shared/loading/loading.component';
+=======
+import { UsuarioComponent } from './components/usuario/usuario.component';
+>>>>>>> develop
 
 
 const appRoutes: Routes = [
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
   { path: 'graficos', component: GraficosComponent},
   { path: 'mapa', component: MapaComponent},
   { path: 'cambiar', component: CambiarComponent},
+  { path: 'usuario', component: UsuarioComponent},
   {path: '', pathMatch: 'full', redirectTo: 'login'},
   { path: '**', component: LoginComponent }
 ];
@@ -47,7 +49,11 @@ const appRoutes: Routes = [
     CambiarComponent,
     GraficosComponent,
     MapaComponent,
+<<<<<<< HEAD
     LoadingComponent
+=======
+    UsuarioComponent
+>>>>>>> develop
   ],
   imports: [
     BrowserModule,
