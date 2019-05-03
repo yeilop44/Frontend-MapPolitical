@@ -1,9 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
 
   <a class="navbar-brand" href="#">Mapeo Politico</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -25,12 +22,12 @@
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-light" type="submit">Search</button>
     </form>
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav">
       <li class="nav-item dropdown"  *ngIf="auth.isLogged">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i>
           Opciones
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu mr-sm-2" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" style="cursor: pointer"><i class="fas fa-user-circle"></i>  {{auth.user}}</a>
           <a class="dropdown-item" style="cursor: pointer" (click)="changePassword()"><i class="fas fa-key"></i> Cambiar contraseña</a>
           <div class="dropdown-divider"></div>
