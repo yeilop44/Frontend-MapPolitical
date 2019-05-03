@@ -24,8 +24,8 @@ export class NavbarComponent implements OnInit {
   	this.router.navigate(['/login']);
   }
 
-  changePassword() {
-    this.router.navigate(['/cambiar']);
+  account() {
+    this.router.navigate(['/cuenta']);
   }
   settingsUser() {
     this.router.navigate(['/usuario']);
