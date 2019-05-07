@@ -3,20 +3,19 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cambiar',
-  templateUrl: './cambiar.component.html',
-  styleUrls: ['./cambiar.component.css']
+  selector: 'app-cuenta',
+  templateUrl: './cuenta.component.html',
+  styleUrls: ['./cuenta.component.css']
 })
-export class CambiarComponent implements OnInit {
+export class CuentaComponent implements OnInit {
 
-  constructor(private auth: AuthService, private router: Router) { 
+  constructor(public auth: AuthService, private router: Router) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
   }
 
   ngOnInit() {
-
   }
 
 }

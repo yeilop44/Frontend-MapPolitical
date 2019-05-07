@@ -16,10 +16,11 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { AfiliadosComponent } from './components/afiliados/afiliados.component';
-import { CambiarComponent } from './components/cambiar/cambiar.component';
 import { GraficosComponent } from './components/graficos/graficos.component';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
+import { LoadingComponent } from './components/shared/loading/loading.component';
+import { CuentaComponent } from './components/cuenta/cuenta.component';
 import { ModalCargaMasivaComponent } from './components/afiliados/modal-carga-masiva/modal-carga-masiva.component';
 
 const appRoutes: Routes = [
@@ -28,8 +29,8 @@ const appRoutes: Routes = [
   { path: 'afiliados', component: AfiliadosComponent},
   { path: 'graficos', component: GraficosComponent},
   { path: 'mapa', component: MapaComponent},
-  { path: 'cambiar', component: CambiarComponent},
   { path: 'usuario', component: UsuarioComponent},
+  { path: 'cuenta', component: CuentaComponent},
   {path: '', pathMatch: 'full', redirectTo: 'login'},
   { path: '**', component: LoginComponent }
 ];
@@ -42,10 +43,11 @@ const appRoutes: Routes = [
     LoginComponent,
     InicioComponent,
     AfiliadosComponent,
-    CambiarComponent,
     GraficosComponent,
     MapaComponent,
     UsuarioComponent,
+    LoadingComponent,
+    CuentaComponent
     ModalCargaMasivaComponent
   ],
   imports: [

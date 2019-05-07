@@ -23,6 +23,7 @@ export class AuthService {
       .pipe(map((data: any) => {
             this.isLogged = data.ok;
             this.user = user.userName;
+            console.log(data);
             console.log(this.user);
       }));
   }
