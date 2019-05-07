@@ -21,10 +21,14 @@ export class AuthService {
 
     return this.http.post(`${this.urlApi}/signin`, user, httpOptions)
       .pipe(map((data: any) => {
-            this.isLogged = data.ok;
+        if(data.ok){
+          this.isLogged = data.ok;
             this.user = user.userName;
             console.log(data);
             console.log(this.user);
+        }else{
+          console.log("error"+data.ok);
+        }
       }));
   }
 
