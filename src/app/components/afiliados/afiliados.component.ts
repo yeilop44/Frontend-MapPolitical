@@ -5,6 +5,8 @@ import { NgForm } from '@angular/forms';
 import { Afiliado } from '../../models/afiliado';
 import { Router } from '@angular/router';
 import {} from 'googlemaps';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
 
 
 
@@ -17,6 +19,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   
   @ViewChild('map') mapElement: any;
   @ViewChild('search') public searchElement: any;
+  @ViewChild('modalCargaMasiva') modalCargaM: ModalCargaMasivaComponent;
   map: google.maps.Map;
 
   mapPro: google.maps.Map;
@@ -34,7 +37,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   userNameCurrent;
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
-              private router: Router) { 
+              private router: Router, private modalService: NgbModal) {
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
@@ -174,5 +177,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     this.resetForm(form);
   }
 
-
+  openModalCargaMasiva(){
+    alert("Estamos trabajando en esto!");
+    this.modalCargaM.open();
+  }
 }

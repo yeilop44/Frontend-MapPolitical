@@ -1,3 +1,8 @@
+/* change the background color */
+.navbar-custom {
+    background-color: #1b3646;
+}
+
 .ml-auto .dropdown-menu {
     left: auto !important;
     right: 0px;

@@ -20,7 +20,7 @@ import { CambiarComponent } from './components/cambiar/cambiar.component';
 import { GraficosComponent } from './components/graficos/graficos.component';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
-
+import { ModalCargaMasivaComponent } from './components/afiliados/modal-carga-masiva/modal-carga-masiva.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -45,7 +45,8 @@ const appRoutes: Routes = [
     CambiarComponent,
     GraficosComponent,
     MapaComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    ModalCargaMasivaComponent
   ],
   imports: [
     BrowserModule,
