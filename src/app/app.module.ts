@@ -47,7 +47,7 @@ const appRoutes: Routes = [
     MapaComponent,
     UsuarioComponent,
     LoadingComponent,
-    CuentaComponent
+    CuentaComponent,
     ModalCargaMasivaComponent
   ],
   imports: [

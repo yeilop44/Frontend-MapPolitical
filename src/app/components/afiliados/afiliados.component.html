@@ -67,13 +67,11 @@
 </div>
 
 <div class="container m-5" *ngIf="!(isLoading || isNewAffiliate)">
-	<div class="container m-2">
-		<button (click)="NewAffiliate()" class="btn btn-primary"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>
-	</div>
+	
     <div class="container col-md-6 my-2 text-center">
         <div class="btn-group" role="group">
-            <button (click)="NewAffiliate()" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo Contacto</button>
-            <button  class="btn btn-success glyphicon glyphicon-upload" (click)="openModalCargaMasiva(app-modal-carga-masiva)"><span class="glyphicon glyphicon-upload"></span> Carga masiva</button>
+            <button (click)="NewAffiliate()" class="btn btn-primary"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>
+            <button  class="btn btn-success glyphicon glyphicon-upload" (click)="openModalCargaMasiva()"><span class="glyphicon glyphicon-upload"></span> Carga masiva</button>
         </div>
     </div>
 	<table class="table table-hover">
