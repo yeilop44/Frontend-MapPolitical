@@ -27,8 +27,10 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i>
           Opciones
         </a>
-        <div class="dropdown-menu mr-sm-2" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" style="cursor: pointer"><i class="fas fa-user-circle"></i>  {{auth.user}}</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" style="cursor: pointer" (click)="settingsUser()"><i class="fas fa-user-circle"></i>  {{auth.user}}</a>
+          <a style="cursor: pointer" (click)="settingsUser()">{{auth.userInfo.names}} {{auth.userInfo.surnames}}</a>
+          <div class="dropdown-divider"></div>
           <a class="dropdown-item" style="cursor: pointer" (click)="changePassword()"><i class="fas fa-key"></i> Cambiar contraseña</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" style="cursor: pointer" (click)="logOut()">Cerrar sesión  <i class="fas fa-sign-in-alt"></i></a>

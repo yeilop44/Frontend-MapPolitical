@@ -1,7 +1,7 @@
 <div class="container m-5" *ngIf="isNewAffiliate">
 	<form #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
-      <input type="hidden" name="president" #president="ngModel" [(ngModel)]="auth.user">
+      <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
 	  <div class="form-row">
 	    <div class="form-group col-md-6">
 	      <label for="inputEmail4">Fecha</label>
@@ -19,7 +19,8 @@
     <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputEmail4">Dirección</label>
-            <input type="text" class="form-control" name="address" #search [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
+            <input type="text" class="form-control" name="address" #search 
+            [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
           <div class="container">
             <div #map style="width:50%;height:250px"></div>
           </div>
@@ -70,7 +71,7 @@
 
 
     <button type="submit" class="btn btn-primary" style="margin: 10px"><i class="far fa-save"></i> Guardar</button>
-    <button type="button" class="btn btn-secondary" (click)="cancelar()"><i class="far fa-times-circle"></i> Cancelar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelar(afiliadoForm)"><i class="far fa-times-circle"></i> Cancelar</button>
 	</form>
 </div>
 

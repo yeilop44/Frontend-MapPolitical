@@ -10,33 +10,40 @@ import { Router } from '@angular/router';
   styleUrls: ['./mapa.component.css']
 })
 export class MapaComponent implements OnInit {
- 
- 
 
   icon = 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png';  
-  lat = 7.119349000000001;
-  lng = -73.12274159999998;
-  zoom = 13; 
+  zoom = 12; 
   
   marcadores: any[];
+  User: any[]=[];
   
 
   constructor( private affiliateService: AffiliatesService, public auth: AuthService,
-               private router: Router) { }
-
-  ngOnInit() {
+               private router: Router) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
+  }
+
+  ngOnInit() {
+    
     this.getAfiliados();
+    this.getUser();
   }
 
   getAfiliados() {
-    this.affiliateService.getAffiliatesByPresident(this.auth.user)
+    this.affiliateService.getAffiliatesByUser(this.auth.user)
     .subscribe((data: any ) => {
       this.marcadores = data.Affiliates;
       console.log(this.marcadores);
     });
+  }
+
+  getUser() {
+    this.auth.getUserSettings(this.auth.user)
+      .subscribe((data: any) => {
+        this.User = data.User[0];
+      });
   }
 
 }

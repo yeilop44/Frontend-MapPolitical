@@ -21,14 +21,15 @@ export class GraficosComponent implements OnInit {
   countProfession4 = 0;
 
   constructor(private affiliatesService: AffiliatesService, public auth: AuthService, 
-              private router: Router  ) { }
-
-  ngOnInit() {
+              private router: Router  ) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
+  }
 
-    this.affiliatesService.getAffiliatesByPresident(this.auth.user)
+  ngOnInit() {
+
+    this.affiliatesService.getAffiliatesByUser(this.auth.user)
       .subscribe((data: any) => {
         this.afilliates = data.Affiliates;
         console.log(data.Affiliates);

@@ -30,14 +30,20 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     
   isNewAffiliate: boolean = false;
   affiliates: any[] = [];
+  
+  userNameCurrent;
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
-              private router: Router) { }
-
-  ngOnInit() {
+              private router: Router) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
+    this.userNameCurrent = this.auth.user;
+    console.log(this.userNameCurrent);
+  }
+
+  ngOnInit() {
+    
     this.getAfiliados();     
   }
 
@@ -97,7 +103,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   }
 
   getAfiliados() {
-    this.affiliateService.getAffiliatesByPresident(this.auth.user)
+    this.affiliateService.getAffiliatesByUser(this.auth.user)
     .subscribe((data: any ) => {
       this.affiliates = data.Affiliates;
       console.log(this.affiliates);
@@ -108,7 +114,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     if (form.value._id) {
       this.affiliateService.putAfiliado(form.value)
         .subscribe(res => {
-          //this.resetForm(form);
+          this.resetForm(form);
           console.log('Affiliate Updated');
           this.getAfiliados();
           this.isNewAffiliate = false;
@@ -118,7 +124,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     } else {
        this.affiliateService.postAfiliado(form.value)
         .subscribe(res => {
-        //this.resetForm(form);
+        this.resetForm(form);
         console.log('Affiliate Saved');
         this.getAfiliados();
         this.isNewAffiliate = false;
@@ -129,6 +135,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   editAfiliado(afiliado: Afiliado) {
     this.affiliateService.selectedAfiliado = afiliado;
     this.isNewAffiliate = true;
+    this.ngMaps();
   }
 
   deleteAfiliado(_id: string) {
@@ -141,32 +148,31 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-
   //clean the form
   resetForm(form?: NgForm){
   	if(form){
   		form.reset();
-  		//this.affiliateService.selectedAfiliado = new Afiliado();
+  		this.affiliateService.selectedAfiliado = new Afiliado();
   	}
   }
 
-  NewAffiliate() {
-    
+  NewAffiliate(form: NgForm) {
     this.isNewAffiliate = true;
+    this.resetForm(form);
     this.affiliateService.selectedAfiliado._id = null;
     this.ngMaps();
-    
-
-    
   }
 
-  cancelar() {
+  cancelar(form: NgForm) {
     this.isNewAffiliate = false;
+    this.resetForm(form);
+    this.getAfiliados();  
+   
   }
 
-
-
+  ngDestroy(form: NgForm){
+    this.resetForm(form);
+  }
 
 
 }
