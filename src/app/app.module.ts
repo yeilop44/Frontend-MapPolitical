@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 import { AgmCoreModule } from '@agm/core';
 import { AvatarModule } from 'ngx-avatar';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 //services
 import { AuthService } from './services/auth.service';
@@ -62,7 +63,9 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyC69lNgQw1tqaxwZb1NCgj1yn9fvQLMaNg',
       libraries: ['places']
     }),
-    AvatarModule
+    AvatarModule,
+    NgbModule
+
     
   ],
   providers: [AuthService],
