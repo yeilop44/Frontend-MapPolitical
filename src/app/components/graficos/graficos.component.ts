@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { Chart } from 'chart.js'
+import { reduce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-graficos',
@@ -9,17 +11,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./graficos.component.css']
 })
 export class GraficosComponent implements OnInit {
-  // Doughnut
-  public doughnutChartLabels:string[] = ['Idependiente', 'Ingeniero', 'otros', 'abogado'];
-  public doughnutChartData:number[] = [0, 0, 0];
-  public doughnutChartType:string = 'doughnut';
-
-  afilliates: any [] = [];
-  countProfession1 = 0;
-  countProfession2 = 0;
-  countProfession3 = 0;
-  countProfession4 = 0;
-
+  
+  chart: any;
+  chart2: any;
+  professions: any[] = [];
+  professionsName: any[] = [];
+  professionsCount: any[] = [];
   constructor(private affiliatesService: AffiliatesService, public auth: AuthService, 
               private router: Router  ) { 
     if(!this.auth.isLogged){
@@ -29,28 +26,61 @@ export class GraficosComponent implements OnInit {
 
   ngOnInit() {
 
-    this.affiliatesService.getAffiliatesByUser(this.auth.user)
+    this.affiliatesService.getCountProfessions(this.auth.user)
       .subscribe((data: any) => {
-        this.afilliates = data.Affiliates;
-        console.log(data.Affiliates);
-        for (let i=0; i<this.afilliates.length; i++) {
-          if (this.afilliates[i].profession == 'independiente') {
-             this.countProfession1++;
-          } else if (this.afilliates[i].profession == 'ingeniero') {
-            this.countProfession2++;
-         } else if (this.afilliates[i].profession == 'otros') {
-          this.countProfession3++;
-         }
-         else if (this.afilliates[i].profession == 'abogado') {
-          this.countProfession4++;      
-         }
+        this.professions = data.profesions;
+        console.log(this.professions);
+        var coloR = [];
+        var dynamicColors = function() {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgb(" + r + "," + g + "," + b + ")";
+       };
+       
+        for(let i=0;i<this.professions.length;i++){
+          this.professionsName[i] = this.professions[i]._id;
+          this.professionsCount[i] = this.professions[i].count;
+          coloR[i] = dynamicColors();
         }
-        console.log(this.countProfession1);
-        console.log(this.countProfession2);
-        this.doughnutChartData[0] = this.countProfession1;
-        this.doughnutChartData[1] = this.countProfession2;
-        this.doughnutChartData[2] = this.countProfession3;
-        this.doughnutChartData[3] = this.countProfession4;
+        console.log(this.professionsName);
+        console.log(this.professionsCount);
+
+        this.chart = new Chart('canvas', {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+                data: this.professionsCount,
+                backgroundColor: coloR
+            }],
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: this.professionsName
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Profesiones'
+            }
+          } 
+        });
+
+        this.chart2 = new Chart('canvas2', {
+          type: 'bar',
+          data: {
+            datasets: [{
+                data: this.professionsCount,
+                backgroundColor: coloR
+            }],
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: this.professionsName
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Profesiones'
+            }
+          } 
+        });
 
       });
   }

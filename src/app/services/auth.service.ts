@@ -32,7 +32,7 @@ export class AuthService {
       }));
   }
 
-  logOut() {
+  logout() {
     this.isLogged = false;
     console.log('Logout');
   }

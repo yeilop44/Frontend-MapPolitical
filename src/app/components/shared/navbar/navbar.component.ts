@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  isLoading = false;
 
   constructor(private auth: AuthService, public router: Router) { }
 
@@ -19,9 +20,11 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  logOut() {
-  	this.auth.logOut();
-  	this.router.navigate(['/login']);
+  logout() {
+    this.isLoading = true;
+    this.auth.logout();
+    this.isLoading = false;
+    this.router.navigate(['/login']);
   }
 
   account() {

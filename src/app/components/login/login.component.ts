@@ -43,8 +43,7 @@ export class LoginComponent implements OnInit {
          }else{
           this.router.navigate(['/login']);
             console.log('is false');
-         }
-               
+         }               
       });
   }
 
