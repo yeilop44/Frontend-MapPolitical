@@ -5,62 +5,200 @@
 	<form #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
       <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
-	  <div class="form-row">
-	    <div class="form-group col-md-6">
-	      <label for="inputEmail4">Fecha</label>
-        <input type="text" class="form-control" name="date" #date="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.date" placeholder="Fecha de nacimiento">
+      <h6>Información basica</h6>
+      <hr>
+      <div class="form-row">
+	    <div class="form-group has-icon col-md-4">
+        <span class="fas fa-birthday-cake form-control-feedback"></span>
+        <input type="text" class="form-control" name="birthdate" #birthdate="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.birthdate" placeholder="Fecha de nacimiento*">
+      </div>
+      <div class="form-group has-icon col-md-4">
+        <span class="far fa-user form-control-feedback"></span>
+        <input type="text" class="form-control" name="names" #names="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.names" placeholder="Nombres*">
+      </div>
+      <div class="form-group  has-icon col-md-4">
+        <span class="far fa-user form-control-feedback"></span>
+        <input type="text" class="form-control" name="surnames" #surnames="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.surnames" placeholder="Apellidos*">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group has-icon col-md-6">        
+        <span class="fas fa-phone form-control-feedback"></span>
+        <input type="text" class="form-control" name="phone" #phone="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular*">
+      </div>
+      <div class="form-group has-icon col-md-6">
+        <span class="far fa-id-card form-control-feedback"></span>
+        <input type="text" class="form-control" name="identification" #identification="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación*">
+      </div>
+    </div>
+    <h6>Información geográfica</h6>
+    <hr>
+    <div class="form-row">
+      <div class="form-group has-icon col-md-4">
+        <label>Municipio</label>
+        <span class="far fa-flag form-control-feedback"></span>
+        <select class="form-control"  name="municipality" #municipality="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.municipality" placeholder="Municipio">
+          <option selected>landazuri</option>           
+        </select>
+      </div>
+      <div class="form-group has-icon col-md-4">
+        <label>Zona</label>
+        <span class="fas fa-map-marker-alt form-control-feedback"></span> 
+        <select class="form-control"  name="zone" #zone="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.zone" placeholder="zona">
+          <option selected>Urbana</option>
+          <option>Rural</option>            
+        </select>
+      </div>
+      <div class="form-group has-icon col-md-4">
+        <label>Subdivisión</label>
+        <span class="fas fa-map-marker-alt form-control-feedback"></span>             
+        <select id="inputState" class="form-control"  name="subdivision" #subdivision="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.subdivision" placeholder="subdivision">
+          <option selected>Barrio</option>
+          <option>Vereda</option>            
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Dirección</label>
+        <span class="fas fa-map-pin form-control-feedback"></span> 
+        <input type="text" class="form-control" name="address" #search 
+          [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
+        <div class="container m-2">
+          <div #map style="width:80%;height:250px"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <input type="hidden" class="form-control" name="positionLat" #positionLat="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
       </div>
       <div class="form-group col-md-6">
-          <label for="inputEmail4">Nombre Completo</label>
-          <input type="text" class="form-control" name="fullName" #fullName="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.fullName" placeholder="Nombre completo">
+          <input type="hidden" class="form-control" name="positionLng" #positionLng="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.positionLng" placeholder="longitud">
+      </div>
+    </div>
+    <h6>Información electoral</h6>
+    <hr>
+    <div class="form-row">
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Mesa de votación</label>
+        <span class="fas fa-person-booth form-control-feedback"></span>             
+        <select id="inputState" class="form-control"  name="votingTable" #votingTable="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.votingTable">
+          <option selected >Mesa 1</option>            
+        </select>
+      </div>
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Puesto de votación</label>    
+        <span class="fas fa-vote-yea form-control-feedback"></span>        
+        <select id="inputState" class="form-control"  name="votingStation" #votingStation="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.votingStation">
+          <option selected>Puesto 1</option>
+        </select>
       </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">Dirección</label>
-            <input type="text" class="form-control" name="address" #search 
-            [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
-          <div class="container">
-            <div #map style="width:50%;height:250px"></div>
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="inputEmail4">Profesión</label>
-            <input type="text" class="form-control" name="profession" #profession="ngModel"
-            [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="Profesión/Ocupación">
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Lugar de votación</label>
+        <span class="fas fa-landmark form-control-feedback"></span>
+        <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación">
+      </div>
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Lider</label>
+        <span class="fas fa-hiking form-control-feedback"></span>
+        <input type="text" class="form-control" name="leader" #leader="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.leader" placeholder="Lider">
+      </div>
+    </div>
+
+    <h6>Información profesional</h6>
+    <hr>
+    <div class="form-row">
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Profesión académica</label>
+        <span class="fas fa-graduation-cap form-control-feedback"></span>            
+        <select id="inputState" class="form-control"  name="profession" #profession="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.profession">
+          <option selected *ngFor="let profession of professions">{{profession.name}}</option>            
+        </select>
+      </div>
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Ocupación</label>            
+        <span class="fas fa-user-tie form-control-feedback"></span>
+        <select id="inputState" class="form-control"  name="occupation" #occupation="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.occupation">
+          <option selected>Fuerza pública</option>
+          <option>Miembros del poder ejecutivo, de los cuerpos legislativos y personal directivo de la administración pública y de empresas</option>            
+          <option>Profesionales universitarios, científicos e intelectuales</option>
+          <option>Técnicos, postsecundarios no universitarios y asistentes</option>
+          <option>Empleados de oficina</option>
+          <option>Trabajadores de los servicios y vendedores</option>
+          <option>Agricultores, trabajadores y obreros agropecuarios, forestales y pesqueros</option>
+          <option>Oficiales, operarios, artesanos y trabajadores de la industria manufacturera, de la construcción y de la minería</option>
+          <option>Operadores de instalaciones, de máquinas y ensambladores</option>
+          <option>Trabajadores no calificados</option>  
+        </select>
+      </div>
+    </div>
+
+
+    <h6>Información demográfica</h6>
+    <hr>
+    <div class="form-row">
+      <div class="form-group has-icon col-md-3">
+        <label for="inputEmail4">Genero</label>
+        <span class="fas fa-venus-mars form-control-feedback"></span>            
+        <select class="form-control"  name="sex" #sex="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.sex">
+          <option selected>Masculino</option>
+          <option>Femenino</option>            
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group has-icon col-md-3">
+        <label for="inputEmail4">Iglesia</label>
+        <span class="fas fa-church form-control-feedback"></span>            
+        <input type="text" class="form-control" name="church" #church="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.church" placeholder="iglesia">
+      </div>
+      <div class="form-group has-icon col-md-2">
+        <label for="inputEmail4">Nº Familia</label>
+        <span class="fas fa-home form-control-feedback"></span>            
+        <input type="text" class="form-control" name="familyNumber" #familyNumber="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.familyNumber" placeholder="Número de familia">
+      </div>
+      <div class="form-group has-icon col-md-2">
+        <label for="inputEmail4">Lgtbi</label>
+        <span class="fas fa-transgender form-control-feedback"></span>                        
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="lgtbi" #lgtbi="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.lgtbi">           
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <input type="hidden" class="form-control" name="positionLat" #positionLat="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
+      <div class="form-group has-icon col-md-2">
+        <label for="inputEmail4">Discapacidad</label>            
+        <span class="fas fa-wheelchair form-control-feedback"></span>     
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="disability" #disability="ngModel"
+          [(ngModel)]="affiliateService.selectedAfiliado.disability">          
         </div>
-        <div class="form-group col-md-6">
-            <input type="hidden" class="form-control" name="positionLng" #positionLng="ngModel"
-            [(ngModel)]="affiliateService.selectedAfiliado.positionLng" placeholder="longitud">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">Teléfono/celular</label>
-          <input type="text" class="form-control" name="phone" #phone="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">No. Identificación</label>
-          <input type="text" class="form-control" name="identification" #identification="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación">
-      </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">Observaciones</label>
-          <input type="text" class="form-control" name="observations" #observations="ngModel"
-          [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Observaciones">
-        </div>
-      </div>
+      </div>  
+    </div>
     <button type="submit" class="btn btn-primary" style="margin: 10px"><i class="far fa-save"></i> Guardar</button>
     <button type="button" class="btn btn-secondary" (click)="cancelar(afiliadoForm)"><i class="far fa-times-circle"></i> Cancelar</button>
 	</form>
@@ -75,11 +213,11 @@
 	    <tr>
         <th scope="col">#</th>
         <th scope="col">Avatar</th>
-	      <th scope="col">Nombres y Apellido</th>
-	      <th scope="col">Fecha</th>
-	      <th scope="col">Dirección</th>
-	      <th scope="col">Profesión</th>
-	      <th scope="col">Identificacón</th>
+	      <th scope="col">Nombres</th>
+	      <th scope="col">Apellidos</th>
+	      <th scope="col">Identificación</th>
+	      <th scope="col">Telefono</th>
+	      
         <th scope="col">Editar</th>
         <th scope="col">Eliminar</th>
 	    </tr>
@@ -87,12 +225,11 @@
 	  <tbody>
 	    <tr *ngFor="let afiliado of affiliates; let i = index ">
 	      <th scope="row">{{i + 1}}</th>
-        <td><ngx-avatar size="50" [name]="afiliado.fullName"></ngx-avatar></td>
-        <td>{{ afiliado.fullName }}</td>
-	      <td>{{ afiliado.date }}</td>
-	      <td>{{ afiliado.address }}</td>
-	      <td>{{ afiliado.profession }}</td>
+        <td><ngx-avatar size="50" [name]="afiliado.names"></ngx-avatar></td>
+        <td>{{ afiliado.names }}</td>
+	      <td>{{ afiliado.surnames }}</td>
 	      <td>{{ afiliado.identification }}</td>
+	      <td>{{ afiliado.phone }}</td>
         <td>
           <button type="button" class="btn btn-outline-primary" (click)="editAfiliado(afiliado)">
               <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>Editar
@@ -107,4 +244,6 @@
 	  </tbody>
   </table>  
 </div>
+
+
 

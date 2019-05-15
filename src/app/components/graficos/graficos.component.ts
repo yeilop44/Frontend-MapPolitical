@@ -17,6 +17,13 @@ export class GraficosComponent implements OnInit {
   professions: any[] = [];
   professionsName: any[] = [];
   professionsCount: any[] = [];
+  
+  occupations: any[] = [];
+  occupationsName: any[] = [];
+  occupationsCount: any[] = [];
+
+  color:any[]=[];
+
   constructor(private affiliatesService: AffiliatesService, public auth: AuthService, 
               private router: Router  ) { 
     if(!this.auth.isLogged){
@@ -25,23 +32,29 @@ export class GraficosComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.getCountProfessions();
+    this.getCountOccupations();
+  }
+  
+  dynamicColors() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+ };
+  
+  getCountProfessions(){
     this.affiliatesService.getCountProfessions(this.auth.user)
       .subscribe((data: any) => {
         this.professions = data.profesions;
         console.log(this.professions);
-        var coloR = [];
-        var dynamicColors = function() {
-          var r = Math.floor(Math.random() * 255);
-          var g = Math.floor(Math.random() * 255);
-          var b = Math.floor(Math.random() * 255);
-          return "rgb(" + r + "," + g + "," + b + ")";
-       };
+      
+       
        
         for(let i=0;i<this.professions.length;i++){
           this.professionsName[i] = this.professions[i]._id;
           this.professionsCount[i] = this.professions[i].count;
-          coloR[i] = dynamicColors();
+          this.color[i] = this.dynamicColors();
         }
         console.log(this.professionsName);
         console.log(this.professionsCount);
@@ -51,7 +64,7 @@ export class GraficosComponent implements OnInit {
           data: {
             datasets: [{
                 data: this.professionsCount,
-                backgroundColor: coloR
+                backgroundColor: this.color
             }],
             // These labels appear in the legend and in the tooltips when hovering different arcs
             labels: this.professionsName
@@ -63,21 +76,43 @@ export class GraficosComponent implements OnInit {
             }
           } 
         });
+      });
 
+  }
+
+  getCountOccupations(){
+    this.affiliatesService.getCountOccupations(this.auth.user)
+      .subscribe((data:any) => {
+        this.occupations = data.occupations;
+        console.log(this.occupations);
+        console.log(this.color);
+              
+        for(let i=0;i<this.occupations.length;i++){
+          this.occupationsName[i] = this.occupations[i]._id;
+          this.occupationsCount[i] = this.occupations[i].count;
+          this.color[i] = this.dynamicColors();
+        }
+        console.log(this.color);
+        console.log(this.occupationsName);
+        console.log(this.occupationsCount);
+
+        
+        
+        
         this.chart2 = new Chart('canvas2', {
-          type: 'bar',
+          type: 'doughnut',
           data: {
             datasets: [{
-                data: this.professionsCount,
-                backgroundColor: coloR
+                data: this.occupationsCount,
+                backgroundColor: this.color
             }],
             // These labels appear in the legend and in the tooltips when hovering different arcs
-            labels: this.professionsName
+            labels: this.occupationsName
           },
           options: {
             title: {
               display: true,
-              text: 'Profesiones'
+              text: 'Ocupaciones'
             }
           } 
         });

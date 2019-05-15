@@ -41,4 +41,10 @@ export class AffiliatesService {
     return this.http.get(`${this.urlApi}/count/profession/${user}`, httpOptions);
   }
 
+  getCountOccupations(user: string) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/count/occupation/${user}`, httpOptions);
+  }
+
 }

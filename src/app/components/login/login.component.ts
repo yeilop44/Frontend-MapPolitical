@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
          if(this.auth.isLogged){
             console.log('is true');
-            this.router.navigate(['/inicio']);
+            this.router.navigate(['/afiliados']);
             this.auth.getUser(this.auth.user)
               .subscribe((data:any) =>{
                 console.log(this.auth.userInfo);

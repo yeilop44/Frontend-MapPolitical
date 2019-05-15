@@ -1,5 +1,6 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
+import { ProfessionsService } from '../../services/professions.service';
 import { AuthService } from '../../services/auth.service';
 import { NgForm } from '@angular/forms';
 import { Afiliado } from '../../models/afiliado';
@@ -13,10 +14,11 @@ import {} from 'googlemaps';
   templateUrl: './afiliados.component.html',
   styleUrls: ['./afiliados.component.css']
 })
-export class AfiliadosComponent implements OnInit, AfterViewInit {
+export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   
   @ViewChild('map') mapElement: any;
   @ViewChild('search') public searchElement: any;
+
   map: google.maps.Map;
 
   mapPro: google.maps.Map;
@@ -32,11 +34,11 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   isLoading: boolean = false;
   
   affiliates: any[] = [];
+  professions: any[] = [];
   userNameCurrent;
 
- 
 
-  constructor(private affiliateService: AffiliatesService, public auth: AuthService,
+  constructor(private affiliateService: AffiliatesService, public auth: AuthService, private professionService: ProfessionsService, 
               private router: Router) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
@@ -47,9 +49,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    
     this.getAfiliados();
-        
   }
 
   ngMaps(){
@@ -120,22 +120,22 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   addAfiliado(form: NgForm) {
     if (form.value._id) {
       this.affiliateService.putAfiliado(form.value)
-        .subscribe(res => {
-          this.resetForm(form);
+        .subscribe(res => {          
+          console.log(res);
           console.log('Affiliate Updated');
           this.getAfiliados();
           this.isNewAffiliate = false;
-
         });
-
+      this.resetForm(form);
+        
     } else {
        this.affiliateService.postAfiliado(form.value)
         .subscribe(res => {
-        this.resetForm(form);
         console.log('Affiliate Saved');
         this.getAfiliados();
         this.isNewAffiliate = false;
       });
+      this.resetForm(form);
     }
   }
 
@@ -143,6 +143,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     this.affiliateService.selectedAfiliado = afiliado;
     this.isNewAffiliate = true;
     this.ngMaps();
+    this.getProfessions(event);
   }
 
   deleteAfiliado(_id: string) {
@@ -153,6 +154,15 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
         this.getAfiliados();
       });
     }
+  }
+  
+  getProfessions(event) { 
+    this.professionService.getProfessions()
+    .subscribe((data: any ) => {
+      this.professions = data.Items;
+      console.log(data.Items);
+    });
+     
   }
 
   //clean the form
@@ -168,18 +178,17 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     this.resetForm(form);
     this.affiliateService.selectedAfiliado._id = null;
     this.ngMaps();
+    this.getProfessions(event);
   }
 
   cancelar(form: NgForm) {
     this.isNewAffiliate = false;
     this.resetForm(form);
-    this.getAfiliados();  
-   
+    this.getAfiliados();    
   }
 
-  ngDestroy(form: NgForm){
-    this.resetForm(form);
+  ngOnDestroy(){
+    this.affiliateService.selectedAfiliado = new Afiliado();
   }
-
 
 }
