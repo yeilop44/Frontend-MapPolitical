@@ -1,7 +1,7 @@
 
 <app-loading class="container" *ngIf="isLoading" ></app-loading>
 
-<div class="container m-5" *ngIf="isNewAffiliate">
+<div class="container m-5" *ngIf="isNewAffiliate">   
 	<form #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
       <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
@@ -11,30 +11,31 @@
 	    <div class="form-group has-icon col-md-4">
         <span class="fas fa-birthday-cake form-control-feedback"></span>
         <input type="text" class="form-control" name="birthdate" #birthdate="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.birthdate" placeholder="Fecha de nacimiento*">
+        [(ngModel)]="affiliateService.selectedAfiliado.birthdate" placeholder="Fecha de nacimiento*" [ngClass]="{'red': isEmptyBirthdate, 'gray': !isEmptyBirthdate}">
       </div>
       <div class="form-group has-icon col-md-4">
         <span class="far fa-user form-control-feedback"></span>
         <input type="text" class="form-control" name="names" #names="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.names" placeholder="Nombres*">
+        [(ngModel)]="affiliateService.selectedAfiliado.names" placeholder="Nombres*" [ngClass]="{'red': isEmptyNames, 'gray': !isEmptyNames}">
       </div>
       <div class="form-group  has-icon col-md-4">
         <span class="far fa-user form-control-feedback"></span>
         <input type="text" class="form-control" name="surnames" #surnames="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.surnames" placeholder="Apellidos*">
+        [(ngModel)]="affiliateService.selectedAfiliado.surnames" placeholder="Apellidos*" [ngClass]="{'red': isEmptySurnames, 'gray': !isEmptySurnames}">
       </div>
     </div>
 
     <div class="form-row">
-      <div class="form-group has-icon col-md-6">        
-        <span class="fas fa-phone form-control-feedback"></span>
-        <input type="text" class="form-control" name="phone" #phone="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular*">
-      </div>
+     
       <div class="form-group has-icon col-md-6">
         <span class="far fa-id-card form-control-feedback"></span>
         <input type="text" class="form-control" name="identification" #identification="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación*">
+        [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación*" [ngClass]="{'red': isEmptyIdentification, 'gray': !isEmptyIdentification}">
+      </div>
+      <div class="form-group has-icon col-md-6">        
+        <span class="fas fa-phone form-control-feedback"></span>
+        <input type="text" class="form-control" name="phone" #phone="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
       </div>
     </div>
     <h6>Información geográfica</h6>
@@ -74,12 +75,13 @@
         <span class="fas fa-map-pin form-control-feedback"></span> 
         <input type="text" class="form-control" name="address" #search 
           [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
-        <div class="container m-2">
+        <div class="container m-2" *ngIf="isMap">          
           <div #map style="width:80%;height:250px"></div>
         </div>
       </div>
-
     </div>
+    <mat-slide-toggle name="toggle" [(ngModel)]="isMap"  (change)="ngMaps()"  >Mapa</mat-slide-toggle>
+          <p>{{ isMap }}</p>
 
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -130,11 +132,12 @@
     <hr>
     <div class="form-row">
       <div class="form-group has-icon col-md-6">
-        <label for="inputEmail4">Profesión académica</label>
+        <label>Profesión académica</label>
         <span class="fas fa-graduation-cap form-control-feedback"></span>            
-        <select id="inputState" class="form-control"  name="profession" #profession="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.profession">
-          <option selected *ngFor="let profession of professions">{{profession.name}}</option>            
+        <select class="form-control"  name="profession" #profession="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.profession">         
+          <option selected>{{ affiliateService.selectedAfiliado.profession }}</option>
+          <option *ngFor="let profession of professions">{{ profession }}</option>            
         </select>
       </div>
       <div class="form-group has-icon col-md-6">
@@ -142,16 +145,8 @@
         <span class="fas fa-user-tie form-control-feedback"></span>
         <select id="inputState" class="form-control"  name="occupation" #occupation="ngModel"
         [(ngModel)]="affiliateService.selectedAfiliado.occupation">
-          <option selected>Fuerza pública</option>
-          <option>Miembros del poder ejecutivo, de los cuerpos legislativos y personal directivo de la administración pública y de empresas</option>            
-          <option>Profesionales universitarios, científicos e intelectuales</option>
-          <option>Técnicos, postsecundarios no universitarios y asistentes</option>
-          <option>Empleados de oficina</option>
-          <option>Trabajadores de los servicios y vendedores</option>
-          <option>Agricultores, trabajadores y obreros agropecuarios, forestales y pesqueros</option>
-          <option>Oficiales, operarios, artesanos y trabajadores de la industria manufacturera, de la construcción y de la minería</option>
-          <option>Operadores de instalaciones, de máquinas y ensambladores</option>
-          <option>Trabajadores no calificados</option>  
+          <option selected>{{ affiliateService.selectedAfiliado.occupation }}</option>
+          <option *ngFor="let ocupation of ocupations">{{ ocupation }}</option>                   
         </select>
       </div>
     </div>
@@ -165,16 +160,18 @@
         <span class="fas fa-venus-mars form-control-feedback"></span>            
         <select class="form-control"  name="sex" #sex="ngModel"
         [(ngModel)]="affiliateService.selectedAfiliado.sex">
-          <option selected>Masculino</option>
-          <option>Femenino</option>            
-          <option>Otro</option>
+          <option selected>{{ affiliateService.selectedAfiliado.sex }}</option>
+          <option *ngFor="let sex of sexs">{{ sex }}</option>                      
         </select>
       </div>
       <div class="form-group has-icon col-md-3">
-        <label for="inputEmail4">Iglesia</label>
+        <label for="inputEmail4">Religión</label>
         <span class="fas fa-church form-control-feedback"></span>            
-        <input type="text" class="form-control" name="church" #church="ngModel"
+        <select class="form-control" name="church" #church="ngModel"
         [(ngModel)]="affiliateService.selectedAfiliado.church" placeholder="iglesia">
+        <option selected>{{ affiliateService.selectedAfiliado.church }}</option>
+        <option *ngFor="let church of churchs">{{ church }}</option> 
+        </select>
       </div>
       <div class="form-group has-icon col-md-2">
         <label for="inputEmail4">Nº Familia</label>
@@ -199,10 +196,14 @@
         </div>
       </div>  
     </div>
-    <button type="submit" class="btn btn-primary" style="margin: 10px"><i class="far fa-save"></i> Guardar</button>
+    <button type="submit" class="btn btn-primary" style="margin: 10px" [disabled]="isDisabledButton"><i class="far fa-save"></i> Guardar</button>
     <button type="button" class="btn btn-secondary" (click)="cancelar(afiliadoForm)"><i class="far fa-times-circle"></i> Cancelar</button>
-	</form>
+  </form>
+  <div class="alert alert-danger text-center" role="alert" *ngIf="isEmptyFields">
+      Uno o varios campos obligatorios están vacíos
+  </div>
 </div>
+
 
 <div class="container m-5" *ngIf="!(isLoading || isNewAffiliate)">
 	<div class="container m-2">
@@ -244,6 +245,4 @@
 	  </tbody>
   </table>  
 </div>
-
-
 

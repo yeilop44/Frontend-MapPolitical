@@ -15,3 +15,11 @@
     pointer-events: none;
     color: #aaa;
 }
+
+.red {
+    border-color: red;
+}
+
+.gray {
+    border-color: #e7eaed;
+}

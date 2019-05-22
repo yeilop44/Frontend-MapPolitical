@@ -49,12 +49,16 @@ export class GraficosComponent implements OnInit {
         this.professions = data.profesions;
         console.log(this.professions);
       
-       
-       
         for(let i=0;i<this.professions.length;i++){
-          this.professionsName[i] = this.professions[i]._id;
-          this.professionsCount[i] = this.professions[i].count;
+          if(this.professions[i]._id == "" || this.professions[i]._id == null){
+            this.professionsName[i] = "No tiene";
+            this.professionsCount[i] = this.professions[i].count;            
+          }else{
+            this.professionsName[i] = this.professions[i]._id;
+            this.professionsCount[i] = this.professions[i].count;
+          }
           this.color[i] = this.dynamicColors();
+          
         }
         console.log(this.professionsName);
         console.log(this.professionsCount);
@@ -88,16 +92,18 @@ export class GraficosComponent implements OnInit {
         console.log(this.color);
               
         for(let i=0;i<this.occupations.length;i++){
-          this.occupationsName[i] = this.occupations[i]._id;
-          this.occupationsCount[i] = this.occupations[i].count;
-          this.color[i] = this.dynamicColors();
+          if(this.occupations[i]._id == "" || this.occupations[i]._id == null){
+            this.occupationsName[i] = "No tiene";
+            this.occupationsCount[i] = this.occupations[i].count;            
+          }else{
+            this.occupationsName[i] = this.occupations[i]._id;
+            this.occupationsCount[i] = this.occupations[i].count;          
+          }
+          this.color[i] = this.dynamicColors();         
         }
         console.log(this.color);
         console.log(this.occupationsName);
-        console.log(this.occupationsCount);
-
-        
-        
+        console.log(this.occupationsCount);   
         
         this.chart2 = new Chart('canvas2', {
           type: 'doughnut',

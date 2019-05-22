@@ -6,6 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 import { AgmCoreModule } from '@agm/core';
 import { AvatarModule } from 'ngx-avatar';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 //services
 import { AuthService } from './services/auth.service';
@@ -61,7 +63,9 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyC69lNgQw1tqaxwZb1NCgj1yn9fvQLMaNg',
       libraries: ['places']
     }),
-    AvatarModule
+    AvatarModule,
+    BrowserAnimationsModule,
+    MatSlideToggleModule
     
   ],
   providers: [AuthService],
