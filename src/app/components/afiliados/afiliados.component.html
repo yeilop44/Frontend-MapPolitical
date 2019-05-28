@@ -53,7 +53,8 @@
         <label>Zona</label>
         <span class="fas fa-map-marker-alt form-control-feedback"></span> 
         <select class="form-control"  name="zone" #zone="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.zone" placeholder="zona">
+        [(ngModel)]="affiliateService.selectedAfiliado.zone" placeholder="zona"
+        (change)="onOptionsSelectedZone(zone.value)">
           <option selected>Urbana</option>
           <option>Rural</option>            
         </select>
@@ -63,8 +64,8 @@
         <span class="fas fa-map-marker-alt form-control-feedback"></span>             
         <select id="inputState" class="form-control"  name="subdivision" #subdivision="ngModel"
         [(ngModel)]="affiliateService.selectedAfiliado.subdivision" placeholder="subdivision">
-          <option selected>Barrio</option>
-          <option>Vereda</option>            
+          <option selected>{{ affiliateService.selectedAfiliado.subdivision }}</option>
+          <option *ngFor="let subdivision of subdivisions">{{ subdivision }}</option>            
         </select>
       </div>
     </div>
@@ -95,30 +96,33 @@
     </div>
     <h6>Información electoral</h6>
     <hr>
+    <div class="form-row">      
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Puesto de votación</label>    
+        <span class="fas fa-vote-yea form-control-feedback"></span>        
+        <select id="inputState" class="form-control"  name="votingStation" #votingStation="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.votingStation" 
+        (change)="onOptionsSelectedStation(votingStation.value)">
+          <option selected>{{ affiliateService.selectedAfiliado.votingStation }}</option>
+          <option *ngFor="let votingStation of votingStations">{{ votingStation }}</option>
+        </select>
+      </div>
+      <div class="form-group has-icon col-md-6">
+        <label for="inputEmail4">Lugar de votación</label>
+        <span class="fas fa-landmark form-control-feedback"></span>
+        <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
+        [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación" disabled>
+      </div>      
+    </div>
     <div class="form-row">
       <div class="form-group has-icon col-md-6">
         <label for="inputEmail4">Mesa de votación</label>
         <span class="fas fa-person-booth form-control-feedback"></span>             
         <select id="inputState" class="form-control"  name="votingTable" #votingTable="ngModel"
         [(ngModel)]="affiliateService.selectedAfiliado.votingTable">
-          <option selected >Mesa 1</option>            
+          <option selected >{{ affiliateService.selectedAfiliado.votingTable }}</option>   
+          <option *ngFor="let table of votingTables">{{ table }}</option>         
         </select>
-      </div>
-      <div class="form-group has-icon col-md-6">
-        <label for="inputEmail4">Puesto de votación</label>    
-        <span class="fas fa-vote-yea form-control-feedback"></span>        
-        <select id="inputState" class="form-control"  name="votingStation" #votingStation="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.votingStation">
-          <option selected>Puesto 1</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group has-icon col-md-6">
-        <label for="inputEmail4">Lugar de votación</label>
-        <span class="fas fa-landmark form-control-feedback"></span>
-        <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación">
       </div>
       <div class="form-group has-icon col-md-6">
         <label for="inputEmail4">Lider</label>

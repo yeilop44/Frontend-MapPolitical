@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class ProfessionsService {
+export class GeographyMasterService {
   
-  urlApi = 'https://back-mpolitical.herokuapp.com/professions';
-  
-  constructor(private http: HttpClient) { }
+  urlApi = 'https://back-mpolitical.herokuapp.com/geographyMaster';
 
-  getProfessions(){
+  constructor(private http: HttpClient) { }
+  
+  getGeographyMasterByUser(user: string){
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
-    return   this.http.get(this.urlApi, httpOptions);
+    return   this.http.get(`${this.urlApi}/${user}`, httpOptions);
   }
+
 }

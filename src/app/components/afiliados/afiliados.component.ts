@@ -1,6 +1,8 @@
 import { Component, ViewChild, OnInit, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { ListMasterService } from '../../services/list-master.service';
+import { ElectoralMasterService } from '../../services/electoral-master.service';
+import { GeographyMasterService } from '../../services/geography-master.service';
 import { AuthService } from '../../services/auth.service';
 import { NgForm } from '@angular/forms';
 import { Afiliado } from '../../models/afiliado';
@@ -42,15 +44,23 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   isEmptyIdentification = false;
   
   affiliates: any[] = [];
+  subdivisions: any[] = []; 
+  geographys: any[] = [];
+  electorals: any[] = [];
+  votingStations: any[] = [];
+  votingTables: any[] = [];
+  votingPlaces: any[] = [];
   professions: any[] = [];
   ocupations: any[] = [];
   sexs: any[] = [];
   churchs: any[] = [];
   userNameCurrent;
+  numberTables: number = 0;
 
 
-  constructor(private affiliateService: AffiliatesService, public auth: AuthService, private listMaster: ListMasterService, 
-              private router: Router) { 
+  constructor(private affiliateService: AffiliatesService, public auth: AuthService, 
+              private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
+              private geographyMasterService: GeographyMasterService, private router: Router) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
@@ -61,6 +71,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
 
   ngOnInit() {
     this.getAfiliados();  
+    
   }
 
   ngMaps(){
@@ -105,17 +116,12 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
           map.setZoom(14);  
           this.affiliateService.selectedAfiliado.positionLat = positionLat;
           this.affiliateService.selectedAfiliado.positionLng = positionLng;
-
-
         });
-  
-    }, 500);
-    
+    }, 500);    
   }
 
   ngAfterViewInit(){
- 
- 
+    
   }
 
   getAfiliados() {
@@ -125,8 +131,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
       this.affiliates = data.Affiliates;
       console.log(this.affiliates);
       this.isLoading = false;
-    });
-     
+    });     
   }
 
   addAfiliado(form: NgForm) {
@@ -208,6 +213,51 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     }
   }
   
+  
+
+  
+
+  getGeographyInfo() {   
+    this.geographyMasterService.getGeographyMasterByUser(this.auth.user)
+      .subscribe((data: any)=>{
+        this.geographys = data.Items;
+        console.log(this.geographys);      
+      }); 
+  }
+  onOptionsSelectedZone(value: string){
+    this.affiliateService.selectedAfiliado.subdivision = '';
+    var subdivisions1 = [];
+    for(let i=0;i<this.geographys.length;i++){
+      if(value==this.geographys[i].zone){        
+          subdivisions1[i] = this.geographys[i].subdivision;        
+      }      
+    }
+    this.subdivisions = subdivisions1.filter(() => {return true})
+  }
+  getElectoralInfo() {   
+    this.electoralMasterService.getElectoralMastersByUser(this.auth.user)
+    .subscribe((data: any ) => {       
+      this.electorals = data.Items;
+      for(let i=0;i<this.electorals.length;i++){
+        this.votingStations[i] = this.electorals[i].votingStation;        
+      }      
+    }); 
+  }
+  onOptionsSelectedStation(value: string){
+    this.affiliateService.selectedAfiliado.votingTable = '';
+    this.votingTables = [];
+    for(let i=0;i<this.electorals.length;i++){
+      if(value==this.electorals[i].votingStation){
+        this.affiliateService.selectedAfiliado.votingPlace = this.electorals[i].votingPlace;
+          this.numberTables = this.electorals[i].numberTables;        
+      }      
+    }
+
+    for(let i=0; i<this.numberTables; i++){
+      this.votingTables[i] = "Mesa " + (i+1) ;
+    }     
+  }
+
   getProfessions(event) { 
     var arr1: any[] = [];
     this.listMaster.getListMasters()
@@ -288,6 +338,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     this.getOcupations(event);
     this.getChurchs(event);
     this.getSexs(event);
+    this.getElectoralInfo(); 
+    this.getGeographyInfo();   
     this.isDisabledButton = false;
   }
 

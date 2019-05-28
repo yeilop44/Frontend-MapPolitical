@@ -14,6 +14,8 @@ export class GraficosComponent implements OnInit {
   
   chart: any;
   chart2: any;
+  chart3: any;
+  chart4: any;
   professions: any[] = [];
   professionsName: any[] = [];
   professionsCount: any[] = [];
@@ -21,6 +23,14 @@ export class GraficosComponent implements OnInit {
   occupations: any[] = [];
   occupationsName: any[] = [];
   occupationsCount: any[] = [];
+
+  zones: any[] = [];
+  zonesName: any[] = [];
+  zonesCount: any[] = [];
+
+  subdivisions: any[] = [];
+  subdivisionName: any[] = [];
+  subdivisionCount: any[] = [];
 
   color:any[]=[];
 
@@ -34,6 +44,8 @@ export class GraficosComponent implements OnInit {
   ngOnInit() {
     this.getCountProfessions();
     this.getCountOccupations();
+    this.getCountZones();
+    this.getCountSubdivisions();
   }
   
   dynamicColors() {
@@ -119,6 +131,80 @@ export class GraficosComponent implements OnInit {
             title: {
               display: true,
               text: 'Ocupaciones'
+            }
+          } 
+        });
+
+      });
+  }
+
+  getCountZones(){
+    this.affiliatesService.getCountZones(this.auth.user)
+      .subscribe((data:any) => {
+        this.zones = data.zones;
+              
+        for(let i=0;i<this.zones.length;i++){
+          if(this.zones[i]._id == "" || this.zones[i]._id == null){
+            this.zonesName[i] = "No tiene";
+            this.zonesCount[i] = this.zones[i].count;            
+          }else{
+            this.zonesName[i] = this.zones[i]._id;
+            this.zonesCount[i] = this.zones[i].count;          
+          }
+          this.color[i] = this.dynamicColors();         
+        }
+         
+        this.chart3 = new Chart('canvas3', {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+                data: this.zonesCount,
+                backgroundColor: this.color
+            }],
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: this.zonesName
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Zonas'
+            }
+          } 
+        });
+
+      });
+  }
+
+  getCountSubdivisions(){
+    this.affiliatesService.getCountSubdivisions(this.auth.user)
+      .subscribe((data:any) => {
+        this.subdivisions = data.subdivisions;
+              
+        for(let i=0;i<this.subdivisions.length;i++){
+          if(this.subdivisions[i]._id == "" || this.subdivisions[i]._id == null){
+            this.subdivisionName[i] = "No tiene";
+            this.subdivisionCount[i] = this.subdivisions[i].count;            
+          }else{
+            this.subdivisionName[i] = this.subdivisions[i]._id;
+            this.subdivisionCount[i] = this.subdivisions[i].count;          
+          }
+          this.color[i] = this.dynamicColors();         
+        }
+         
+        this.chart3 = new Chart('canvas4', {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+                data: this.subdivisionCount,
+                backgroundColor: this.color
+            }],
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: this.subdivisionName
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Subdivision (Barrios/veredas)'
             }
           } 
         });

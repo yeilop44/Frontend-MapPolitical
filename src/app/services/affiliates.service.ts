@@ -47,4 +47,16 @@ export class AffiliatesService {
     return this.http.get(`${this.urlApi}/count/occupation/${user}`, httpOptions);
   }
 
+  getCountZones(user: string) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/count/zone/${user}`, httpOptions);
+  }
+
+  getCountSubdivisions(user: string) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/count/subdivision/${user}`, httpOptions);
+  }
+
 }
