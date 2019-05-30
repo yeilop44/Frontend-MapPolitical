@@ -41,33 +41,43 @@
     <h6>Información geográfica</h6>
     <hr>
     <div class="form-row">
-      <div class="form-group has-icon col-md-4">
+      <div class="form-group has-icon col-md-6">
+        <label>Departamento</label>
+        <span class="far fa-flag form-control-feedback"></span>
+        <select class="form-control"   placeholder="Dpto">
+          <option selected></option>           
+        </select>
+      </div>
+      <div class="form-group has-icon col-md-6">
         <label>Municipio</label>
         <span class="far fa-flag form-control-feedback"></span>
         <select class="form-control"  name="municipality" #municipality="ngModel"
         [(ngModel)]="affiliateService.selectedAfiliado.municipality" placeholder="Municipio">
           <option selected>landazuri</option>           
         </select>
-      </div>
-      <div class="form-group has-icon col-md-4">
-        <label>Zona</label>
-        <span class="fas fa-map-marker-alt form-control-feedback"></span> 
-        <select class="form-control"  name="zone" #zone="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.zone" placeholder="zona"
-        (change)="onOptionsSelectedZone(zone.value)">
-          <option selected>Urbana</option>
-          <option>Rural</option>            
-        </select>
-      </div>
-      <div class="form-group has-icon col-md-4">
-        <label>Subdivisión</label>
-        <span class="fas fa-map-marker-alt form-control-feedback"></span>             
-        <select id="inputState" class="form-control"  name="subdivision" #subdivision="ngModel"
-        [(ngModel)]="affiliateService.selectedAfiliado.subdivision" placeholder="subdivision">
-          <option selected>{{ affiliateService.selectedAfiliado.subdivision }}</option>
-          <option *ngFor="let subdivision of subdivisions">{{ subdivision }}</option>            
-        </select>
-      </div>
+      </div>      
+    </div>
+
+    <div class="form-row">
+        <div class="form-group has-icon col-md-6">
+            <label>Zona</label>
+            <span class="fas fa-map-marker-alt form-control-feedback"></span> 
+            <select class="form-control"  name="zone" #zone="ngModel"
+            [(ngModel)]="affiliateService.selectedAfiliado.zone" placeholder="zona"
+            (change)="onOptionsSelectedZone(zone.value)">
+              <option selected>Urbana</option>
+              <option>Rural</option>            
+            </select>
+          </div>
+          <div class="form-group has-icon col-md-6">
+            <label>Subdivisión</label>
+            <span class="fas fa-map-marker-alt form-control-feedback"></span>             
+            <select id="inputState" class="form-control"  name="subdivision" #subdivision="ngModel"
+            [(ngModel)]="affiliateService.selectedAfiliado.subdivision" placeholder="subdivision">
+              <option selected>{{ affiliateService.selectedAfiliado.subdivision }}</option>
+              <option *ngFor="let subdivision of subdivisions">{{ subdivision }}</option>            
+            </select>
+          </div>
     </div>
 
     <div class="form-row">
@@ -216,10 +226,8 @@
 	<table class="table table-hover">
 	  <thead>
 	    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Avatar</th>
-	      <th scope="col">Nombres</th>
-	      <th scope="col">Apellidos</th>
+        <th scope="col">#</th>        
+        <th scope="col">Nombre</th>	          
 	      <th scope="col">Identificación</th>
 	      <th scope="col">Telefono</th>
 	      
@@ -228,12 +236,10 @@
 	    </tr>
 	  </thead>
 	  <tbody>
-	    <tr *ngFor="let afiliado of affiliates; let i = index ">
-	      <th scope="row">{{i + 1}}</th>
-        <td><ngx-avatar size="50" [name]="afiliado.names"></ngx-avatar></td>
-        <td>{{ afiliado.names }}</td>
-	      <td>{{ afiliado.surnames }}</td>
-	      <td>{{ afiliado.identification }}</td>
+	    <tr *ngFor="let afiliado of affiliates; let i = index">
+	      <th scope="row">{{i + 1}}</th>      
+        <td><ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar><div style="padding-left: 50px; margin-top: -35px">{{ afiliado.names }} {{ afiliado.surnames }}</div></td>	          
+        <td>{{ afiliado.identification }}</td>
 	      <td>{{ afiliado.phone }}</td>
         <td>
           <button type="button" class="btn btn-outline-primary" (click)="editAfiliado(afiliado)">

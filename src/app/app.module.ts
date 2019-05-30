@@ -8,6 +8,11 @@ import { AgmCoreModule } from '@agm/core';
 import { AvatarModule } from 'ngx-avatar';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+
+//Routes
+import { app_routing } from './app.routes'
 
 //services
 import { AuthService } from './services/auth.service';
@@ -23,19 +28,10 @@ import { MapaComponent } from './components/mapa/mapa.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 import { CuentaComponent } from './components/cuenta/cuenta.component';
+import { ContrasenaComponent } from './components/cuenta/contrasena/contrasena.component';
+import { GeofraficaComponent } from './components/cuenta/geofrafica/geofrafica.component';
+import { ElectoralComponent } from './components/cuenta/electoral/electoral.component';
 
-
-const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'inicio', component: InicioComponent },
-  { path: 'afiliados', component: AfiliadosComponent},
-  { path: 'graficos', component: GraficosComponent},
-  { path: 'mapa', component: MapaComponent},
-  { path: 'usuario', component: UsuarioComponent},
-  { path: 'cuenta', component: CuentaComponent},
-  {path: '', pathMatch: 'full', redirectTo: 'login'},
-  { path: '**', component: LoginComponent }
-];
 
 
 @NgModule({
@@ -49,15 +45,15 @@ const appRoutes: Routes = [
     MapaComponent,
     UsuarioComponent,
     LoadingComponent,
-    CuentaComponent
+    CuentaComponent,
+    ContrasenaComponent, 
+    GeofraficaComponent, ElectoralComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(
-      appRoutes
-    ),
+    app_routing,
     ChartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC69lNgQw1tqaxwZb1NCgj1yn9fvQLMaNg',
@@ -65,7 +61,9 @@ const appRoutes: Routes = [
     }),
     AvatarModule,
     BrowserAnimationsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSidenavModule,
+    MatListModule
     
   ],
   providers: [AuthService],
