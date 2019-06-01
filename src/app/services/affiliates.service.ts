@@ -7,8 +7,7 @@ import { Afiliado } from '../models/afiliado';
 })
 export class AffiliatesService {
 
-  selectedAfiliado: Afiliado;
-  afilaidos: Afiliado[];
+  selectedAfiliado: Afiliado; 
 
   urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
 

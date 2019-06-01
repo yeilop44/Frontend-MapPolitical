@@ -1,20 +1,27 @@
 <div class="card">
   <h5 class="card-header">Parámetros Electorales</h5>
   <div class="card-body">
-    <form>
+    <form #electoralForm = "ngForm" (ngSubmit)="addElectoral(electoralForm)">
+        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
       <div class="form-row">
         <div class="form-group has-icon col-md-6">
           <label>Departamento</label>
           <span class="far fa-flag form-control-feedback"></span>
-          <select class="form-control"   placeholder="Dpto">
-            <option selected></option>           
+          <select class="form-control" name="state" #state="ngModel"
+          [(ngModel)]="electoralService.selectedElectoral.state"
+          (change)="onOptionsSelectedState(state.value)"  placeholder="Dpto">
+            <option selected></option>
+            <option *ngFor="let state of states">{{ state }}</option>           
           </select>
         </div>
         <div class="form-group has-icon col-md-6">
           <label>Municipio</label>
           <span class="far fa-flag form-control-feedback"></span>
-          <select class="form-control"   placeholder="Municipio">
-            <option selected></option>           
+          <select class="form-control" name="municipality" #municipality="ngModel"
+          [(ngModel)]="electoralService.selectedElectoral.municipality"   
+          placeholder="Municipio">
+            <option selected></option>
+            <option *ngFor="let municipality of municipalitys">{{ municipality }}</option>                      
           </select>
         </div>
       </div>  
@@ -22,21 +29,48 @@
         <div class="form-group has-icon col-md-9">
           <label>Puesto de votación</label>
           <span class="fas fa-vote-yea form-control-feedback"></span>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" name="votingStation" #votingStation="ngModel"
+          [(ngModel)]="electoralService.selectedElectoral.votingStation">
         </div>
         <div class="form-group col-md-3">
           <label for="inputState">Cantidad mesas</label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" name="numberTables" #numberTables="ngModel"
+          [(ngModel)]="electoralService.selectedElectoral.numberTables">
         </div>    
       </div>
       <div class="form-row">
           <div class="form-group has-icon col-md-12">
             <label>Ubicación de votación</label>
             <span class="fas fa-landmark form-control-feedback"></span>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
+            [(ngModel)]="electoralService.selectedElectoral.votingPlace">
           </div>             
         </div>  
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>   
   </div>
 </div>
+
+<table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Departamento</th>
+        <th scope="col">Municipio</th>
+        <th scope="col">Puesto de votación</th>
+        <th scope="col">Dirección</th>
+        <th scope="col">No. Mesas</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let electoral of electorals">
+        <th scope="row">1</th>
+        <td>{{ electoral.state }}</td>
+        <td>{{ electoral.municipality }}</td>
+        <td>{{ electoral.votingStation }}</td>
+        <td>{{ electoral.votingPlace }}</td>
+        <td>{{ electoral.numberTables }}</td>
+      </tr>      
+    </tbody>
+  </table>

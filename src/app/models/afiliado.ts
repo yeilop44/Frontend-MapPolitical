@@ -1,5 +1,5 @@
 export class Afiliado {
-  constructor (_id = '', userName='', birthdate='', names='', surnames='', sex='', zone='', subdivision='', address='', municipality='',
+  constructor (_id = '', userName='', birthdate='', names='', surnames='', sex='', zone='', subdivision='', address='',state='', municipality='',
                 votingTable='',votingStationy='', leader='', positionLat=0, positionLng=0, proffesion='', occupation='', church='',
                 lgtbi= false, disability= false, phone=0, identification=0,familyNumber=0) {
     this._id = _id;
@@ -11,6 +11,7 @@ export class Afiliado {
     this.zone = zone;
     this.subdivision = subdivision;
     this.address = address;
+    this.state = state;
     this.municipality = municipality;
     this.votingTable = votingTable;
     this.votingStation = votingStationy;
@@ -37,6 +38,7 @@ export class Afiliado {
   zone: string;
   subdivision: string;
   address: string;
+  state: string;
   municipality: string;
   votingTable: string;
   votingStation: string;

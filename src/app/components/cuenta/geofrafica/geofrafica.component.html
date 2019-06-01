@@ -1,20 +1,27 @@
 <div class="card">
   <h5 class="card-header">Parámetros Geográficos</h5>
   <div class="card-body">
-    <form>
+    <form #geografiaForm="ngForm" (ngSubmit)="addGeografia(geografiaForm)">
+        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
       <div class="form-row">
         <div class="form-group has-icon col-md-6">
             <label>Departamento</label>
             <span class="far fa-flag form-control-feedback"></span>
-            <select class="form-control"   placeholder="Dpto">
+            <select class="form-control" name="state" #state="ngModel"
+            [(ngModel)]="geographyMasterService.selectedGeografia.state"
+            (change)="onOptionsSelectedState(state.value)" placeholder="Dpto">
               <option selected></option>           
+              <option *ngFor="let state of states">{{ state }}</option>
             </select>
         </div>
         <div class="form-group has-icon col-md-6">
             <label>Municipio</label>
             <span class="far fa-flag form-control-feedback"></span>
-            <select class="form-control"   placeholder="Municipio">
-              <option selected></option>           
+            <select class="form-control" name="municipality" #municipality="ngModel"
+            [(ngModel)]="geographyMasterService.selectedGeografia.municipality"
+            placeholder="Municipio">
+              <option selected></option>
+              <option *ngFor="let municipality of municipalitys">{{ municipality }}</option>           
             </select>
         </div>
       </div>
@@ -23,17 +30,44 @@
         <div class="form-group has-icon col-md-6">
             <label>Zona</label>
             <span class="fas fa-map-marker-alt form-control-feedback"></span>
-            <select class="form-control"   placeholder="Zona">
+            <select class="form-control"  name="zone" #zone="ngModel"
+            [(ngModel)]="geographyMasterService.selectedGeografia.zone" placeholder="Zona">
               <option selected></option>           
+              <option>Urbana</option>
+              <option>Rural</option>
             </select>
         </div>
         <div class="form-group has-icon col-md-6">
             <label>Subdivisión (Barrio/vereda)</label>
             <span class="fas fa-map-marker-alt form-control-feedback"></span>
-            <input type="text" class="form-control">
+            <input type="text" name="subdivision" #subdivision="ngModel" 
+            [(ngModel)]="geographyMasterService.selectedGeografia.subdivision" class="form-control">
           </div>    
       </div>  
       <button type="submit" class="btn btn-primary">Guardar</button>
     </form>   
   </div>
 </div>
+
+
+<table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Departamento</th>
+        <th scope="col">Municipio</th>
+        <th scope="col">Zona</th>
+        <th scope="col">Subdivisión</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let geography of geographys">
+        <th scope="row">1</th>
+        <td>{{ geography.state }}</td>
+        <td>{{ geography.municipality }}</td>
+        <td>{{ geography.zone }}</td>
+        <td>{{ geography.subdivision }}</td>
+      </tr>      
+    </tbody>
+  </table>
