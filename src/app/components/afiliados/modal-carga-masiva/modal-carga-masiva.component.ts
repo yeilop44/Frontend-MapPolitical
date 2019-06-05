@@ -1,5 +1,5 @@
-import {Component, Inject, Injector, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, Inject, Injector, OnInit, PLATFORM_ID, ViewChild, AfterViewInit} from '@angular/core';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {isPlatformBrowser} from '@angular/common';
 
 @Component({
@@ -7,30 +7,27 @@ import {isPlatformBrowser} from '@angular/common';
   templateUrl: './modal-carga-masiva.component.html',
   styleUrls: ['./modal-carga-masiva.component.css']
 })
-export class ModalCargaMasivaComponent implements OnInit {
-  @ViewChild('content') content: any;
+export class ModalCargaMasivaComponent {
   closeResult: string;
-  private modalService: NgbModal;
 
+  constructor(private modalService: NgbModal) {}
 
-  constructor(
-      @Inject(PLATFORM_ID) private platformId: Object, private injector: Injector
-  ) {
-    if(isPlatformBrowser(this.platformId)){
-      this.modalService = this.injector.get(NgbModal);
-    }
-  }
-
-  ngOnInit() {
-  }
-
-  open() {
-    // and use the reference from the component itself
-    this.modalService.open(this.content).result.then((result) => {
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      console.log(reason);
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
 }

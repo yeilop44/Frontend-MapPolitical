@@ -22,6 +22,8 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 import { CuentaComponent } from './components/cuenta/cuenta.component';
 import { ModalCargaMasivaComponent } from './components/afiliados/modal-carga-masiva/modal-carga-masiva.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ModalNuevoContactoComponent } from './components/afiliados/modal-nuevo-contacto/modal-nuevo-contacto.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -48,7 +50,8 @@ const appRoutes: Routes = [
     UsuarioComponent,
     LoadingComponent,
     CuentaComponent,
-    ModalCargaMasivaComponent
+    ModalCargaMasivaComponent,
+    ModalNuevoContactoComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyC69lNgQw1tqaxwZb1NCgj1yn9fvQLMaNg',
       libraries: ['places']
     }),
+    NgbModule.forRoot(),
     AvatarModule
     
   ],

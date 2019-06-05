@@ -6,3 +6,7 @@
     left: auto !important;
     right: 0px;
 }
+
+.dropdown-item-fullname{
+    background-color: #1b3646;
+}

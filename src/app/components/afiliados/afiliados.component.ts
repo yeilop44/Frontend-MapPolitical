@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import {Component, ViewChild, OnInit, AfterViewInit, ElementRef} from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { AuthService } from '../../services/auth.service';
 import { NgForm } from '@angular/forms';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import {} from 'googlemaps';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 
 
@@ -20,6 +21,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   @ViewChild('map') mapElement: any;
   @ViewChild('search') public searchElement: any;
   @ViewChild('modalCargaMasiva') modalCargaM: ModalCargaMasivaComponent;
+  @ViewChild('infoContactoModal') public infoContactoModal: ModalDirective;
   map: google.maps.Map;
 
   mapPro: google.maps.Map;
@@ -124,8 +126,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     if (form.value._id) {
       this.affiliateService.putAfiliado(form.value)
         .subscribe(res => {
-          this.resetForm(form);
+          //this.resetForm(form);
           console.log('Affiliate Updated');
+          this.infoContactoModal.hide();
           this.getAfiliados();
           this.isNewAffiliate = false;
 
@@ -134,8 +137,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
     } else {
        this.affiliateService.postAfiliado(form.value)
         .subscribe(res => {
-        this.resetForm(form);
+        //this.resetForm(form);
         console.log('Affiliate Saved');
+        this.infoContactoModal.hide();
         this.getAfiliados();
         this.isNewAffiliate = false;
       });
@@ -167,9 +171,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
   }
 
   NewAffiliate(form: NgForm) {
-    this.isNewAffiliate = true;
-    this.resetForm(form);
-    this.affiliateService.selectedAfiliado._id = null;
+    //this.isNewAffiliate = true;
+    //this.resetForm(form);
+    //this.affiliateService.selectedAfiliado._id = null;
     this.ngMaps();
   }
 
@@ -182,10 +186,5 @@ export class AfiliadosComponent implements OnInit, AfterViewInit {
 
   ngDestroy(form: NgForm){
     this.resetForm(form);
-  }
-
-  openModalCargaMasiva(){
-    alert("Estamos trabajando en esto!");
-    this.modalCargaM.open();
   }
 }
