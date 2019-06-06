@@ -1,6 +1,22 @@
 
 <app-loading class="container" *ngIf="isLoading" ></app-loading>
 
+<div class="container" *ngIf="!(isLoading || isNewAffiliate)">
+	
+    <div class="container col-md-4 my-2 text-left mr-1">
+
+
+        <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
+        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" ><i class="fas fa-user-plus"></i> Nuevo contacto
+            <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
+        </button>
+
+        &nbsp;
+        <button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
+            <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
+        </button>
+
+
 <div class="container m-5" *ngIf="isNewAffiliate">   
 	<form #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
@@ -24,6 +40,8 @@
         [(ngModel)]="affiliateService.selectedAfiliado.surnames" placeholder="Apellidos*" [ngClass]="{'red': isEmptySurnames, 'gray': !isEmptySurnames}">
       </div>
     </div>
+	<table class="table table-hover table-bordered">
+	  <thead class="custom-thead text-light">
 
     <div class="form-row">
      
@@ -261,4 +279,169 @@
 	  </tbody>
   </table>  
 </div>
+
+<div class="modal fade bd-example-modal-lg" id="infoContactoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Creación de contacto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="container m-2">
+                    <form id="afiliadoForm" #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
+                        <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
+                        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+                        <div class="row">
+
+                            <div class="form-group col-sm-4">
+                                <label for="nombresInput">Nombres</label>
+                                <input id="nombresInput" type="text" class="form-control" name="fullName" #fullName="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.fullName" placeholder="Nombres">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="apellidosInput">Apellidos</label>
+                                <input id="apellidosInput" type="text" class="form-control" name="lastName"  placeholder="Apellidos">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="cedulaInput">No. Identificación</label>
+                                <input id="cedulaInput" type="text" class="form-control" name="identification" #identification="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for="dateOfBirth">Fecha de nacimiento</label>
+                                <div class="input-group">
+                                    <input id="dateOfBirth" type="text" class="form-control" name="date" ngbDatepicker #date="ngbDatepicker"
+                                           placeholder="Fecha de nacimiento en formato yyyy-mm-dd">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="date.toggle()" type="button"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="telefonoInput">Teléfono/celular</label>
+                                <input id="telefonoInput" type="text" class="form-control" name="phone" #phone="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="sexoInput">Sexo</label>
+                                <input id="sexoInput" type="text" class="form-control" name="phone" #phone="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for="direccionInput">Dirección</label>
+                                <input id="direccionInput" type="text" class="form-control" name="address" #search
+                                       [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
+                                <div class="d-none d-lg-block">
+                                    <div class="d-none d-lg-block" #map></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label >Tipo de dirección</label>
+                                <div class="row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="radio-inline"><input type="radio" name="urbanoRadio">  Urbano</label>
+                                        &nbsp;
+                                        <label class="radio-inline"><input type="radio" name="ruralRadio" checked>  Rural</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="barrioInput">Barrio o vereda</label>
+                                <input id="barrioInput" type="text" class="form-control" name="barrio" #barrio="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Barrio o vereda">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for="municipioInput">Municipio</label>
+                                <input id="municipioInput" type="text" class="form-control" name="municipio" #municipio="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="Municipio">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="profesionInput">Profesión</label>
+                                <input id="profesionInput" type="text" class="form-control" name="profession" #profession="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="Profesión/Ocupación">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="iglesiaInput">Iglesia</label>
+                                <input id="iglesiaInput" type="text" class="form-control" name="iglesia" #iglesia="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="Iglesia">
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="hidden" class="form-control" name="positionLat" #positionLat="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="hidden" class="form-control" name="positionLng" #positionLng="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.positionLng" placeholder="longitud">
+                            </div>
+                        </div>
+                        <div class="form-row">
+
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for="lugarVotInput">Lugar de votacion</label>
+                                <input id="lugarVotInput" type="text" class="form-control" name="lugarVotInput" #lugarVotInput="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Lugar de votación">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="puestoVotInput">Puesto de votación</label>
+                                <input id="puestoVotInput" type="text" class="form-control" name="puestoVotInput" #puestoVotInput="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Lugar de votación">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="mesaVotInput">Mesa de votacion</label>
+                                <input id="mesaVotInput" type="text" class="form-control" name="mesaVotInput" #mesaVotInput="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Mesa de votación">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for="candidatoInput">Candidato</label>
+                                <input id="candidatoInput" type="text" class="form-control" name="candidatoInput" #candidatoInput="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Observaciones">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="liderInput">Observaciones</label>
+                                <input id="liderInput" type="text" class="form-control" name="liderInput" #liderInput="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Observaciones">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="observacionesInput">Observaciones</label>
+                                <input id="observacionesInput" type="text" class="form-control" name="observacionesInput" #observacionesInput="ngModel"
+                                       [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Observaciones">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" form="afiliadoForm" class="btn btn-primary" style="margin: 10px"><i class="far fa-save"></i> Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-times-circle"></i> Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 

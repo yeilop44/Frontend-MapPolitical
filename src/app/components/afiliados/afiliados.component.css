@@ -1,9 +1,10 @@
-/* Bootstrap 4 text input with search icon */
+.custom-button{
+    background-color: #215f80;
+}
 
 .has-icon .form-control {
     padding-left: 2.375rem;
 }
-
 .has-icon .form-control-feedback {
     position: absolute;
     z-index: 2;
@@ -15,11 +16,15 @@
     pointer-events: none;
     color: #aaa;
 }
-
 .red {
     border-color: red;
 }
-
 .gray {
     border-color: #e7eaed;
+}
+.custom-button-2{
+    background-color: #0a5c5a;
+}
+.custom-thead{
+    background-color: #1b3646;
 }

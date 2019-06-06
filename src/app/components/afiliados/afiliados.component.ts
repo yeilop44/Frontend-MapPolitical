@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
+import {Component, ViewChild, OnInit, AfterViewInit, ElementRef} from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { ListMasterService } from '../../services/list-master.service';
 import { ElectoralMasterService } from '../../services/electoral-master.service';
@@ -9,6 +9,9 @@ import { NgForm } from '@angular/forms';
 import { Afiliado } from '../../models/afiliado';
 import { Router } from '@angular/router';
 import {} from 'googlemaps';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 
 
@@ -22,7 +25,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('search') public searchElement: any;
-
+  @ViewChild('modalCargaMasiva') modalCargaM: ModalCargaMasivaComponent;
+  @ViewChild('infoContactoModal') public infoContactoModal: ModalDirective;
   map: google.maps.Map;
 
   mapPro: google.maps.Map;
@@ -66,6 +70,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
               private geographyMasterService: GeographyMasterService, 
               private divipolMasterService: DivipolMasterService, private router: Router) { 
+              private router: Router, private modalService: NgbModal) {
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
@@ -400,5 +405,6 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   ngOnDestroy(){
     this.affiliateService.selectedAfiliado = new Afiliado();
   }
+
 
 }

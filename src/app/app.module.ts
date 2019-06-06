@@ -31,8 +31,22 @@ import { CuentaComponent } from './components/cuenta/cuenta.component';
 import { ContrasenaComponent } from './components/cuenta/contrasena/contrasena.component';
 import { GeofraficaComponent } from './components/cuenta/geofrafica/geofrafica.component';
 import { ElectoralComponent } from './components/cuenta/electoral/electoral.component';
+import { ModalCargaMasivaComponent } from './components/afiliados/modal-carga-masiva/modal-carga-masiva.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ModalNuevoContactoComponent } from './components/afiliados/modal-nuevo-contacto/modal-nuevo-contacto.component';
 
 
+const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'inicio', component: InicioComponent },
+  { path: 'afiliados', component: AfiliadosComponent},
+  { path: 'graficos', component: GraficosComponent},
+  { path: 'mapa', component: MapaComponent},
+  { path: 'usuario', component: UsuarioComponent},
+  { path: 'cuenta', component: CuentaComponent},
+  {path: '', pathMatch: 'full', redirectTo: 'login'},
+  { path: '**', component: LoginComponent }
+];
 
 @NgModule({
   declarations: [
@@ -45,7 +59,9 @@ import { ElectoralComponent } from './components/cuenta/electoral/electoral.comp
     MapaComponent,
     UsuarioComponent,
     LoadingComponent,
+    ModalCargaMasivaComponent,
     CuentaComponent,
+    ModalNuevoContactoComponent
     ContrasenaComponent, 
     GeofraficaComponent, ElectoralComponent
   ],
@@ -59,7 +75,8 @@ import { ElectoralComponent } from './components/cuenta/electoral/electoral.comp
       apiKey: 'AIzaSyC69lNgQw1tqaxwZb1NCgj1yn9fvQLMaNg',
       libraries: ['places']
     }),
-    AvatarModule,
+    NgbModule.forRoot(),
+    AvatarModule
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatSidenavModule,
