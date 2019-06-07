@@ -25,8 +25,7 @@
       </div>
     </div>
 
-    <div class="form-row">
-     
+    <div class="form-row">     
       <div class="form-group has-icon col-md-6">
         <span class="far fa-id-card form-control-feedback"></span>
         <input type="text" class="form-control" name="identification" #identification="ngModel"
@@ -99,7 +98,6 @@
     </div>
     <mat-slide-toggle name="toggle" [(ngModel)]="isMap"  (change)="ngMaps()">Mapa</mat-slide-toggle>
           <p>{{ isMap }}</p>
-
     <div class="form-row">
       <div class="form-group col-md-6">
         <input type="hidden" class="form-control" name="positionLat" #positionLat="ngModel"

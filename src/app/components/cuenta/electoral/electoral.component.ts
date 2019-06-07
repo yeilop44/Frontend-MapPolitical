@@ -58,6 +58,9 @@ export class ElectoralComponent implements OnInit {
     .subscribe(res =>{
       form.reset();
     });
+    setTimeout(()=>{
+      this.getElectoral();  
+    }, 1000); 
   }
 
   getElectoral(){
