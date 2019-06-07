@@ -9,7 +9,7 @@ export class AffiliatesService {
 
   selectedAfiliado: Afiliado; 
 
-  urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
+  urlApi = 'http://localhost:3000/affiliates';
 
 
   constructor(private http: HttpClient) {
