@@ -1,4 +1,12 @@
-.fullName {
-    cursor: pointer;
-    margin-left: 30px;
+.navbar-custom {
+    background-color: #1b3646;
+}
+
+.ml-auto .dropdown-menu {
+    left: auto !important;
+    right: 0px;
+}
+
+.dropdown-item-fullname{
+    background-color: #1b3646;
 }

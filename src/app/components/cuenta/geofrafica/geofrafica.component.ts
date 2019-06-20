@@ -19,11 +19,11 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
   geographys: any[] = [];
   isLoading: boolean = false;
   isEmptyFields: boolean = false;
-  isDisabledButton = false;
+  isDisabledButton: boolean = false;
 
   constructor( public auth: AuthService, private geographyMasterService: GeographyMasterService, 
     private divipolMasterService: DivipolMasterService ) { 
-    this.userNameCurrent = this.auth.user;
+    this.userNameCurrent = this.auth.user;    
   }
 
   ngOnInit() {
@@ -102,36 +102,39 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.geographyMasterService.getGeographyMasterByUser(this.auth.user)
       .subscribe((data: any) => {
-        this.geographys = data.Items;
-        this.isLoading = false;        
+        this.geographys = data.Items;  
+        console.log(this.geographys); 
+        this.isLoading = false;     
       });
   }
 
-  editGeografia(geography: Geografia){
-    this.geographyMasterService.selectedGeografia = geography;
+  editGeofrafia(geography: Geografia) {    
+    this.geographyMasterService.selectedGeografia = geography;  
+    console.log(this.geographyMasterService.selectedGeografia);
     this.userNameCurrent = this.auth.user;
+    console.log(this.userNameCurrent);        
   }
 
-  deleteGeografia(_id: string){
-    if (confirm('Esta seguro de Eliminar este afiliado?')) {
+  deleteGeografia(_id: string) {
+    if (confirm('Esta seguro de Eliminar barrio o vereda?')) {
       this.geographyMasterService.deleteGeografia(_id)
-        .subscribe(res => {
-        console.log('Geografia deleted');
+        .subscribe(res => {        
         this.getGeografia();
       });
     }
   }
 
-   //clean the form
-   resetForm(form?: NgForm){
-  	if(form){
-  		form.reset();
-              
-  	}
+  //clean the form
+  resetForm(form?: NgForm){
+    if(form){
+      form.reset();
+      this.geographyMasterService.selectedGeografia = new Geografia();            
+    }
   }
 
   ngOnDestroy(){
     this.geographyMasterService.selectedGeografia = new Geografia();
   }
+  
 
 }
