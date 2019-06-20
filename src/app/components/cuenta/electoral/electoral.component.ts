@@ -123,4 +123,8 @@ export class ElectoralComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(){
+    this.electoralService.selectedElectoral = new Electoral();
+  }  
+
 }

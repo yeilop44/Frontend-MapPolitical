@@ -1,3 +1,4 @@
+<!-- FORMULARIO CREAR NUEVO PUESTO DE VOTACÓN-->
 <div class="card">
   <h5 class="card-header">Crear puesto de votación</h5>
   <div class="card-body">
@@ -50,14 +51,12 @@
     </form>   
   </div>
 </div>
-
-<<<<<<< HEAD
 <div class="alert alert-danger text-center" role="alert" style="margin-top: 20px" *ngIf="isEmptyFields">
   Uno o varios campos obligatorios (*) están vacíos
 </div>
 
+<!-- LISTADO DE PUESTO DE VOTACÓN-->
 <app-loading class="container" *ngIf="isLoading"></app-loading>
-
 <div class="card animated fadeIn fast" style="margin-top: 20px" *ngIf="!isLoading">
   <h5 class="card-header">Puestos de votación</h5>
   <div class="card-body">
@@ -65,7 +64,7 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Ubicación</th>
+          <th scope="col">Municipio</th>
           <th scope="col">Puesto de votación</th>
           <th scope="col">Dirección</th>
           <th scope="col">No. Mesas</th>
@@ -76,7 +75,7 @@
       <tbody>
         <tr *ngFor="let electoral of electorals; let i = index">
           <th scope="row">{{ i+1 }}</th>
-          <td>{{ electoral.state }}, {{ electoral.municipality }}</td>           
+          <td>{{ electoral.municipality }}, {{ electoral.state }}</td>           
           <td>{{ electoral.votingStation }}</td>
           <td>{{ electoral.votingPlace }}</td>
           <td>{{ electoral.numberTables }}</td>
@@ -97,33 +96,3 @@
     </table>
   </div>
 </div>
-=======
-<div class="card" style="margin-top: 10px">
-    <h5 class="card-header">Puestos de votación</h5>
-    <div class="card-body">
-      <table class="table table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Departamento</th>
-              <th scope="col">Municipio</th>
-              <th scope="col">Puesto de votación</th>
-              <th scope="col">Dirección</th>
-              <th scope="col">No. Mesas</th>
-              
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let electoral of electorals; let i = index">
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ electoral.state }}</td>
-              <td>{{ electoral.municipality }}</td>
-              <td>{{ electoral.votingStation }}</td>
-              <td>{{ electoral.votingPlace }}</td>
-              <td>{{ electoral.numberTables }}</td>
-            </tr>      
-          </tbody>
-        </table>                   
-    </div>
-  </div>
->>>>>>> 53b9c707e6f94550208dbf77da61ceff457433ca

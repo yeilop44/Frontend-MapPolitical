@@ -134,7 +134,6 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.geographyMasterService.selectedGeografia = new Geografia();
-  }
-  
+  }  
 
 }

@@ -1,3 +1,4 @@
+<!-- FORMULARIO CREAR NUEVO BARRIO O VEREDA-->
 <div class="card">
   <h5 class="card-header">Crear barrio o vereda</h5>
   <div class="card-body">
@@ -53,53 +54,8 @@
   Uno o varios campos obligatorios están vacíos
 </div>
 
+<!-- LISTADO DE BARRIOS Y VEREDAS-->
 <app-loading class="container" *ngIf="isLoading"></app-loading>
-
-<div class="card" style="margin-top: 10px" *ngIf="!isLoading">
-  <h5 class="card-header">Barrios y veredas</h5>
-  <div class="card-body">
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Departamento</th>
-          <th scope="col">Municipio</th>
-          <th scope="col">Zona</th>
-          <th scope="col">Subdivisión</th>
-          <th scope="col">Acciones</th>        
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let geography of geographys; let i = index">
-          <th scope="row">{{i + 1}}</th>
-          <td>{{ geography.state }}</td>
-          <td>{{ geography.municipality }}</td>
-          <td>{{ geography.zone }}</td>
-          <td>{{ geography.subdivision }}</td>
-          <td>
-            <button type="button" class="btn btn-outline-primary" style="margin-right: 5px" (click)="editGeofrafia(geography)">
-              <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
-            </button>          
-            <button type="button" class="btn btn-outline-danger" (click)="deleteGeografia(geography._id)">
-              <i class="fas fa-trash-alt" style="color: rgba(246, 74, 74, 0.863)"></i>
-            </button>
-          </td>
-        </tr>      
-      </tbody>
-    </table>     
-  </div>
-</div>
-
-
-
-
-
-<div class="alert alert-danger text-center" role="alert" style="margin-top: 20px" *ngIf="isEmptyFields">
-  Uno o varios campos obligatorios (*) están vacíos
-</div>
-
-<app-loading class="container" *ngIf="isLoading"></app-loading>
-
 <div class="card animated fadeIn fast" style="margin-top: 20px" *ngIf="!isLoading">
   <h5 class="card-header">Barrios y veredas</h5>
   <div class="card-body">
@@ -137,3 +93,9 @@
     </table>
   </div>
 </div>
+
+
+
+
+
+

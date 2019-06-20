@@ -1,4 +1,4 @@
-import {Component, ViewChild, OnInit, AfterViewInit, ElementRef} from '@angular/core';
+import {Component, ViewChild, OnInit, AfterViewInit, ElementRef, OnDestroy} from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { ListMasterService } from '../../services/list-master.service';
 import { ElectoralMasterService } from '../../services/electoral-master.service';
@@ -68,8 +68,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService, 
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
-              private geographyMasterService: GeographyMasterService, 
-              private divipolMasterService: DivipolMasterService, private router: Router) { 
+              private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
               private router: Router, private modalService: NgbModal) {
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);

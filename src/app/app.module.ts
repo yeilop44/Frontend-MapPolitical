@@ -12,6 +12,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
+
 //Routes
 import { app_routing } from './app.routes'
 
@@ -62,7 +63,7 @@ const appRoutes: Routes = [
     LoadingComponent,
     ModalCargaMasivaComponent,
     CuentaComponent,
-    ModalNuevoContactoComponent
+    ModalNuevoContactoComponent,
     ContrasenaComponent, 
     GeofraficaComponent, ElectoralComponent
   ],
@@ -77,7 +78,7 @@ const appRoutes: Routes = [
       libraries: ['places']
     }),
     NgbModule.forRoot(),
-    AvatarModule
+    AvatarModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatSidenavModule,
