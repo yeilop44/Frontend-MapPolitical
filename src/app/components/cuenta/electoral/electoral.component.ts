@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { DivipolMasterService } from '../../../services/divipol-master.service';
 import { ElectoralMasterService } from '../../../services/electoral-master.service'
+import { Electoral } from 'src/app/models/electoral';
 
 
 @Component({
@@ -18,6 +19,9 @@ export class ElectoralComponent implements OnInit {
   municipalitys: any[] = [];
   userNameCurrent;  
   electorals: any [] =[];
+  isLoading: boolean = false;
+  isEmptyFields: boolean = false;
+  isDisabledButton = false;
 
   constructor(public auth: AuthService, private divipolMasterService: DivipolMasterService, 
     private electoralService: ElectoralMasterService) { 
@@ -54,17 +58,69 @@ export class ElectoralComponent implements OnInit {
   }
 
   addElectoral(form: NgForm) {
-    this.electoralService.postElectoral(form.value)
-    .subscribe(res =>{
-      form.reset();
-    });
+    this.isDisabledButton = true;
+    this.isEmptyFields = false;
+    if(!this.electoralService.selectedElectoral.state || !this.electoralService.selectedElectoral.municipality ||
+      !this.electoralService.selectedElectoral.votingStation || !this.electoralService.selectedElectoral.votingPlace ||
+       !this.electoralService.selectedElectoral.numberTables){
+     console.log("campos vacios");
+     
+     setTimeout(()=>{
+       this.isDisabledButton = false;
+       this.isEmptyFields = true;
+     }, 100);
+     
+   }else{
+     if(form.value._id) {      
+       this.electoralService.putElectoral(form.value)
+         .subscribe(res=>{           
+       });
+         
+       setTimeout(()=>{
+         this.getElectoral();
+         form.reset();
+         this.isDisabledButton = false;              
+       }, 500); 
+           
+     }else {
+       this.electoralService.postElectoral(form.value)
+         .subscribe(res =>{          
+       });
+       
+       setTimeout(()=>{        
+       this.getElectoral();         
+       form.reset();
+       this.isDisabledButton = false;                
+       }, 500);                
+     }
+     this.isEmptyFields = false;
+       
+   }      
+    
   }
 
   getElectoral(){
+    this.isLoading = true;
     this.electoralService.getElectoralMastersByUser(this.auth.user)
       .subscribe((data: any) => {
-        this.electorals = data.Items;        
+        this.electorals = data.Items; 
+        this.isLoading = false;         
       });
+  }
+
+  editElectoral(electoral: Electoral){
+    this.electoralService.selectedElectoral = electoral;
+    this.userNameCurrent = this.auth.user;
+  }
+
+  deleteElectoral(_id: string){
+    if (confirm('Esta seguro de Eliminar este afiliado?')) {
+      this.electoralService.deleteElectoral(_id)
+        .subscribe(res => {
+        console.log('Geografia deleted');
+        this.getElectoral();
+      });
+    }
   }
 
 }

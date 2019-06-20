@@ -10,6 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 //Routes
 import { app_routing } from './app.routes'
@@ -63,7 +64,8 @@ import { ElectoralComponent } from './components/cuenta/electoral/electoral.comp
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
     
   ],
   providers: [AuthService],

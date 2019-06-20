@@ -1,11 +1,11 @@
 <div class="card">
-  <h5 class="card-header">Parámetros Electorales</h5>
+  <h5 class="card-header">Crear puesto de votación</h5>
   <div class="card-body">
     <form #electoralForm = "ngForm" (ngSubmit)="addElectoral(electoralForm)">
         <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
       <div class="form-row">
         <div class="form-group has-icon col-md-6">
-          <label>Departamento</label>
+          <label>Departamento<span style="color: red">*</span></label>
           <span class="far fa-flag form-control-feedback"></span>
           <select class="form-control" name="state" #state="ngModel"
           [(ngModel)]="electoralService.selectedElectoral.state"
@@ -15,62 +15,84 @@
           </select>
         </div>
         <div class="form-group has-icon col-md-6">
-          <label>Municipio</label>
+          <label>Municipio<span style="color: red">*</span></label>
           <span class="far fa-flag form-control-feedback"></span>
           <select class="form-control" name="municipality" #municipality="ngModel"
           [(ngModel)]="electoralService.selectedElectoral.municipality"   
           placeholder="Municipio">
-            <option selected></option>
+            <option selected>{{ electoralService.selectedElectoral.municipality }}</option>
             <option *ngFor="let municipality of municipalitys">{{ municipality }}</option>                      
           </select>
         </div>
       </div>  
       <div class="form-row">
         <div class="form-group has-icon col-md-9">
-          <label>Puesto de votación</label>
+          <label>Puesto de votación<span style="color: red">*</span></label>
           <span class="fas fa-vote-yea form-control-feedback"></span>
           <input type="text" class="form-control" name="votingStation" #votingStation="ngModel"
           [(ngModel)]="electoralService.selectedElectoral.votingStation">
         </div>
         <div class="form-group col-md-3">
-          <label for="inputState">Cantidad mesas</label>
+          <label for="inputState">Cantidad mesas<span style="color: red">*</span></label>
           <input type="text" class="form-control" name="numberTables" #numberTables="ngModel"
           [(ngModel)]="electoralService.selectedElectoral.numberTables">
         </div>    
       </div>
       <div class="form-row">
           <div class="form-group has-icon col-md-12">
-            <label>Ubicación de votación</label>
+            <label>Dirección de votación<span style="color: red">*</span></label>
             <span class="fas fa-landmark form-control-feedback"></span>
             <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
             [(ngModel)]="electoralService.selectedElectoral.votingPlace">
           </div>             
         </div>  
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Guardar</button>
     </form>   
   </div>
 </div>
 
-<table class="table table-sm">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Departamento</th>
-        <th scope="col">Municipio</th>
-        <th scope="col">Puesto de votación</th>
-        <th scope="col">Dirección</th>
-        <th scope="col">No. Mesas</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let electoral of electorals">
-        <th scope="row">1</th>
-        <td>{{ electoral.state }}</td>
-        <td>{{ electoral.municipality }}</td>
-        <td>{{ electoral.votingStation }}</td>
-        <td>{{ electoral.votingPlace }}</td>
-        <td>{{ electoral.numberTables }}</td>
-      </tr>      
-    </tbody>
-  </table>
+<div class="alert alert-danger text-center" role="alert" style="margin-top: 20px" *ngIf="isEmptyFields">
+  Uno o varios campos obligatorios (*) están vacíos
+</div>
+
+<app-loading class="container" *ngIf="isLoading"></app-loading>
+
+<div class="card animated fadeIn fast" style="margin-top: 20px" *ngIf="!isLoading">
+  <h5 class="card-header">Puestos de votación</h5>
+  <div class="card-body">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Ubicación</th>
+          <th scope="col">Puesto de votación</th>
+          <th scope="col">Dirección</th>
+          <th scope="col">No. Mesas</th>
+          <th scope="col">Acciones</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let electoral of electorals; let i = index">
+          <th scope="row">{{ i+1 }}</th>
+          <td>{{ electoral.state }}, {{ electoral.municipality }}</td>           
+          <td>{{ electoral.votingStation }}</td>
+          <td>{{ electoral.votingPlace }}</td>
+          <td>{{ electoral.numberTables }}</td>
+          <td width="18%">
+            <div>
+              <button mat-raised-button matTooltip="Editar" type="button" class="btn btn-outline-primary" style="margin-right: 5px" 
+                (click)="editElectoral(electoral)" >
+                <i class="fas fa-pen fa-sm" style="color: rgb(12, 168, 240)"></i>
+              </button>        
+              <button mat-raised-button matTooltip="Eliminar" type="button" class="btn btn-outline-danger" 
+                (click)="deleteElectoral(electoral._id)">
+                <i class="fas fa-trash-alt fa-sm" style="color: rgba(246, 74, 74, 0.863)"></i>
+              </button>
+            </div>            
+          </td>
+        </tr>      
+      </tbody>
+    </table>
+  </div>
+</div>
