@@ -61,9 +61,10 @@ const appRoutes: Routes = [
     LoadingComponent,
     ModalCargaMasivaComponent,
     CuentaComponent,
-    ModalNuevoContactoComponent
-    ContrasenaComponent, 
-    GeofraficaComponent, ElectoralComponent
+    ModalNuevoContactoComponent,
+    ContrasenaComponent,
+    GeofraficaComponent,
+    ElectoralComponent
   ],
   imports: [
     BrowserModule,
@@ -76,12 +77,11 @@ const appRoutes: Routes = [
       libraries: ['places']
     }),
     NgbModule.forRoot(),
-    AvatarModule
+    AvatarModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatSidenavModule,
     MatListModule
-    
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

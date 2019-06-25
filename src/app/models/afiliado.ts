@@ -1,6 +1,7 @@
 export class Afiliado {
-  constructor (_id = '', userName='', birthdate='', names='', surnames='', sex='', zone='', subdivision='', address='',state='', municipality='',
-                votingTable='',votingStationy='', leader='', positionLat=0, positionLng=0, proffesion='', occupation='', church='',
+  // tslint:disable-next-line:max-line-length variable-name
+  constructor (_id = '', userName= '', birthdate='', names='', surnames='', sex='', zone='', subdivision='', address='',state='', municipality='',
+               votingTable='', votingStationy='', leader='', positionLat=0, positionLng=0, proffesion='', occupation='', church='',
                 lgtbi= false, disability= false, phone=0, identification=0,familyNumber=0) {
     this._id = _id;
     this.userName = userName;
@@ -26,7 +27,6 @@ export class Afiliado {
     this.phone = phone;
     this.identification = identification;
     this.familyNumber = familyNumber;
-   
 }
 
   _id: string;
@@ -54,4 +54,5 @@ export class Afiliado {
   phone: number;
   identification: number;
   familyNumber: number;
+  strIdentificacion: string;
 }
