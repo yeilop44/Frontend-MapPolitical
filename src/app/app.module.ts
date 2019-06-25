@@ -63,7 +63,7 @@ const appRoutes: Routes = [
     LoadingComponent,
     ModalCargaMasivaComponent,
     CuentaComponent,
-    ModalNuevoContactoComponent
+    ModalNuevoContactoComponent,
     ContrasenaComponent, 
     GeofraficaComponent, ElectoralComponent
   ],
