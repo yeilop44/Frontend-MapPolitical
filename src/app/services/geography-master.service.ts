@@ -26,4 +26,13 @@ export class GeographyMasterService {
     return this.http.post(this.urlApi, Geografia);
   }
 
+  putGeografia(Geografia: Geografia) {
+    return this.http.put(this.urlApi + `/${Geografia._id}`, Geografia);
+  }
+
+  deleteGeografia(_id: string) {
+  return this.http.delete(this.urlApi + `/${_id}`);
+  }
+
+
 }

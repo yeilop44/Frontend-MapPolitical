@@ -25,4 +25,12 @@ export class ElectoralMasterService {
     return this.http.post(this.urlApi, Electoral);
   }
 
+  putElectoral(Electoral: Electoral) {
+    return this.http.put(this.urlApi + `/${Electoral._id}`, Electoral);
+  }
+
+  deleteElectoral(_id: string) {
+  return this.http.delete(this.urlApi + `/${_id}`);
+  }
+
 }

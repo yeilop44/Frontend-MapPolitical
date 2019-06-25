@@ -1,26 +1,28 @@
+<!-- FORMULARIO CREAR NUEVO BARRIO O VEREDA-->
 <div class="card">
-  <h5 class="card-header">Parámetros Geográficos</h5>
+  <h5 class="card-header">Crear barrio o vereda</h5>
   <div class="card-body">
     <form #geografiaForm="ngForm" (ngSubmit)="addGeografia(geografiaForm)">
-        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="geographyMasterService.selectedGeografia._id">  
+      <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
       <div class="form-row">
         <div class="form-group has-icon col-md-6">
-            <label>Departamento</label>
+            <label>Departamento <span style="color: red">*</span></label>
             <span class="far fa-flag form-control-feedback"></span>
             <select class="form-control" name="state" #state="ngModel"
             [(ngModel)]="geographyMasterService.selectedGeografia.state"
             (change)="onOptionsSelectedState(state.value)" placeholder="Dpto">
-              <option selected></option>           
+              <option selected>{{ geographyMasterService.selectedGeografia.state }}</option>           
               <option *ngFor="let state of states">{{ state }}</option>
             </select>
         </div>
         <div class="form-group has-icon col-md-6">
-            <label>Municipio</label>
+            <label>Municipio <span style="color: red">*</span></label>
             <span class="far fa-flag form-control-feedback"></span>
             <select class="form-control" name="municipality" #municipality="ngModel"
             [(ngModel)]="geographyMasterService.selectedGeografia.municipality"
             placeholder="Municipio">
-              <option selected></option>
+              <option selected>{{ geographyMasterService.selectedGeografia.municipality }}</option>
               <option *ngFor="let municipality of municipalitys">{{ municipality }}</option>           
             </select>
         </div>
@@ -28,50 +30,67 @@
   
       <div class="form-row">
         <div class="form-group has-icon col-md-6">
-            <label>Zona</label>
+            <label>Zona <span style="color: red">*</span></label>
             <span class="fas fa-map-marker-alt form-control-feedback"></span>
             <select class="form-control"  name="zone" #zone="ngModel"
             [(ngModel)]="geographyMasterService.selectedGeografia.zone" placeholder="Zona">
-              <option selected></option>           
+              <option selected>{{ geographyMasterService.selectedGeografia.zone }}</option>           
               <option>Urbana</option>
               <option>Rural</option>
             </select>
         </div>
         <div class="form-group has-icon col-md-6">
-            <label>Subdivisión (Barrio/vereda)</label>
+            <label>Barrio o vereda <span style="color: red">*</span></label>
             <span class="fas fa-map-marker-alt form-control-feedback"></span>
             <input type="text" name="subdivision" #subdivision="ngModel" 
             [(ngModel)]="geographyMasterService.selectedGeografia.subdivision" class="form-control">
           </div>    
       </div>  
-      <button type="submit" class="btn btn-primary">Guardar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isDisabledButton"><i class="far fa-save"></i> Guardar</button>
     </form>   
   </div>
 </div>
+<div class="alert alert-danger text-center" role="alert" style="margin-top: 10px" *ngIf="isEmptyFields">
+  Uno o varios campos obligatorios están vacíos
+</div>
 
-<div class="card" style="margin-top: 10px">
+<!-- LISTADO DE BARRIOS Y VEREDAS-->
+<app-loading class="container" *ngIf="isLoading"></app-loading>
+<div class="card animated fadeIn fast" style="margin-top: 20px" *ngIf="!isLoading">
   <h5 class="card-header">Barrios y veredas</h5>
   <div class="card-body">
     <table class="table table-sm">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Departamento</th>
-            <th scope="col">Municipio</th>
-            <th scope="col">Zona</th>
-            <th scope="col">Subdivisión</th>        
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let geography of geographys; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{ geography.state }}</td>
-            <td>{{ geography.municipality }}</td>
-            <td>{{ geography.zone }}</td>
-            <td>{{ geography.subdivision }}</td>
-          </tr>      
-        </tbody>
-      </table>     
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Departamento</th>
+          <th scope="col">Municipio</th>
+          <th scope="col">Zona</th>
+          <th scope="col">Barrio o vereda</th>
+          <th scope="col">Acciones</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let geography of geographys; let i = index">
+          <th scope="row">{{ i+1 }}</th>
+          <td>{{ geography.state }}</td>
+          <td>{{ geography.municipality }}</td>
+          <td>{{ geography.zone }}</td>
+          <td>{{ geography.subdivision }}</td>
+          <td>
+            <button mat-raised-button matTooltip="Editar" type="button" class="btn btn-outline-primary" style="margin-right: 5px" 
+              (click)="editGeografia(geography)">
+              <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
+            </button>        
+            <button mat-raised-button matTooltip="Eliminar" type="button" class="btn btn-outline-danger" 
+              (click)="deleteGeografia(geography._id)">
+              <i class="fas fa-trash-alt" style="color: rgba(246, 74, 74, 0.863)"></i>
+            </button>
+          </td>
+        </tr>      
+      </tbody>
+    </table>
   </div>
 </div>
 

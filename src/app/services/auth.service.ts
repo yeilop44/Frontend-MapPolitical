@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Usuario } from '../models/usuario.js';
+import { Usuario, UsuarioChangePass } from '../models/usuario';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  urlApi = 'http://localhost:3000/user';
+  urlApi = 'https://back-mpolitical.herokuapp.com/user';
   isLogged: any;
   user: any;
-  userInfo: Usuario[]=[];
- 
+  userInfo: Usuario[]=[];    
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    
+  }
 
   login(user: Usuario) {
     const httpOptions = {
@@ -49,6 +52,10 @@ export class AuthService {
   //Obtiene user para componente Usuario y Mapa
   getUserSettings(user: string){
     return this.http.get(`${this.urlApi}/${user}`);
+  }
+
+  changePass(user: UsuarioChangePass){
+    return this.http.post(`${this.urlApi}/changepass`, user);
   }
 
 }

@@ -10,6 +10,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 //Routes
 import { app_routing } from './app.routes'
@@ -61,10 +63,9 @@ const appRoutes: Routes = [
     LoadingComponent,
     ModalCargaMasivaComponent,
     CuentaComponent,
-    ModalNuevoContactoComponent,
-    ContrasenaComponent,
-    GeofraficaComponent,
-    ElectoralComponent
+    ModalNuevoContactoComponent
+    ContrasenaComponent, 
+    GeofraficaComponent, ElectoralComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +82,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

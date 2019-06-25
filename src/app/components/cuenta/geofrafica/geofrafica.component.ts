@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { DivipolMasterService } from '../../../services/divipol-master.service';
@@ -10,22 +10,26 @@ import { Geografia } from '../../../models/geografia';
   templateUrl: './geofrafica.component.html',
   styleUrls: ['./geofrafica.component.css']
 })
-export class GeofraficaComponent implements OnInit {
+export class GeofraficaComponent implements OnInit, OnDestroy {
   
   divipols: any[] = [];
   states: any[] = [];
   municipalitys: any[] = [];
   userNameCurrent;
   geographys: any[] = [];
+  isLoading: boolean = false;
+  isEmptyFields: boolean = false;
+  isDisabledButton: boolean = false;
 
   constructor( public auth: AuthService, private geographyMasterService: GeographyMasterService, 
     private divipolMasterService: DivipolMasterService ) { 
-    this.userNameCurrent = this.auth.user;
+    this.userNameCurrent = this.auth.user;    
   }
 
   ngOnInit() {
     this.getDivipolInfo();
     this.getGeografia();
+    
   }
 
   getDivipolInfo() {
@@ -49,24 +53,87 @@ export class GeofraficaComponent implements OnInit {
         }               
       }      
     }
-    console.log(this.municipalitys);    
+    console.log(this.municipalitys);  
+    this.userNameCurrent = this.auth.user;  
+    this.isEmptyFields = false;
   }
 
   addGeografia(form: NgForm) {
-    this.geographyMasterService.postGeografia(form.value)
-    .subscribe(res =>{
-      form.reset();
-    });
-    setTimeout(()=>{
-      this.getGeografia();  
-    }, 1000);    
+    this.isDisabledButton = true;
+    this.isEmptyFields = false;
+    if(!this.geographyMasterService.selectedGeografia.state || !this.geographyMasterService.selectedGeografia.municipality ||
+       !this.geographyMasterService.selectedGeografia.zone || !this.geographyMasterService.selectedGeografia.subdivision){
+      console.log("campos vacios");
+      
+      setTimeout(()=>{
+        this.isDisabledButton = false;
+        this.isEmptyFields = true;
+      }, 100);
+      
+    }else{
+      if(form.value._id) {      
+        this.geographyMasterService.putGeografia(form.value)
+          .subscribe(res=>{           
+        });
+          
+        setTimeout(()=>{
+          this.getGeografia();
+          form.reset();
+          this.isDisabledButton = false;              
+        }, 500); 
+            
+      }else {
+        this.geographyMasterService.postGeografia(form.value)
+          .subscribe(res =>{          
+        });
+        
+        setTimeout(()=>{        
+        this.getGeografia();         
+        form.reset();
+        this.isDisabledButton = false;                
+        }, 500);                
+      }
+      this.isEmptyFields = false;
+        
+    }        
   }
 
   getGeografia(){
+    this.isLoading = true;
     this.geographyMasterService.getGeographyMasterByUser(this.auth.user)
       .subscribe((data: any) => {
-        this.geographys = data.Items;        
+        this.geographys = data.Items;  
+        console.log(this.geographys); 
+        this.isLoading = false;     
       });
   }
+
+  editGeofrafia(geography: Geografia) {    
+    this.geographyMasterService.selectedGeografia = geography;  
+    console.log(this.geographyMasterService.selectedGeografia);
+    this.userNameCurrent = this.auth.user;
+    console.log(this.userNameCurrent);        
+  }
+
+  deleteGeografia(_id: string) {
+    if (confirm('Esta seguro de Eliminar barrio o vereda?')) {
+      this.geographyMasterService.deleteGeografia(_id)
+        .subscribe(res => {        
+        this.getGeografia();
+      });
+    }
+  }
+
+  //clean the form
+  resetForm(form?: NgForm){
+    if(form){
+      form.reset();
+      this.geographyMasterService.selectedGeografia = new Geografia();            
+    }
+  }
+
+  ngOnDestroy(){
+    this.geographyMasterService.selectedGeografia = new Geografia();
+  }  
 
 }

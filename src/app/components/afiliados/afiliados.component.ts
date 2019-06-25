@@ -68,9 +68,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
-              private geographyMasterService: GeographyMasterService,
-              private divipolMasterService: DivipolMasterService, private router: Router, private modalService: NgbModal) {
-    if (!this.auth.isLogged) {
+              private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
+              private router: Router, private modalService: NgbModal) {
+    if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
     this.userNameCurrent = this.auth.user;
