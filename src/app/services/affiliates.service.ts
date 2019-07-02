@@ -11,7 +11,6 @@ export class AffiliatesService {
 
   urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
 
-
   constructor(private http: HttpClient) {
     this.selectedAfiliado = new Afiliado();
   }
@@ -32,6 +31,12 @@ export class AffiliatesService {
 
   deleteAfiliado(_id: string) {
   return this.http.delete(this.urlApi + `/${_id}`);
+  }
+
+  getAffiliatesByLeader(leader: Afiliado) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${leader.userName}/leader/${leader.leader}`, httpOptions);
   }
 
   getCountProfessions(user: string) {

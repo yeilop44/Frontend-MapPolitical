@@ -36,6 +36,7 @@ import { ElectoralComponent } from './components/cuenta/electoral/electoral.comp
 import { ModalCargaMasivaComponent } from './components/afiliados/modal-carga-masiva/modal-carga-masiva.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalNuevoContactoComponent } from './components/afiliados/modal-nuevo-contacto/modal-nuevo-contacto.component';
+import { LideresComponent } from './components/lideres/lideres.component';
 
 
 const appRoutes: Routes = [
@@ -65,7 +66,9 @@ const appRoutes: Routes = [
     CuentaComponent,
     ModalNuevoContactoComponent,
     ContrasenaComponent, 
-    GeofraficaComponent, ElectoralComponent
+    GeofraficaComponent, 
+    ElectoralComponent, 
+    LideresComponent
   ],
   imports: [
     BrowserModule,

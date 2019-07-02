@@ -178,7 +178,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
           });
         // this.resetForm(form);
       } else {
-         this.affiliateService.postAfiliado(form.value)
+        console.log(form.value); 
+        this.affiliateService.postAfiliado(form.value)
           .subscribe(res => {
           console.log('Affiliate Saved');
           this.getAfiliados();

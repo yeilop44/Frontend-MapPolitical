@@ -1,0 +1,27 @@
+<div class="container m-5">
+  <div class="row">
+    <div class="col-4">
+      <div class="text-center"><span><b>Lideres</b></span></div>
+      <div class="list-group" style="margin-top: 10px">
+        <a  class="list-group-item list-group-item-action"  *ngFor="let leader of afiliadosLeader" 
+          (click)="verLeader(leader)">
+          <ngx-avatar size="40" [name]="leader.leader"></ngx-avatar>
+          <div style="padding-left: 50px; margin-top: -35px">{{leader.leader}}</div>          
+        </a>  
+      </div>
+    </div>    
+    <div class="col-8" >
+      <div class="text-center"><span><b>Referidos</b></span></div>
+      <div class="row">
+          <div class="col-sm-6" style="margin-top: 10px" *ngFor="let reference of references">
+              <div class="card">                    
+                <div class="card-body">
+                  <h6 class="card-title">{{reference.names}} {{reference.surnames}}</h6>
+                  <span class="card-text">{{reference.identification}}</span>                                        
+                </div>
+              </div>
+            </div>
+      </div>                                                                        
+    </div> 
+  </div>
+</div>
