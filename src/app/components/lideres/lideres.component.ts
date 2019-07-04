@@ -18,6 +18,9 @@ export class LideresComponent implements OnInit {
   afiliadosLeader: Afiliado[] = [];
   references: Afiliado[] = [];
 
+  isLoadingLeaders = false;
+  isLoadingReferences = false;
+
   constructor(private affiliateService: AffiliatesService, private auth: AuthService, private router: Router) { 
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
@@ -25,22 +28,26 @@ export class LideresComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoadingLeaders = true;
     this.affiliateService.getAffiliatesByUser(this.auth.user)
       .subscribe((data: any) =>{
         this.afiliados1 = data.Affiliates;
       console.log(this.afiliados1);
       this.afiliadosLeader = _.uniqBy(this.afiliados1, 'leader');
       console.log(this.afiliadosLeader);
+      this.isLoadingLeaders = false;
     });
   }
   
   verLeader(leader: Afiliado) { 
+    this.isLoadingReferences = true;
     console.log(leader);
     this.affiliateService.getAffiliatesByLeader(leader)
       .subscribe((data: any) =>{  
         this.references = data.Affiliates;
         console.log(this.references); 
-      });
+        this.isLoadingReferences = false;
+    });
   }
 
 

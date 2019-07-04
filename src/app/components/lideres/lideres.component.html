@@ -2,22 +2,37 @@
   <div class="row">
     <div class="col-4">
       <div class="text-center"><span><b>Lideres</b></span></div>
-      <div class="list-group" style="margin-top: 10px">
-        <a  class="list-group-item list-group-item-action"  *ngFor="let leader of afiliadosLeader" 
-          (click)="verLeader(leader)">
-          <ngx-avatar size="40" [name]="leader.leader"></ngx-avatar>
-          <div style="padding-left: 50px; margin-top: -35px">{{leader.leader}}</div>          
-        </a>  
-      </div>
-    </div>    
-    <div class="col-8" >
+      <app-loading class="container" *ngIf="isLoadingLeaders"></app-loading>
+      <div style="overflow:auto; width:300px;height:450px;">
+        <div class="list-group" style="margin-top: 10px">
+          <a  class="list-group-item list-group-item-action animated fadeIn fast" style="cursor: pointer" *ngFor="let leader of afiliadosLeader" 
+            (click)="verLeader(leader)">
+            <ngx-avatar size="50" [name]="leader.leader"></ngx-avatar>
+            <div style="padding-left: 60px; margin-top: -35px"><h6>{{leader.leader}}</h6></div>          
+          </a>
+        </div>
+      </div>                     
+    </div>      
+    <div class="col-8">
       <div class="text-center"><span><b>Referidos</b></span></div>
-      <div class="row">
+      <app-loading class="container" *ngIf="isLoadingReferences" ></app-loading>
+      <div class="row" *ngIf="!isLoadingReferences">        
           <div class="col-sm-6" style="margin-top: 10px" *ngFor="let reference of references">
               <div class="card">                    
-                <div class="card-body">
-                  <h6 class="card-title">{{reference.names}} {{reference.surnames}}</h6>
-                  <span class="card-text">{{reference.identification}}</span>                                        
+                <div class="card-body animated fadeIn fast">
+                  <div class="row">
+                    <div class="col-4">
+                        <ngx-avatar size="45" [name]="reference.names"></ngx-avatar>
+                    </div>
+                    <div class="col-8" style="margin-left: 60px; margin-top: -50px">                      
+                      <h6 class="card-title">{{reference.names}} {{reference.surnames}}</h6>
+                      <div class="font-size" style="margin-top: -10px">                        
+                        <div><span class="card-text"><i class="far fa-id-card"></i> {{reference.identification}}</span></div>
+                        <div *ngIf="reference.phone != (null || '')"><span class="card-text"><i class="fas fa-phone"></i> {{reference.phone}}</span></div>
+                        <div *ngIf="reference.subdivision != (null || '')"><span class="card-text"><i class="fas fa-map-marker-alt"></i> {{reference.subdivision}} </span></div>                                                                          
+                      </div>                      
+                    </div>                           
+                  </div>                                                     
                 </div>
               </div>
             </div>
@@ -25,3 +40,4 @@
     </div> 
   </div>
 </div>
+
