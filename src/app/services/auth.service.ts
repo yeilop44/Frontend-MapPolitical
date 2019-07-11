@@ -9,7 +9,8 @@ import { Usuario, UsuarioChangePass } from '../models/usuario';
   providedIn: 'root'
 })
 export class AuthService {
-  urlApi = 'https://back-mpolitical.herokuapp.com/user';
+  urlApi = 'http://localhost:3000/user';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/user';
   isLogged: any;
   user: any;
   userInfo: Usuario[]=[];    
@@ -22,33 +23,21 @@ export class AuthService {
     const httpOptions = {
     headers: new HttpHeaders({'Content-Type':  'application/json', 'Accept': 'application/json'})};
 
-    return this.http.post(`${this.urlApi}/signin`, user, httpOptions)
+    return this.http.post(`${this.urlApi}/signin`, user, { withCredentials: true })
       .pipe(map((data: any) => {
-        if(data.ok){
-          this.isLogged = data.ok;
-            this.user = user.userName;
-            console.log(data);
-            console.log(this.user);
-        }else{
-          console.log("error"+data.ok);
-        }
+        this.isLogged = data.isLogged;
+        this.user = data.user;
       }));
+  }
+  
+  session(){
+    return this.http.get(`${this.urlApi}/session`, { withCredentials: true });
   }
 
   logout() {
-    this.isLogged = false;
-    console.log('Logout');
+    return this.http.post(`${this.urlApi}/logout`, {}, { withCredentials: true });
   }
-  
-  //Obtiene user para componete Login
-  getUser(user: string){
-    return this.http.get(`${this.urlApi}/${user}`)
-      .pipe(map((data: any)=>{
-        this.userInfo = data.User[0];
-        console.log(this.userInfo);
-      }));
-  }
-  
+    
   //Obtiene user para componente Usuario y Mapa
   getUserSettings(user: string){
     return this.http.get(`${this.urlApi}/${user}`);
@@ -57,6 +46,8 @@ export class AuthService {
   changePass(user: UsuarioChangePass){
     return this.http.post(`${this.urlApi}/changepass`, user);
   }
+
+
 
 }
 

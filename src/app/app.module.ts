@@ -38,19 +38,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalNuevoContactoComponent } from './components/afiliados/modal-nuevo-contacto/modal-nuevo-contacto.component';
 import { LideresComponent } from './components/lideres/lideres.component';
 
-
-const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'inicio', component: InicioComponent },
-  { path: 'afiliados', component: AfiliadosComponent},
-  { path: 'graficos', component: GraficosComponent},
-  { path: 'mapa', component: MapaComponent},
-  { path: 'usuario', component: UsuarioComponent},
-  { path: 'cuenta', component: CuentaComponent},
-  {path: '', pathMatch: 'full', redirectTo: 'login'},
-  { path: '**', component: LoginComponent }
-];
-
 @NgModule({
   declarations: [
     AppComponent,

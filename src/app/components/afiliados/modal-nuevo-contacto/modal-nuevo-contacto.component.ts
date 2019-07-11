@@ -31,9 +31,9 @@ export class ModalNuevoContactoComponent implements OnInit {
                 public auth: AuthService,
                 private router: Router
   ) {
-    if(!this.auth.isLogged){
+    /*if(!this.auth.isLogged){
       this.router.navigate(['/login']);
-    }
+    }*/
 
     this.userNameCurrent = this.auth.user;
     console.log(this.userNameCurrent);

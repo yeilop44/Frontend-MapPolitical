@@ -5,7 +5,8 @@
       <app-loading class="container" *ngIf="isLoadingLeaders"></app-loading>
       <div style="overflow:auto; width:300px;height:450px;">
         <div class="list-group" style="margin-top: 10px">
-          <a  class="list-group-item list-group-item-action animated fadeIn fast" style="cursor: pointer" *ngFor="let leader of afiliadosLeader" 
+          <a  class="list-group-item list-group-item-action animated fadeIn fast" data-toggle="list"
+            [ngClass]="{'active': i === 0}" style="cursor: pointer" *ngFor="let leader of afiliadosLeader; let i = index;" 
             (click)="verLeader(leader)">
             <ngx-avatar size="50" [name]="leader.leader"></ngx-avatar>
             <div style="padding-left: 60px; margin-top: -35px"><h6>{{leader.leader}}</h6></div>          
@@ -25,11 +26,11 @@
                         <ngx-avatar size="45" [name]="reference.names"></ngx-avatar>
                     </div>
                     <div class="col-8" style="margin-left: 60px; margin-top: -50px">                      
-                      <h6 class="card-title">{{reference.names}} {{reference.surnames}}</h6>
+                      <h6 class="card-title">{{ reference.names }} {{ reference.surnames }}</h6>
                       <div class="font-size" style="margin-top: -10px">                        
-                        <div><span class="card-text"><i class="far fa-id-card"></i> {{reference.identification}}</span></div>
-                        <div *ngIf="reference.phone != (null || '')"><span class="card-text"><i class="fas fa-phone"></i> {{reference.phone}}</span></div>
-                        <div *ngIf="reference.subdivision != (null || '')"><span class="card-text"><i class="fas fa-map-marker-alt"></i> {{reference.subdivision}} </span></div>                                                                          
+                        <div><span class="card-text"><i class="far fa-id-card"></i> {{ reference.identification }}</span></div>
+                        <div *ngIf="reference.phone != (null || '')"><span class="card-text"><i class="fas fa-phone"></i> {{ reference.phone }}</span></div>
+                        <div *ngIf="reference.subdivision != (null || '')"><span class="card-text"><i class="fas fa-map-marker-alt"></i> {{ reference.subdivision }} </span></div>                                                                          
                       </div>                      
                     </div>                           
                   </div>                                                     

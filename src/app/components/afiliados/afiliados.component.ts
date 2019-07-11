@@ -1,4 +1,4 @@
-import {Component, ViewChild, OnInit, AfterViewInit, ElementRef, OnDestroy} from '@angular/core';
+import {Component, ViewChild, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { ListMasterService } from '../../services/list-master.service';
 import { ElectoralMasterService } from '../../services/electoral-master.service';
@@ -12,6 +12,7 @@ import {} from 'googlemaps';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { subscribeOn } from 'rxjs/operators';
 
 
 
@@ -21,8 +22,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
   templateUrl: './afiliados.component.html',
   styleUrls: ['./afiliados.component.css']
 })
-export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
-
+export class AfiliadosComponent implements OnInit, OnDestroy {
+ 
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('search') public searchElement: any;
   @ViewChild('modalCargaMasiva') modalCargaM: ModalCargaMasivaComponent;
@@ -61,28 +62,45 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   professions: any[] = [];
   ocupations: any[] = [];
   sexs: any[] = [];
-  churchs: any[] = [];
-  userNameCurrent;
+  churchs: any[] = [];  
   numberTables = 0;
-
-
+  isLogged;
+  username;
+  sessions;
+  userNameCurrent;
+  
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
               private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
               private router: Router, private modalService: NgbModal) {
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
-    this.userNameCurrent = this.auth.user;
-    console.log(this.userNameCurrent);
+    
+    this.session();
+  
   }
 
   ngOnInit() {
-    this.getAfiliados();
+           
   }
 
-  ngMaps() {
-    console.log('afterinit');
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{     
+        console.log(res);     
+        this.isLogged = res.isLogged;
+        if(this.isLogged){
+          console.log(this.isLogged);
+          this.username = res.user.userName;
+          this.userNameCurrent = this.username;
+          this.sessions = res.session;          
+          this.getAfiliados(this.username); 
+        }else{
+          console.log(this.isLogged);
+          this.router.navigate(['login']);
+        }
+      });
+  }
+
+  ngMaps() {    
     setTimeout(() => {
       const mapProp = {
         center: new google.maps.LatLng(4.2223, -74.3333),
@@ -124,20 +142,17 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     }, 500);
   }
 
-  ngAfterViewInit() {
-
-  }
-
-  getAfiliados() {
-    this.isLoading = true;
-    this.affiliateService.getAffiliatesByUser(this.auth.user)
+  getAfiliados(username: string) {  
+    this.isLoading = true;    
+    this.affiliateService.getAffiliatesByUser(username)
     .subscribe((data: any ) => {
-      this.affiliates = data.Affiliates;
+      //console.log(data);
+      this.affiliates = data.affiliates;
       console.log(this.affiliates);
       this.isLoading = false;
-    });
+    });        
   }
-
+  
   addAfiliado(form: NgForm) {
     if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ||
         this.affiliateService.selectedAfiliado.names == (null || '') ||
@@ -173,7 +188,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
           .subscribe(res => {
             console.log(res);
             console.log('Affiliate Updated');
-            this.getAfiliados();
+            this.getAfiliados(this.username);
             this.isNewAffiliate = false;
           });
         // this.resetForm(form);
@@ -182,7 +197,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
         this.affiliateService.postAfiliado(form.value)
           .subscribe(res => {
           console.log('Affiliate Saved');
-          this.getAfiliados();
+          this.getAfiliados(this.username);
           this.isNewAffiliate = false;
         });
       }
@@ -210,7 +225,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
       this.affiliateService.deleteAfiliado(_id)
         .subscribe(res => {
         console.log('Affiliate deleted');
-        this.getAfiliados();
+        this.getAfiliados(this.username);
       });
     }
   }
@@ -288,8 +303,6 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     console.log(this.affiliateService.selectedAfiliado.zone);
     this.subdivisions = subdivisions1.filter(() => true);
   }
-
-
 
   getElectoralInfo() {
     this.electoralMasterService.getElectoralMastersByUser(this.auth.user)
@@ -373,13 +386,12 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     });
   }
 
-
   // clean the form
   resetForm(form?: NgForm) {
     if (form) {
       form.reset();
       this.affiliateService.selectedAfiliado = new Afiliado();
-      this.userNameCurrent = this.auth.user;
+      this.userNameCurrent = this.username;
       console.log(this.userNameCurrent);
     }
   }
@@ -402,7 +414,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   cancelar(form: NgForm) {
     this.isNewAffiliate = false;
     this.resetForm(form);
-    this.getAfiliados();
+    this.getAfiliados(this.username);
   }
 
   ngOnDestroy() {

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark navbar-custom navbar-expand-lg justify-content-between">
-  <a class="navbar-brand" href="#">Mapeo Politico</a>
+  <a class="navbar-brand" href="#">Mapeo Politico </a>  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -28,8 +28,8 @@
           Opciones
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" style="cursor: pointer" (click)="settingsUser()"><i class="fas fa-user-circle"></i>  {{auth.user}}</a>
-          <a class="dropdown-item dropdown-item-fullname text-light" (click)="settingsUser()">{{auth.userInfo.names}} {{auth.userInfo.surnames}}</a>
+          <a class="dropdown-item" style="cursor: pointer" (click)="settingsUser()"><i class="fas fa-user-circle"></i>  {{auth.user.userName}}</a>
+          <a class="dropdown-item dropdown-item-fullname text-light" (click)="settingsUser()">{{auth.user.names}} {{auth.user.surnames}}</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" style="cursor: pointer" (click)="account()"><i class="fas fa-cog"></i> Configuración</a>
           <div class="dropdown-divider"></div>

@@ -20,25 +20,55 @@ export class LideresComponent implements OnInit {
 
   isLoadingLeaders = false;
   isLoadingReferences = false;
-
+  leader: Afiliado;
+  isLogged: boolean;
+  user: any;
   constructor(private affiliateService: AffiliatesService, private auth: AuthService, private router: Router) { 
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
+   this.session();
   }
 
   ngOnInit() {
-    this.isLoadingLeaders = true;
-    this.affiliateService.getAffiliatesByUser(this.auth.user)
-      .subscribe((data: any) =>{
-        this.afiliados1 = data.Affiliates;
-      console.log(this.afiliados1);
-      this.afiliadosLeader = _.uniqBy(this.afiliados1, 'leader');
-      console.log(this.afiliadosLeader);
-      this.isLoadingLeaders = false;
-    });
+          
   }
-  
+
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{     
+        console.log(res);     
+        this.isLogged = res.isLogged;
+        if(this.isLogged){
+          console.log(this.isLogged);
+          this.user = res.user;           
+          console.log("auth " + this.user.userName); 
+          this.getLideres(this.user.userName);                                                                           
+        }else{
+          console.log(this.isLogged);
+          this.router.navigate(['login']);
+        }
+      });
+  }
+
+  getLideres(username: string){
+    this.isLoadingLeaders = true;
+    this.affiliateService.getAffiliatesByUser(username)
+      .subscribe((data: any) =>{
+        this.afiliados1 = data.affiliates;
+        console.log(this.afiliados1);
+        this.afiliadosLeader = _.uniqBy(this.afiliados1, 'leader');
+        console.log(this.afiliadosLeader);
+        this.isLoadingLeaders = false;
+        this.leader =  this.afiliadosLeader[0];
+        this.isLoadingReferences = true;
+        console.log(this.leader.userName);           
+        this.affiliateService.getAffiliatesByLeader(this.leader)
+          .subscribe((data: any) =>{  
+          this.references = data.Affiliates;
+          console.log(this.references); 
+          this.isLoadingReferences = false;
+        });           
+    }); 
+  }
+     
   verLeader(leader: Afiliado) { 
     this.isLoadingReferences = true;
     console.log(leader);
@@ -49,8 +79,5 @@ export class LideresComponent implements OnInit {
         this.isLoadingReferences = false;
     });
   }
-
-
-
-
+  
 }

@@ -1,12 +1,133 @@
-<div class="container m-5">
-  <div class="card">
-    <h5 class="card-header">Perfil</h5>
-    <div class="card-body">
-      <h4 class="card-title">{{ User.names }} {{ User.surnames }}</h4>
-      <p class="card-text"><i class="far fa-user"></i>    {{ User.userName }}</p>
-      <p class="card-text"><i class="fas fa-landmark"></i>    {{ User.position }}</p>
-      <p class="card-text"><i class="fas fa-map-marker-alt"></i>    {{ User.place }}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-  </div>
+<div class="container m-5">  
+  <div class="row"> 
+    <div class="col-4">   
+      <app-loading class="container" *ngIf="isLoading"></app-loading>                                         
+      <div class="card shadow-sm p-6 mb-10 bg-white rounded" *ngIf="!isLoading">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="card-body">
+              <div style="text-align: center">
+                <div style="display: inline-block;">
+                  <ngx-avatar size="100" [name]="user.names"></ngx-avatar>          
+                </div>            
+              </div>
+              <h3 class="card-title text-center">{{ user.names }} {{ user.surnames }}</h3>
+              <span style="color: gray;"><p class="card-text text-center" style="margin-top: -10px"><i class="far fa-user"></i>    {{ user.userName }}</p></span>                                                                                	
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-2">                  
+                  <div style="color: gray; margin-top: 6px"><i class="fas fa-landmark"></i></div>
+                </div>
+                <div class="col-10" style="margin-left: -20px">
+                  <span style="color: gray; font-size: 15px"><p>Cargo al que aspira</p></span> 
+                  <div style="text-transform: capitalize; margin-top: -20px"><strong> <p>{{ user.position }}</p></strong></div>                        
+                </div>
+              </div>  
+              <div class="row">
+                <div class="col-2">                  
+                  <div style="color: gray; margin-top: 6px"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="col-10" style="margin-left: -20px">
+                  <span style="color: gray; font-size: 15px"><p>Lugar donde aspira</p></span> 
+                  <div style="text-transform: capitalize; margin-top: -20px"><strong> <p>{{ user.place }} </p></strong></div>                        
+                </div>
+              </div>                                                     	
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div style="text-align: center" *ngIf="user.redNetworks?.length > 0">
+              <div style="display: inline-block;">
+                <div class="social">
+                  <ul>
+                    <li><a *ngIf="user.redNetworks[0].name==='facebook'" [href]="user.redNetworks[0].url" target="_blank"><i class="fa fa-lg fa-facebook"></i></a></li>
+                    <li><a *ngIf="user.redNetworks[1].name==='twitter'" [href]="user.redNetworks[1].url" target="_blank"><i class="fa fa-lg fa-twitter"></i></a></li>                                            
+                  </ul>
+                </div> 
+              </div> 
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>    
+    <div class="col-8">
+      <div class="row" >        
+        <div class="col-sm-12">
+          <div class="card shadow-sm p-6 mb-10 bg-white rounded">                    
+            <div class="card-body animated fadeIn fast">
+              <div class="row">
+                <div class="col-3">
+                  <div class="row">
+                    <div class="col-9">
+                      <span style="font-size: 14px"><strong><a routerLink='/afiliados'>Ver contactos</a></strong></span>                        
+                    </div>
+                    <div class="col-3" style="margin-left: -30px">
+                      <div class="contact rounded-circle" style="padding-left: 6px; padding-top: 4px">
+                        <span style="color: rgb(76, 73, 255)"><i class="fas fa-users" ></i></span>
+                      </div>
+                    </div>                    
+                  </div>                                    
+                  <div><span style="font-size: 45px"><strong>{{ countAfiliados }}</strong></span></div>
+                </div>
+                <div class="col-9">   
+                  <div class="row">
+                    <div class="col" style="padding-left: -30px" *ngFor="let afiliado of afiliados | slice:0:5">                      
+                        <div class="text-center">                              
+                          <div style="text-align: center">
+                            <div style="display: inline-block">
+                                <ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar>                                
+                            </div>                            
+                          </div>                                                                                
+                          <div [ngClass]="{'longName': (afiliado.names.length > 6), 'shortName':(afiliado.names.length <= 6) }"><strong>{{afiliado.names}} {{afiliado.surnames}}</strong></div>
+                          <div><span class="gray" style="font-size: 13px">{{afiliado.subdivision}}</span></div>  
+                        </div>                                            
+                    </div>                
+                  </div>                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                </div>                           
+              </div>                                                     
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12" style="margin-top: 30px">
+          <div class="card shadow-sm p-6 mb-10 bg-white rounded">                    
+            <div class="card-body animated fadeIn fast">
+              <div class="row">
+                <div class="col-3">
+                  <div class="row">
+                    <div class="col-9">
+                      <span style="font-size: 14px"><strong><a routerLink='/lideres'>Ver lideres</a></strong></span>                        
+                    </div>
+                    <div class="col-3" style="margin-left: -30px">
+                      <div class="leader rounded-circle" style="padding-left: 10px; padding-top: 4px">
+                        <span style="color: rgb(243, 8, 8)"><i class="fas fa-fist-raised"></i></span>
+                      </div>
+                    </div>                    
+                  </div>                                    
+                  <div><span style="font-size: 45px"><strong>{{ countLideres }}</strong></span></div>
+                </div>
+                <div class="col-9">   
+                  <div class="row">
+                    <div class="col" style="padding-left: -30px" *ngFor="let afiliado of afiliadosLeader | slice:0:5">                      
+                        <div class="text-center">                              
+                          <div style="text-align: center">
+                            <div style="display: inline-block">
+                                <ngx-avatar size="40" [name]="afiliado.leader"></ngx-avatar>                                
+                            </div>                            
+                          </div>                                                                                
+                          <div></div><p><strong style="font-size: 13px">{{afiliado.leader}}</strong></p> 
+                        </div>                                            
+                    </div>                
+                  </div>                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                </div>                           
+              </div>                                                     
+            </div>
+          </div>
+        </div>               
+      </div>               
+    </div>          
+  </div>  
 </div>
+
+ 

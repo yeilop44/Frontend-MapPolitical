@@ -8,8 +8,9 @@ import { Afiliado } from '../models/afiliado';
 export class AffiliatesService {
 
   selectedAfiliado: Afiliado; 
-
-  urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
+  
+  urlApi = 'http://localhost:3000/affiliates';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
 
   constructor(private http: HttpClient) {
     this.selectedAfiliado = new Afiliado();
