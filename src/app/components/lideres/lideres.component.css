@@ -2,6 +2,14 @@
     font-size: 14px; 
 }
 
+.capitalize {
+    text-transform: capitalize
+}
+
+.gray {
+    color: gray;
+}
+
 .scrollbar {
     margin-left: 30px;
     float: left;
@@ -11,9 +19,10 @@
     overflow-y: scroll;
     margin-bottom: 25px;
     }
-    .force-overflow {
+
+.force-overflow {
     min-height: 450px;
-    }
+}
     
     .scrollbar-primary::-webkit-scrollbar {
     width: 12px;
@@ -108,8 +117,5 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: #aa66cc; }
 
-    .capitalize {
-        text-transform: capitalize
-    }
 
 

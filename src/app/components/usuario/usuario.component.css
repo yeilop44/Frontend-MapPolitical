@@ -159,8 +159,13 @@ td {
 
 
 .longName {
+    font-size: 10px
+}
+
+.mediumName {
     font-size: 12px
 }
+
 
 .shortName {
     font-size: 13px

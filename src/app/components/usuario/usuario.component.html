@@ -77,13 +77,22 @@
                         <div class="text-center">                              
                           <div style="text-align: center">
                             <div style="display: inline-block">
-                                <ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar>                                
-                            </div>                            
-                          </div>                                                                                
-                          <div [ngClass]="{'longName': (afiliado.names.length > 6), 'shortName':(afiliado.names.length <= 6)}">
-                            <strong class="capitalize">{{afiliado.names}} {{afiliado.surnames | slice:0:1}}</strong>
+                                <ngx-avatar size="40" [name]="afiliado.names.split(' ')[0]" ></ngx-avatar>                                
+                            </div>
+                            {{firstname}}                            
                           </div>
-                          <div><span class="gray longName">{{afiliado.subdivision}}</span></div>  
+                          <!-- [ngClass]=
+                            "{'longName': (afiliado.names.length > 10), 
+                            'mediumName': (afiliado.names.length > 6 && afiliado.names.length <= 10), 
+                            'shortName':(afiliado.names.length <= 6)}" -->
+                          <div class="mediumName">
+                            <strong class="capitalize">
+                              {{ afiliado.names.toString().split(" ")[0] }} 
+                              {{ afiliado.names.toString().split(" ")[1] | slice:0:1}}                               
+                              {{ afiliado.surnames.toString().split(" ")[0] }} 
+                            </strong>
+                          </div>
+                          <div *ngIf="afiliado.subdivision != (null || '')"><span class="gray longName"><i class="fas fa-map-marker-alt"></i> {{afiliado.subdivision}}</span></div>  
                         </div>                                            
                     </div>                
                   </div>                                                                                                                                                                                                                                                                                                                                                                                                                                    
@@ -115,10 +124,10 @@
                         <div class="text-center">                              
                           <div style="text-align: center">
                             <div style="display: inline-block">
-                                <ngx-avatar size="40" [name]="afiliado.leader"></ngx-avatar>                                
+                                <ngx-avatar size="40" [name]="afiliado.leader.split(' ')[0]"></ngx-avatar>                                
                             </div>                            
                           </div>                                                                                
-                          <div [ngClass]="{'longName': (afiliado.names.length > 7), 'shortName':(afiliado.names.length <= 7)}">
+                          <div [ngClass]="{'mediumName': (afiliado.names.length > 7), 'shortName':(afiliado.names.length <= 7)}">
                             <strong class="capitalize">{{afiliado.leader}}</strong>
                           </div>
                         </div>                                            

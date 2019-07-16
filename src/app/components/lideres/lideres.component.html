@@ -26,8 +26,8 @@
                         <ngx-avatar size="45" [name]="reference.names"></ngx-avatar>
                     </div>
                     <div class="col-8" style="margin-left: 60px; margin-top: -50px">                      
-                      <h6 class="card-title capitalize">{{ reference.names }} {{ reference.surnames }}</h6>
-                      <div class="font-size" style="margin-top: -10px">                        
+                      <h6 class="card-title capitalize">{{ reference.names }} {{ reference.surnames.split(" ")[0] }} {{ reference.surnames.split(" ")[1] | slice:0:1}}</h6>
+                      <div class="font-size gray" style="margin-top: -10px">                        
                         <div><span class="card-text"><i class="far fa-id-card"></i> {{ reference.identification }}</span></div>
                         <div *ngIf="reference.phone != (null || '')"><span class="card-text"><i class="fas fa-phone"></i> {{ reference.phone }}</span></div>
                         <div *ngIf="reference.subdivision != (null || '')"><span class="card-text"><i class="fas fa-map-marker-alt"></i> {{ reference.subdivision }} </span></div>                                                                          
