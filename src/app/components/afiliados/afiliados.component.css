@@ -28,3 +28,22 @@
 .custom-thead{
     background-color: #1b3646;
 }
+
+agm-map {
+    height: 300px;
+    width: 500px;
+}
+
+::ng-deep .pac-container {
+    z-index: 1052 !important;
+ }
+
+ .text-overflow {         
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+ }
+
+ .capitalize {
+    text-transform: capitalize
+}

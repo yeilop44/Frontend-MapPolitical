@@ -2,7 +2,7 @@
   <div class="row"> 
     <div class="col-4">   
       <app-loading class="container" *ngIf="isLoading"></app-loading>                                         
-      <div class="card shadow-sm p-6 mb-10 bg-white rounded" *ngIf="!isLoading">
+      <div class="card shadow-sm p-6 mb-10 bg-white rounded animated fadeIn fast" *ngIf="!isLoading">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="card-body">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-10" style="margin-left: -20px">
                   <span style="color: gray; font-size: 15px"><p>Cargo al que aspira</p></span> 
-                  <div style="text-transform: capitalize; margin-top: -20px"><strong> <p>{{ user.position }}</p></strong></div>                        
+                  <div class="capitalize" style="margin-top: -20px"><strong> <p>{{ user.position }}</p></strong></div>                        
                 </div>
               </div>  
               <div class="row">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-10" style="margin-left: -20px">
                   <span style="color: gray; font-size: 15px"><p>Lugar donde aspira</p></span> 
-                  <div style="text-transform: capitalize; margin-top: -20px"><strong> <p>{{ user.place }} </p></strong></div>                        
+                  <div class="capitalize" style="margin-top: -20px"><strong> <p>{{ user.place }} </p></strong></div>                        
                 </div>
               </div>                                                     	
             </div>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-3" style="margin-left: -30px">
                       <div class="contact rounded-circle" style="padding-left: 6px; padding-top: 4px">
-                        <span style="color: rgb(76, 73, 255)"><i class="fas fa-users" ></i></span>
+                        <span><i class="fas fa-users blue" ></i></span>
                       </div>
                     </div>                    
                   </div>                                    
@@ -80,8 +80,10 @@
                                 <ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar>                                
                             </div>                            
                           </div>                                                                                
-                          <div [ngClass]="{'longName': (afiliado.names.length > 6), 'shortName':(afiliado.names.length <= 6) }"><strong>{{afiliado.names}} {{afiliado.surnames}}</strong></div>
-                          <div><span class="gray" style="font-size: 13px">{{afiliado.subdivision}}</span></div>  
+                          <div [ngClass]="{'longName': (afiliado.names.length > 6), 'shortName':(afiliado.names.length <= 6)}">
+                            <strong class="capitalize">{{afiliado.names}} {{afiliado.surnames | slice:0:1}}</strong>
+                          </div>
+                          <div><span class="gray longName">{{afiliado.subdivision}}</span></div>  
                         </div>                                            
                     </div>                
                   </div>                                                                                                                                                                                                                                                                                                                                                                                                                                    
@@ -101,7 +103,7 @@
                     </div>
                     <div class="col-3" style="margin-left: -30px">
                       <div class="leader rounded-circle" style="padding-left: 10px; padding-top: 4px">
-                        <span style="color: rgb(243, 8, 8)"><i class="fas fa-fist-raised"></i></span>
+                        <span><i class="fas fa-fist-raised red"></i></span>
                       </div>
                     </div>                    
                   </div>                                    
@@ -116,7 +118,9 @@
                                 <ngx-avatar size="40" [name]="afiliado.leader"></ngx-avatar>                                
                             </div>                            
                           </div>                                                                                
-                          <div></div><p><strong style="font-size: 13px">{{afiliado.leader}}</strong></p> 
+                          <div [ngClass]="{'longName': (afiliado.names.length > 7), 'shortName':(afiliado.names.length <= 7)}">
+                            <strong class="capitalize">{{afiliado.leader}}</strong>
+                          </div>
                         </div>                                            
                     </div>                
                   </div>                                                                                                                                                                                                                                                                                                                                                                                                                                    

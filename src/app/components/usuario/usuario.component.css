@@ -141,14 +141,22 @@ td {
     height: 32px;
     background-color: rgba(252, 216, 216, 0.884);
 }
-
-.table td {
-    text-align: center;   
-}
-
-.gray{
+.gray {
     color: gray;
 }
+
+.red {
+    color: rgb(243, 8, 8);
+}
+
+.blue {
+    color: rgb(76, 73, 255);
+}
+
+.capitalize {
+    text-transform: capitalize
+}
+
 
 .longName {
     font-size: 12px

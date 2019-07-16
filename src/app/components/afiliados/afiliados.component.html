@@ -1,11 +1,7 @@
-<app-loading class="container" *ngIf="isLoading" ></app-loading>
 <div class="container">
-
     <div class="container col-md-4 my-2 text-left mr-1">
-
-
         <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
-        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" ><i class="fas fa-user-plus"></i> Viejo contact
+        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Viejo contact
             <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
         </button>
 
@@ -17,10 +13,10 @@
         <button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
             <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
         </button>
-
-
     </div>
-    <table class="table table-hover table-bordered">
+    <app-loading class="container" *ngIf="isLoading"></app-loading>
+    <!-- LISTADO DE CONTACTOS -->    
+    <table class="table table-hover table-bordered animated fadeIn fast" *ngIf="!isLoading">
         <thead class="custom-thead text-light">
         <tr>
             <th scope="col">#</th>
@@ -29,26 +25,30 @@
             <th scope="col">Dirección</th>
             <th scope="col">Profesión</th>
             <th scope="col">Identificacón</th>
-            <th scope="col">Editar</th>
-            <th scope="col">Eliminar</th>
+            <th scope="col">Acciones</th>            
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let afiliado of affiliates; let i = index ">
             <th scope="row">{{i + 1}}</th>
-            <td><ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar><div style="padding-left: 50px; margin-top: -35px">{{ afiliado.names }} {{ afiliado.surnames }}</div></td>
-            <td>{{ afiliado.birthdate }}</td>
-            <td>{{ afiliado.address }}</td>
-            <td>{{ afiliado.profession }}</td>
-            <td>{{ afiliado.identification }}</td>
             <td>
-                <button type="button" class="btn btn-outline-primary" (click)="editAfiliado(afiliado)">
-                    <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>Editar
-                </button>
+                <ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar>
+                <div class="text-overflow capitalize" style="padding-left: 50px; margin-top: -35px">
+                    {{ afiliado.names }} {{ afiliado.surnames }}
+                </div>
             </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger" (click)="deleteAfiliado(afiliado._id)">
-                    <i class="fas fa-trash-alt" style="color: rgba(246, 74, 74, 0.863)"></i>Eliminar
+            <td class="text-overflow">{{ afiliado.birthdate }}</td>
+            <td class="text-overflow capitalize"> {{ afiliado.subdivision }}</td>
+            <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>
+            <td class="text-overflow">{{ afiliado.identification }}</td>
+            <td class="text-overflow">
+                <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
+                    type="button" class="btn btn-outline-primary" (click)="editAfiliado(afiliado)">
+                    <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
+                </button>
+                <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="right"                     
+                    type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteAfiliado(afiliado._id)">
+                    <i class="fas fa-trash-alt" style="color: rgba(246, 74, 74, 0.863)"></i>
                 </button>
             </td>
         </tr>
@@ -56,7 +56,8 @@
     </table>
 </div>
 
-<div class="modal fade bd-example-modal-lg" id="infoContactoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- MODAL CREAR NUEVO CONTACTO -->
+<div class="modal fade bd-example-modal-lg" id="infoContactoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:1051">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
 
@@ -161,24 +162,34 @@
                             <div class="form-group has-icon col-md-6">
                                 <label for="inputEmail4">Dirección</label>
                                 <span class="fas fa-map-pin form-control-feedback"></span>
-                                <input type="text" class="form-control" name="address" #search
-                                       [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
-                                <div class="container m-2" *ngIf="isMap">
-                                    <div #map style="width:80%;height:250px"></div>
-                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control pac-container" (keydown.enter)="$event.preventDefault()" placeholder="Ingrese su dirección" 
+                                    autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search ></div>
+                                <div>
+                                    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" >
+                                        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                                        </agm-marker>
+                                    </agm-map>
+                                </div>                                                                                            
                             </div>
                         </div>
+                        <!--
+                        <input type="text" class="form-control" name="address" #search [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">                        
+                        <div class="container m-2" *ngIf="isMap">
+                            <div #map style="width:80%;height:250px"></div>
+                        </div>                         
                         <mat-slide-toggle name="toggle" [(ngModel)]="isMap"  (change)="ngMaps()">Mapa</mat-slide-toggle>
-                        <p>{{ isMap }}</p>
-
+                        <p>{{ isMap }}</p>-->
                         <div class="form-row">
                             <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="address" #address="ngModel"
+                                [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
                                 <input type="hidden" class="form-control" name="positionLat" #positionLat="ngModel"
-                                       [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
+                                [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
                             </div>
                             <div class="form-group col-md-6">
                                 <input type="hidden" class="form-control" name="positionLng" #positionLng="ngModel"
-                                       [(ngModel)]="affiliateService.selectedAfiliado.positionLng" placeholder="longitud">
+                                [(ngModel)]="affiliateService.selectedAfiliado.positionLng" placeholder="longitud">                                
                             </div>
                         </div>
 
@@ -199,7 +210,7 @@
                                 <label for="inputEmail4">Lugar de votación</label>
                                 <span class="fas fa-landmark form-control-feedback"></span>
                                 <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
-                                       [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación" disabled>
+                                [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación" disabled>
                             </div>
                         </div>
 
@@ -215,7 +226,7 @@
                             </div>
                             <div class="form-group has-icon col-md-6">
                                 <label for="inputEmail4">Lider</label>
-                                <span class="fas fa-hiking form-control-feedback"></span>
+                                <span class="fas fa-fist-raised form-control-feedback"></span>
                                 <input type="text" class="form-control" name="leader" #leader="ngModel"
                                        [(ngModel)]="affiliateService.selectedAfiliado.leader" placeholder="Lider">
                             </div>

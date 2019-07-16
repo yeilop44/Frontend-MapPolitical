@@ -2,7 +2,7 @@
   <h5 class="card-header">Cambio de Contraseña</h5>
   <div class="card-body">
       <form  #contrasenaForm = "ngForm" (ngSubmit)="changeContrasena(contrasenaForm)">
-          <input type="text" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+          <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
           <div class="form-group row">
               <label class="col-sm-4 col-form-label">Contraseña actual</label>
               <div class="col-sm-8">
