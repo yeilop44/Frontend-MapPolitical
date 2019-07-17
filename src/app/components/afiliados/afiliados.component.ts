@@ -10,8 +10,8 @@ import { Afiliado } from '../../models/afiliado';
 import { Router } from '@angular/router';
 import {} from 'googlemaps';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
+import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { ModalCargaMasivaComponent } from './modal-carga-masiva/modal-carga-masiva.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { subscribeOn } from 'rxjs/operators';
 
@@ -34,6 +34,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   mapPro: google.maps.Map;
   marker: any;
+
+  modalReference: NgbModalRef;
+
 
   lat = 6.231928;
   lng = -75.60116719999996;
@@ -85,9 +88,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
               private router: Router, private modalService: NgbModal, private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone) {
     
-    this.session();
-  
+    this.session();     
   }
+
 
   ngOnInit() {           
     
@@ -260,22 +263,22 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.isEmptyFields = true;
           console.log('datos basicos vacios');
-          if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ) {
+      if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ) {
         this.isEmptyBirthdate = true;
       } else {
         this.isEmptyBirthdate = false;
       }
-          if (this.affiliateService.selectedAfiliado.names == (null || '')) {
+      if (this.affiliateService.selectedAfiliado.names == (null || '')) {
         this.isEmptyNames = true;
       } else {
         this.isEmptyNames = false;
       }
-          if (this.affiliateService.selectedAfiliado.surnames == (null || '')) {
+      if (this.affiliateService.selectedAfiliado.surnames == (null || '')) {
         this.isEmptySurnames = true;
       } else {
         this.isEmptySurnames = false;
       }
-          if (this.affiliateService.selectedAfiliado.identification == (null || 0)) {
+      if (this.affiliateService.selectedAfiliado.identification == (null || 0)) {
         this.isEmptyIdentification = true;
       } else {
         this.isEmptyIdentification = false;
@@ -290,29 +293,28 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
             this.getAfiliados(this.username);
             this.isNewAffiliate = false;
           });
-        // this.resetForm(form);
+        // this.resetForm(form);        
       } else {  
         if(form.value.leader){
           console.log("tiene lider");
         }else if (form.value.leader === ""){
           console.log("sin lider, pero le pone");
           form.value.leader = "sin lider";
-        }    
-        //this.postAuthorChanged(form.value.leader)
+        }            
         console.log(form.value); 
         this.affiliateService.postAfiliado(form.value)
           .subscribe(res => {
           console.log('Affiliate Saved');
           this.getAfiliados(this.username);
           this.isNewAffiliate = false;
-        });
+        });        
       }
       this.isEmptyFields = false;
       this.isEmptyBirthdate = false;
       this.isEmptyNames = false;
       this.isEmptySurnames = false;
       this.isEmptyIdentification = false;
-    }
+    }    
   }
 
   editAfiliado(afiliado: Afiliado) {
