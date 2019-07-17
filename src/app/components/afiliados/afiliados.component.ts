@@ -120,7 +120,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
           this.longitude = place.geometry.location.lng();
           this.affiliateService.selectedAfiliado.positionLat = this.latitude;        
           this.affiliateService.selectedAfiliado.positionLng = this.longitude;
-          this.zoom = 12;
+          this.zoom = 14;
         });
       });
     });
@@ -135,7 +135,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.longitude = position.coords.longitude;
         this.affiliateService.selectedAfiliado.positionLat = this.latitude;        
         this.affiliateService.selectedAfiliado.positionLng = this.longitude;
-        this.zoom = 15;       
+        this.zoom = 13;       
       });
     }
   }
@@ -155,7 +155,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(status);
       if (status === 'OK') {
         if (results[0]) {
-          this.zoom = 12;
+          this.zoom = 14;
           this.address = results[0].formatted_address;
           this.affiliateService.selectedAfiliado.address = this.address;
         } else {

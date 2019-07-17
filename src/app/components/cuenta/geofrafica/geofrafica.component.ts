@@ -136,7 +136,7 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
     if (confirm('Esta seguro de Eliminar barrio o vereda?')) {
       this.geographyMasterService.deleteGeografia(_id)
         .subscribe(res => {        
-        this.getGeografia(this.userNameCurrent);
+        this.getGeografia(this.username);
       });
     }
   }

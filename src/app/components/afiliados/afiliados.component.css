@@ -31,7 +31,7 @@
 
 agm-map {
     height: 300px;
-    width: 500px;
+    width: 1000px;
 }
 
 ::ng-deep .pac-container {

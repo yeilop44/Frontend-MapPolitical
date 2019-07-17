@@ -159,19 +159,20 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group has-icon col-md-6">
+                            <div class="form-group has-icon col-md-12">
                                 <label for="inputEmail4">Dirección</label>
                                 <span class="fas fa-map-pin form-control-feedback"></span>
                                 <div class="form-group">
                                     <input type="text" class="form-control pac-container" (keydown.enter)="$event.preventDefault()" placeholder="Ingrese su dirección" 
-                                    autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search ></div>
-                                <div>
-                                    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" >
-                                        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-                                        </agm-marker>
-                                    </agm-map>
-                                </div>                                                                                            
+                                    autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search >
+                                </div>                                                                                                                            
                             </div>
+                        </div>
+                        <div class="form-row m-2">
+                            <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" >
+                                <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                                </agm-marker>
+                            </agm-map>
                         </div>
                         <!--
                         <input type="text" class="form-control" name="address" #search [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">                        
@@ -180,10 +181,18 @@
                         </div>                         
                         <mat-slide-toggle name="toggle" [(ngModel)]="isMap"  (change)="ngMaps()">Mapa</mat-slide-toggle>
                         <p>{{ isMap }}</p>-->
+                        
+                        
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">                                
                                 <input type="text" class="form-control" name="address" #address="ngModel"
-                                [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
+                                [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">        
+                            </div>                                
+                        </div>
+    
+                            
+                        <div class="form-row">
+                            <div class="form-group col-md-6">                                
                                 <input type="hidden" class="form-control" name="positionLat" #positionLat="ngModel"
                                 [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
                             </div>
