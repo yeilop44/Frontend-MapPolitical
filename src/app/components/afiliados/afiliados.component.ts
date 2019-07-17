@@ -11,10 +11,7 @@ import { Router } from '@angular/router';
 import {} from 'googlemaps';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-
-
-
+import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-afiliados',
@@ -65,11 +62,13 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   userNameCurrent;
   numberTables = 0;
 
+  bsModalRef: BsModalRef;
+
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
               private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
-              private router: Router, private modalService: NgbModal) {
+              private router: Router, private modalService: NgbModal, private modalServiceDos: BsModalService) {
     if(!this.auth.isLogged){
       this.router.navigate(['/login']);
     }
@@ -406,6 +405,11 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
 
   ngOnDestroy() {
     this.affiliateService.selectedAfiliado = new Afiliado();
+  }
+
+  openModalCargaMasiva(){
+    this.bsModalRef = this.modalServiceDos.show(ModalCargaMasivaComponent, Object.assign({}, { class: 'gray modal-lg' }));
+    this.bsModalRef.content.closeBtnName = 'Close';
   }
 
 
