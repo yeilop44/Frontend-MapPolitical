@@ -28,21 +28,21 @@ export class LoginComponent implements OnInit {
 
   login(usuario: Usuario) {
     this.isLoading = true;
-
+    console.log(usuario);
     this.auth.login(this.usuario)
       .subscribe(res=>{
-        console.log(this.auth.user);
+        //console.log(this.auth.user);
         this.isLoading = false;
          if(this.auth.isLogged){
             console.log('is true');
             this.router.navigate(['/afiliados']);
             this.auth.getUser(this.auth.user)
               .subscribe((data:any) =>{
-                console.log(this.auth.userInfo);
+                //console.log(this.auth.userInfo);
             });
          }else{
           this.router.navigate(['/login']);
-            console.log('is false');
+            console.log('no está logeado');
          }               
       });
   }
