@@ -410,6 +410,13 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   openModalCargaMasiva(){
     this.bsModalRef = this.modalServiceDos.show(ModalCargaMasivaComponent, Object.assign({}, { class: 'gray modal-lg' }));
     this.bsModalRef.content.closeBtnName = 'Close';
+    this.bsModalRef.content.datosGuardadosEvent.subscribe(($event)=>{
+        this.eventEmmiter($event);
+    })
+  }
+
+  eventEmmiter(event){
+      this.getAfiliados();
   }
 
 

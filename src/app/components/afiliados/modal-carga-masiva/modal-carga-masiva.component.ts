@@ -1,10 +1,10 @@
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  TemplateRef,
-  ChangeDetectorRef,
-  ElementRef, AfterViewInit
+    Component,
+    OnInit,
+    ViewChild,
+    TemplateRef,
+    ChangeDetectorRef,
+    ElementRef, AfterViewInit, Output, EventEmitter
 } from '@angular/core';
 import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -36,14 +36,17 @@ export class ModalCargaMasivaComponent implements OnInit, AfterViewInit{
   formImport: FormGroup;
   fileToUpload: File = null;
 
+  @Output() datosGuardadosEvent: EventEmitter<any> = new EventEmitter();
+  @Output() datosNoGuardadosEvent: EventEmitter<any> = new EventEmitter();
+
   constructor(private modalService: BsModalService, public bsModalRef: BsModalRef) {
     this.formImport = new FormGroup({
       importFile: new FormControl('', Validators.required)
     });
 
+    //jonathan.velez: cuando un archivo es terminado de cargar, se ejecuta este evento.
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      var responsePath = JSON.parse(response);
-      console.log(response, responsePath);// the url will be in the response
+      this.datosGuardadosEvent.emit(null);
     };
   }
 
