@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="width:100%;height:600px" #AgmMap>
   <agm-marker *ngFor="let marcador of marcadores" [latitude]="marcador.positionLat" [longitude]="marcador.positionLng" [iconUrl]="icon">
+=======
+<agm-map [latitude]="User.positionLat" [longitude]="User.positionLng" [zoom]="zoom" style="width:100%;height:600px">
+  <agm-marker *ngFor="let marcador of marcadores" [latitude]="marcador.positionLat" [longitude]="marcador.positionLng" [iconUrl]="icon" [markerDraggable]="true">
+>>>>>>> develop
     <agm-info-window>
         <ngx-avatar size="50" [name]="marcador.names"></ngx-avatar>           
       <table class="table table-borderless">        

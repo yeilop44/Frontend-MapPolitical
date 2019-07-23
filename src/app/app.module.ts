@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
@@ -11,7 +11,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
+import {FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
 
 //Routes
 import { app_routing } from './app.routes'
@@ -55,7 +56,12 @@ import { LideresComponent } from './components/lideres/lideres.component';
     ContrasenaComponent, 
     GeofraficaComponent, 
     ElectoralComponent, 
-    LideresComponent
+    LideresComponent,
+    ContrasenaComponent,
+    GeofraficaComponent,
+    ElectoralComponent,
+    FileSelectDirective,
+    FileDropDirective
   ],
   imports: [
     BrowserModule,
@@ -73,8 +79,11 @@ import { LideresComponent } from './components/lideres/lideres.component';
     MatSlideToggleModule,
     MatSidenavModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ModalModule.forRoot(),
+    ReactiveFormsModule
   ],
+  entryComponents: [ModalCargaMasivaComponent],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })
