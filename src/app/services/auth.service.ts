@@ -7,7 +7,7 @@ import { Usuario } from '../models/usuario.js';
   providedIn: 'root'
 })
 export class AuthService {
-  urlApi = 'https://back-mpolitical.herokuapp.com/user';
+  urlApi = 'http://localhost:3000/user';
   isLogged: any;
   user: any;
   userInfo: Usuario[]=[];
