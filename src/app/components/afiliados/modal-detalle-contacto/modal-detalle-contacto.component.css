@@ -1,0 +1,25 @@
+.header-avatar{    
+    padding: 15px;
+}
+
+.header-name{    
+    padding-top: 25px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.body-icon {
+    padding-left: 30px; 
+    padding-top: 10px; 
+    color: gray
+}
+
+.body-description {
+    padding-left: 30px; 
+    padding-top: 10px;     
+}
+
+.capitalize {
+    text-transform: capitalize
+}

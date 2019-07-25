@@ -38,6 +38,7 @@ import { ModalCargaMasivaComponent } from './components/afiliados/modal-carga-ma
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalNuevoContactoComponent } from './components/afiliados/modal-nuevo-contacto/modal-nuevo-contacto.component';
 import { LideresComponent } from './components/lideres/lideres.component';
+import { ModalDetalleContactoComponent } from './components/afiliados/modal-detalle-contacto/modal-detalle-contacto.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { LideresComponent } from './components/lideres/lideres.component';
     GeofraficaComponent,
     ElectoralComponent,
     FileSelectDirective,
-    FileDropDirective
+    FileDropDirective,
+    ModalDetalleContactoComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,7 @@ import { LideresComponent } from './components/lideres/lideres.component';
     ModalModule.forRoot(),
     ReactiveFormsModule
   ],
-  entryComponents: [ModalCargaMasivaComponent],
+  entryComponents: [ModalCargaMasivaComponent, ModalDetalleContactoComponent],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })

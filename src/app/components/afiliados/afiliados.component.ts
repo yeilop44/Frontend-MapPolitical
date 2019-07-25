@@ -9,20 +9,12 @@ import { NgForm } from '@angular/forms';
 import { Afiliado } from '../../models/afiliado';
 import { Router } from '@angular/router';
 import {} from 'googlemaps';
-<<<<<<< HEAD
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargaMasivaComponent } from './modal-carga-masiva/modal-carga-masiva.component';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDetalleContactoComponent } from './modal-detalle-contacto/modal-detalle-contacto.component';
 import { subscribeOn } from 'rxjs/operators';
-
-
-
-=======
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
 import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
->>>>>>> develop
 
 @Component({
   selector: 'app-afiliados',
@@ -81,34 +73,31 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   userNameCurrent;
   
 
-<<<<<<< HEAD
   title: string = 'AGM project';
   latitude: number;
   longitude: number;
   zoom:number;
   address: string;
   private geoCoder;
-=======
   bsModalRef: BsModalRef;
+  bsModalRefTres: any;
 
->>>>>>> develop
+  public user = {
+    name: 'Izzat Nadiri',
+    age: 26
+  }
+
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
               private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
-<<<<<<< HEAD
               private router: Router, private modalService: NgbModal, private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {
+              private ngZone: NgZone, private modalServiceDos: BsModalService, private modalServiceTres: BsModalService) {
     
     this.session();     
-=======
-              private router: Router, private modalService: NgbModal, private modalServiceDos: BsModalService) {
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
+              
     this.userNameCurrent = this.auth.user;
     console.log(this.userNameCurrent);
->>>>>>> develop
   }
 
 
@@ -553,8 +542,23 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  openModalDetalleContacto(afiliado: Afiliado){
+    const initialState = { 
+      names: afiliado.names, 
+      surnames: afiliado.surnames,
+      identification: afiliado.identification,
+      phone: afiliado.phone,
+      birthdate: afiliado.birthdate,
+      votingStation: afiliado.votingStation,
+      votingTable: afiliado.votingTable,
+      leader: afiliado.leader,
+    };
+    this.bsModalRef = this.modalServiceTres.show(ModalDetalleContactoComponent, Object.assign({}, { class: 'gray modal-lg', initialState }));    
+    //this.bsModalRef.content.closeBtnName = 'Close';           
+  }
+
   eventEmmiter(event){
-      this.getAfiliados();
+      this.getAfiliados(this.username);
   }
 
 

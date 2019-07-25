@@ -25,13 +25,13 @@ export class AuthService {
     return this.http.post(`${this.urlApi}/signin`, user, httpOptions)
       .pipe(map((data: any) => {
         console.log(data);
-        if(data.ok){
-          this.isLogged = data.ok;
-            this.user = user.userName;
+        if(data.isLogged){
+          this.isLogged = data.isLogged;
+            this.user = data.user;
             //console.log(data);
             //console.log(this.user);
         }else{
-          //console.log("error"+data.ok);
+          console.log("error de conexion con el servidor");
         }
       }));
   }

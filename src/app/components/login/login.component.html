@@ -9,6 +9,9 @@
       <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
       <h2 class="my-5">Inicio de Sesión</h2>
     </div>
+    <div class="alert alert-danger text-center m-5" role="alert" *ngIf="isAlert">
+      El usuario o la contraseña es incorrecta
+    </div>
 
     <!-- Login Form -->
     <form (ngSubmit)="login(usuario)">

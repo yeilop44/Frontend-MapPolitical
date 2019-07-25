@@ -1,11 +1,7 @@
 <div class="container">
     <div class="container col-md-4 my-2 text-left mr-1">
         <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
-<<<<<<< HEAD
-        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Viejo contact
-=======
-        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" ><i class="fas fa-user-plus"></i> Nuevo contacto
->>>>>>> develop
+        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
             <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
         </button>
 
@@ -16,20 +12,12 @@
         &nbsp;<button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
         <!--<button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
             <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
-<<<<<<< HEAD
-        </button>
+        </button>-->
+        &nbsp;<button class="btn custom-button text-light" (click)="openModalDetalleContacto()"><i class="fas fa-info-circle"></i> Ver detalles</button>
     </div>
     <app-loading class="container" *ngIf="isLoading"></app-loading>
     <!-- LISTADO DE CONTACTOS -->    
-    <table class="table table-hover table-bordered animated fadeIn fast" *ngIf="!isLoading">
-=======
-        </button>-->
-
-
-    </div>
-
-    <table class="table table-hover table-bordered">
->>>>>>> develop
+    <table class="table table-hover table-bordered animated fadeIn fast" *ngIf="!isLoading">            
         <thead class="custom-thead text-light">
         <tr>
             <th scope="col">#</th>
@@ -42,7 +30,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let afiliado of affiliates; let i = index ">
+        <tr *ngFor="let afiliado of affiliates; let i = index " (click)="openModalDetalleContacto(afiliado)">
             <th scope="row">{{i + 1}}</th>
             <td>
                 <ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar>
