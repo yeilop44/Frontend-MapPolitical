@@ -47,3 +47,7 @@ agm-map {
  .capitalize {
     text-transform: capitalize
 }
+
+.pointer { 
+    cursor: pointer;
+}

@@ -80,7 +80,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   address: string;
   private geoCoder;
   bsModalRef: BsModalRef;
-  bsModalRefTres: any;
+  bsModalRefTres: BsModalRef;
 
   public user = {
     name: 'Izzat Nadiri',
@@ -553,7 +553,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       votingTable: afiliado.votingTable,
       leader: afiliado.leader,
     };
-    this.bsModalRef = this.modalServiceTres.show(ModalDetalleContactoComponent, Object.assign({}, { class: 'gray modal-lg', initialState }));    
+    this.bsModalRefTres = this.modalServiceTres.show(ModalDetalleContactoComponent, Object.assign({}, { class: 'gray modal-lg', initialState }));    
     //this.bsModalRef.content.closeBtnName = 'Close';           
   }
 

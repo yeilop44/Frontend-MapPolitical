@@ -4,16 +4,13 @@
         <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
             <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
         </button>
-
         <!--<button class="btn custom-button text-light" data-toggle="modal"><i class="fas fa-user-plus"></i> Nuevo contact
             <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto>
         </button>-->
-
         &nbsp;<button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
         <!--<button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
             <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
-        </button>-->
-        &nbsp;<button class="btn custom-button text-light" (click)="openModalDetalleContacto()"><i class="fas fa-info-circle"></i> Ver detalles</button>
+        </button>-->        
     </div>
     <app-loading class="container" *ngIf="isLoading"></app-loading>
     <!-- LISTADO DE CONTACTOS -->    
@@ -30,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let afiliado of affiliates; let i = index " (click)="openModalDetalleContacto(afiliado)">
+        <tr class="pointer" *ngFor="let afiliado of affiliates; let i = index">
             <th scope="row">{{i + 1}}</th>
             <td>
                 <ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar>
@@ -44,12 +41,17 @@
             <td class="text-overflow">{{ afiliado.identification }}</td>
             <td class="text-overflow">
                 <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
-                    type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" (click)="editAfiliado(afiliado)">
+                    type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 
+                    (click)="editAfiliado(afiliado)">
                     <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
                 </button>
-                <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="right"                     
+                <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="above"                     
                     type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteAfiliado(afiliado._id)">
-                    <i class="fas fa-trash-alt" style="color: rgba(246, 74, 74, 0.863)"></i>
+                    <i class="fas fa-trash-alt" style="color: rgba(253, 44, 44, 0.863)"></i>
+                </button>
+                <button mat-raised-button matTooltip="Detalles" matTooltipPosition="right"                     
+                    type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalDetalleContacto(afiliado)">
+                    <i class="fas fa-info" style="color: rgba(0, 250, 250, 0.945)"></i>
                 </button>
             </td>
         </tr>
