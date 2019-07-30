@@ -24,6 +24,10 @@ export class ModalCargaMasivaComponent implements OnInit, AfterViewInit{
   @ViewChild('labelCampoImport') labelCampoImport: ElementRef;
 
   title = 'ng8fileupload';
+  showError = false;
+  errorDesc = "";
+  showSuccess = false;
+  successDesc = "";
   public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'file' });
 
   closeResult: string;
@@ -45,9 +49,13 @@ export class ModalCargaMasivaComponent implements OnInit, AfterViewInit{
     });
 
     //jonathan.velez: cuando un archivo es terminado de cargar, se ejecuta este evento.
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    /*this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.datosGuardadosEvent.emit(null);
-    };
+    };*/
+    this.uploader.response.subscribe(($event)=>{
+      this.onUploadResponseEventEmmiter($event);
+    });
+
   }
 
   ngAfterViewInit() {
@@ -141,6 +149,25 @@ export class ModalCargaMasivaComponent implements OnInit, AfterViewInit{
       return 'by clicking on a backdrop';
     } else {
       return  `with: ${reason}`;
+    }
+  }
+
+  private onUploadResponseEventEmmiter(event){
+    var resp = JSON.parse(event);
+    if(typeof resp !== "undefined")
+    {
+      if(resp.error_code === 1){
+        this.errorDesc = resp.err_desc;
+        this.showError = true;
+        this.successDesc = "";
+        this.showSuccess = false;
+      }else{
+        this.showError = false;
+        this.errorDesc = "";
+        this.successDesc = resp.message;
+        this.showSuccess = true;
+        this.datosGuardadosEvent.emit(null);
+      }
     }
   }
 

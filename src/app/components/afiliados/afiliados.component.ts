@@ -412,7 +412,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     this.bsModalRef.content.closeBtnName = 'Close';
     this.bsModalRef.content.datosGuardadosEvent.subscribe(($event)=>{
         this.eventEmmiter($event);
-    })
+    });
   }
 
   eventEmmiter(event){
