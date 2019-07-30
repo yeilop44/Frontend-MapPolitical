@@ -4,6 +4,8 @@ import { AuthService } from '../../../services/auth.service';
 import { DivipolMasterService } from '../../../services/divipol-master.service';
 import { GeographyMasterService } from '../../../services/geography-master.service'
 import { Geografia } from '../../../models/geografia';
+import { Router } from '@angular/router';
+import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-geofrafica',
@@ -20,31 +22,47 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   isEmptyFields: boolean = false;
   isDisabledButton: boolean = false;
-
-  constructor( public auth: AuthService, private geographyMasterService: GeographyMasterService, 
+  isLogged;
+  username;
+  sessions;
+  
+  constructor( public auth: AuthService, private router: Router, private geographyMasterService: GeographyMasterService, 
     private divipolMasterService: DivipolMasterService ) { 
-    this.userNameCurrent = this.auth.user;    
+    this.session();   
   }
 
   ngOnInit() {
-    this.getDivipolInfo();
-    this.getGeografia();
-    
+    this.getDivipolInfo();        
+  }
+
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{     
+        console.log(res);     
+        this.isLogged = res.isLogged;
+        if(this.isLogged){          
+          this.username = res.user.userName;
+          this.userNameCurrent = this.username;
+          this.sessions = res.session;  
+          this.getGeografia(this.userNameCurrent);                  
+        }else{          
+          this.router.navigate(['login']);
+        }
+      });
   }
 
   getDivipolInfo() {
     this.divipolMasterService.getDivipolMasters()
-      .subscribe((data: any ) => {
-        console.log(data.Items);
+      .subscribe((data: any ) => {        
         this.divipols = data.Items;        
         for(let i=0; i<this.divipols.length;i++){
             this.states[i] = this.divipols[i].state;            
-        }
-        console.log(this.states);  
+        }      
       });
   }
 
-  onOptionsSelectedState(value: string){    
+  onOptionsSelectedState(value: string){ 
+    this.geographyMasterService.selectedGeografia.municipality = null;   
     this.municipalitys = [];  
     for(let i=0;i<this.divipols.length;i++){
       if(value == this.divipols[i].state){      
@@ -52,9 +70,8 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
           this.municipalitys[j] = this.divipols[i].municipality[j];    
         }               
       }      
-    }
-    console.log(this.municipalitys);  
-    this.userNameCurrent = this.auth.user;  
+    }    
+    this.userNameCurrent = this.username;  
     this.isEmptyFields = false;
   }
 
@@ -71,13 +88,15 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
       }, 100);
       
     }else{
-      if(form.value._id) {      
+      if(form.value._id) {
+        console.log(form.value);      
         this.geographyMasterService.putGeografia(form.value)
-          .subscribe(res=>{           
+          .subscribe(res=>{
+            console.log(res);           
         });
           
         setTimeout(()=>{
-          this.getGeografia();
+          this.getGeografia(this.userNameCurrent);
           form.reset();
           this.isDisabledButton = false;              
         }, 500); 
@@ -88,19 +107,18 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
         });
         
         setTimeout(()=>{        
-        this.getGeografia();         
+        this.getGeografia(this.userNameCurrent);         
         form.reset();
         this.isDisabledButton = false;                
         }, 500);                
       }
-      this.isEmptyFields = false;
-        
+      this.isEmptyFields = false;        
     }        
   }
 
-  getGeografia(){
+  getGeografia(username: string){
     this.isLoading = true;
-    this.geographyMasterService.getGeographyMasterByUser(this.auth.user)
+    this.geographyMasterService.getGeographyMasterByUser(username)
       .subscribe((data: any) => {
         this.geographys = data.Items;  
         console.log(this.geographys); 
@@ -108,18 +126,17 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
       });
   }
 
-  editGeofrafia(geography: Geografia) {    
-    this.geographyMasterService.selectedGeografia = geography;  
-    console.log(this.geographyMasterService.selectedGeografia);
-    this.userNameCurrent = this.auth.user;
-    console.log(this.userNameCurrent);        
+  x(geography: Geografia) {    
+    console.log(geography);
+    this.geographyMasterService.selectedGeografia = geography;      
+    this.userNameCurrent = this.username;    
   }
 
   deleteGeografia(_id: string) {
     if (confirm('Esta seguro de Eliminar barrio o vereda?')) {
       this.geographyMasterService.deleteGeografia(_id)
         .subscribe(res => {        
-        this.getGeografia();
+        this.getGeografia(this.username);
       });
     }
   }

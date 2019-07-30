@@ -10,9 +10,7 @@ import { Router } from '@angular/router';
 export class CuentaComponent implements OnInit {
 
   constructor(public auth: AuthService, private router: Router) { 
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
+   
   }
 
   ngOnInit() {

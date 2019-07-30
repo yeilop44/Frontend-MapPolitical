@@ -9,6 +9,7 @@ import { CuentaComponent } from './components/cuenta/cuenta.component';
 import { ContrasenaComponent } from './components/cuenta/contrasena/contrasena.component';
 import { GeofraficaComponent } from './components/cuenta/geofrafica/geofrafica.component';
 import { ElectoralComponent } from './components/cuenta/electoral/electoral.component';
+import { LideresComponent } from './components/lideres/lideres.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -16,6 +17,7 @@ export const appRoutes: Routes = [
     { path: 'afiliados', component: AfiliadosComponent},
     { path: 'graficos', component: GraficosComponent},
     { path: 'mapa', component: MapaComponent},
+    { path: 'lideres', component: LideresComponent},
     { path: 'usuario', component: UsuarioComponent},
     { path: 'cuenta', component: CuentaComponent, children:[
         { path: 'geografica', component: GeofraficaComponent },

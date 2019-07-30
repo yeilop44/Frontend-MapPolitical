@@ -37,19 +37,8 @@ import { ElectoralComponent } from './components/cuenta/electoral/electoral.comp
 import { ModalCargaMasivaComponent } from './components/afiliados/modal-carga-masiva/modal-carga-masiva.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalNuevoContactoComponent } from './components/afiliados/modal-nuevo-contacto/modal-nuevo-contacto.component';
-
-
-const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'inicio', component: InicioComponent },
-  { path: 'afiliados', component: AfiliadosComponent},
-  { path: 'graficos', component: GraficosComponent},
-  { path: 'mapa', component: MapaComponent},
-  { path: 'usuario', component: UsuarioComponent},
-  { path: 'cuenta', component: CuentaComponent},
-  {path: '', pathMatch: 'full', redirectTo: 'login'},
-  { path: '**', component: LoginComponent }
-];
+import { LideresComponent } from './components/lideres/lideres.component';
+import { ModalDetalleContactoComponent } from './components/afiliados/modal-detalle-contacto/modal-detalle-contacto.component';
 
 @NgModule({
   declarations: [
@@ -65,11 +54,16 @@ const appRoutes: Routes = [
     ModalCargaMasivaComponent,
     CuentaComponent,
     ModalNuevoContactoComponent,
+    ContrasenaComponent, 
+    GeofraficaComponent, 
+    ElectoralComponent, 
+    LideresComponent,
     ContrasenaComponent,
     GeofraficaComponent,
     ElectoralComponent,
     FileSelectDirective,
-    FileDropDirective
+    FileDropDirective,
+    ModalDetalleContactoComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +85,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     ReactiveFormsModule
   ],
-  entryComponents: [ModalCargaMasivaComponent],
+  entryComponents: [ModalCargaMasivaComponent, ModalDetalleContactoComponent],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })
