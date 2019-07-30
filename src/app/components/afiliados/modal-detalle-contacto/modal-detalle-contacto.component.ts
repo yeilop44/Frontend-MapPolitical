@@ -10,14 +10,15 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 export class ModalDetalleContactoComponent implements OnInit {
   
 @Input() message: string = 'Message here...'; // we can set the default value also
-@Input() names: string = '';
-@Input() surnames: string = '';
+@Input() names: string;
+@Input() surnames: string;
 @Input() identification: number ;
 @Input() phone: number ;
 @Input() birthdate: string; 
 @Input() votingStation: string; 
 @Input() votingTable: string; 
 @Input() leader: string; 
+@Input() address: string; 
   modalRef: BsModalRef;
 
 

@@ -19,10 +19,10 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nombres y Apellidos</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Dirección</th>
-            <th scope="col">Profesión</th>
             <th scope="col">Identificacón</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Barrio/vereda</th>
+            <th scope="col">Profesión</th>            
             <th scope="col">Acciones</th>            
         </tr>
         </thead>
@@ -35,10 +35,10 @@
                     {{ afiliado.names }} {{ afiliado.surnames }}
                 </div>
             </td>
+            <td class="text-overflow">{{ afiliado.identification }}</td>
             <td class="text-overflow">{{ afiliado.birthdate }}</td>
             <td class="text-overflow capitalize"> {{ afiliado.subdivision }}</td>
-            <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>
-            <td class="text-overflow">{{ afiliado.identification }}</td>
+            <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>            
             <td class="text-overflow">
                 <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
                     type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 

@@ -330,11 +330,15 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.affiliateService.selectedAfiliado = afiliado;
     this.isNewAffiliate = true;
     // this.ngMaps();
+    this.getDivipolInfo();
+    this.getGeographyInfo();
     this.getProfessions(event);
     this.getOcupations(event);
     this.getChurchs(event);
     this.getSexs(event);
     this.isDisabledButton = false;
+    this.ngMaps();
+    this.getElectoralInfo();
   }
 
   deleteAfiliado(_id: string) {
@@ -552,6 +556,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       votingStation: afiliado.votingStation,
       votingTable: afiliado.votingTable,
       leader: afiliado.leader,
+      address: afiliado.address
     };
     this.bsModalRefTres = this.modalServiceTres.show(ModalDetalleContactoComponent, Object.assign({}, { class: 'gray modal-lg', initialState }));    
     //this.bsModalRef.content.closeBtnName = 'Close';           
