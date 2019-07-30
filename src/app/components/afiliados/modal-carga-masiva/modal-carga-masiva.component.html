@@ -6,6 +6,12 @@
   </div>
 
   <div class="modal-body">
+    <div *ngIf="showError" class="alert alert-danger" role="alert">
+      <strong>{{errorDesc}}</strong>
+    </div>
+    <div *ngIf="showSuccess" class="alert alert-success" role="alert">
+      <strong>{{successDesc}}</strong>
+    </div>
 
     <form novalidate [formGroup]="formImport">
       <div class="input-group mb-3">
