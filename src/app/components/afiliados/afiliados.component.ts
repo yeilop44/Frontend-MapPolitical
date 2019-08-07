@@ -34,6 +34,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   places: any;
   bounds: any;
   searchBox: any;
+  pager = {};
+  pageOfItems = [];
 
   isNewAffiliate = false;
   isLoading = false;
@@ -129,11 +131,13 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
 
   getAfiliados() {
     this.isLoading = true;
-    this.affiliateService.getAffiliatesByUser(this.auth.user)
+    this.affiliateService.getAffiliatesByUser(this.auth.user, 1)
     .subscribe((data: any ) => {
       this.affiliates = data.Affiliates;
       console.log(this.affiliates);
       this.isLoading = false;
+      this.pager = data.pager;
+      this.pageOfItems = data.pageOfItems;
     });
   }
 
