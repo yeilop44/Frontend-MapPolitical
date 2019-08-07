@@ -11,7 +11,10 @@ import { reduce } from 'rxjs/operators';
   styleUrls: ['./graficos.component.css']
 })
 export class GraficosComponent implements OnInit {
-  
+ 
+  isLogged: boolean;
+  user: any;
+
   chart: any;
   chart2: any;
   chart3: any;
@@ -34,18 +37,34 @@ export class GraficosComponent implements OnInit {
 
   color:any[]=[];
 
-  constructor(private affiliatesService: AffiliatesService, public auth: AuthService, 
-              private router: Router  ) { 
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
+  constructor(private affiliatesService: AffiliatesService, public auth: AuthService, private router: Router  ) {
+    this.session()
   }
 
   ngOnInit() {
-    this.getCountProfessions();
-    this.getCountOccupations();
-    this.getCountZones();
-    this.getCountSubdivisions();
+    
+    
+    
+  }
+
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{     
+        console.log(res);     
+        this.isLogged = res.isLogged;
+        if(this.isLogged){
+          console.log(this.isLogged);
+          this.user = res.user; 
+          this.auth.user = res.user;
+          this.getCountProfessions(this.auth.user.userName);
+          this.getCountOccupations(this.auth.user.userName);
+          this.getCountZones(this.auth.user.userName);
+          this.getCountSubdivisions(this.auth.user.userName);
+
+        }else{          
+          this.router.navigate(['login']);
+        }
+      });
   }
   
   dynamicColors() {
@@ -55,8 +74,8 @@ export class GraficosComponent implements OnInit {
     return "rgb(" + r + "," + g + "," + b + ")";
  };
   
-  getCountProfessions(){
-    this.affiliatesService.getCountProfessions(this.auth.user)
+  getCountProfessions(username: string){
+    this.affiliatesService.getCountProfessions(username)
       .subscribe((data: any) => {
         this.professions = data.profesions;
         console.log(this.professions);
@@ -96,8 +115,8 @@ export class GraficosComponent implements OnInit {
 
   }
 
-  getCountOccupations(){
-    this.affiliatesService.getCountOccupations(this.auth.user)
+  getCountOccupations(username: string){
+    this.affiliatesService.getCountOccupations(username)
       .subscribe((data:any) => {
         this.occupations = data.occupations;
         console.log(this.occupations);
@@ -138,8 +157,8 @@ export class GraficosComponent implements OnInit {
       });
   }
 
-  getCountZones(){
-    this.affiliatesService.getCountZones(this.auth.user)
+  getCountZones(username: string){
+    this.affiliatesService.getCountZones(username)
       .subscribe((data:any) => {
         this.zones = data.zones;
               
@@ -175,8 +194,8 @@ export class GraficosComponent implements OnInit {
       });
   }
 
-  getCountSubdivisions(){
-    this.affiliatesService.getCountSubdivisions(this.auth.user)
+  getCountSubdivisions(username: string){
+    this.affiliatesService.getCountSubdivisions(username)
       .subscribe((data:any) => {
         this.subdivisions = data.subdivisions;
               

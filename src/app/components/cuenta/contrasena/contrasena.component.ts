@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { UsuarioChangePass } from '../../../models/usuario';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,6 +13,9 @@ import { UsuarioChangePass } from '../../../models/usuario';
 export class ContrasenaComponent implements OnInit {
   
   userNameCurrent;
+  isLogged;
+  username;
+  sessions;
  
   usuarioPass: UsuarioChangePass = {
     userName: '',
@@ -20,18 +24,50 @@ export class ContrasenaComponent implements OnInit {
     newpassconfirm: ''
   }
 
-  constructor(public auth: AuthService) {
-    this.userNameCurrent = this.auth.user;
+  constructor(public auth: AuthService, private router: Router) {
+    this.session();    
    }
 
   ngOnInit() {
   }
 
-  changeContrasena(form: NgForm){
-    this.auth.changePass(form.value)
-      .subscribe(res=>{
-        console.log(res);
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{     
+        console.log(res);     
+        this.isLogged = res.isLogged;
+        if(this.isLogged){          
+          this.username = res.user.userName;
+          this.userNameCurrent = this.username;
+          this.sessions = res.session;  
+          console.log(this.userNameCurrent);                           
+        }else{          
+          this.router.navigate(['login']);
+        }
       });
+  }
+
+  changeContrasena(form: NgForm){
+    console.log(form.value);
+    this.auth.changePass(form.value)
+      .subscribe((res: any)=>{
+        
+        console.log(res);
+        let isChanged = res.isChanged;
+        if(isChanged){
+          alert("contraseña cambiada " + isChanged);
+          this.resetForm(form);
+        }else{
+          alert("contraseña cambiada " + isChanged);
+        }
+        
+      });
+  }
+
+  resetForm(form?: NgForm){
+    if(form){
+      form.reset();      
+    }
   }
 
 }

@@ -62,25 +62,22 @@
     <table class="table table-sm">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Departamento</th>
+          <th scope="col">#</th>          
           <th scope="col">Municipio</th>
           <th scope="col">Zona</th>
           <th scope="col">Barrio o vereda</th>
-          <th scope="col">Acciones</th>
-          
+          <th scope="col">Acciones</th>          
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let geography of geographys; let i = index">
-          <th scope="row">{{ i+1 }}</th>
-          <td>{{ geography.state }}</td>
-          <td>{{ geography.municipality }}</td>
+          <th scope="row">{{ i+1 }}</th>          
+          <td>{{ geography.municipality }}, {{ geography.state }}</td>
           <td>{{ geography.zone }}</td>
           <td>{{ geography.subdivision }}</td>
           <td>
             <button mat-raised-button matTooltip="Editar" type="button" class="btn btn-outline-primary" style="margin-right: 5px" 
-              (click)="editGeografia(geography)">
+              (click)="x(geography)">
               <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
             </button>        
             <button mat-raised-button matTooltip="Eliminar" type="button" class="btn btn-outline-danger" 

@@ -13,18 +13,42 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   isLoading = false;
+  user: any;
+  isLogged = false;
+  isLogout: boolean;
 
-  constructor(private auth: AuthService, public router: Router) { }
-
-  ngOnInit() {
-
+  constructor(private auth: AuthService, public router: Router) { 
+    this.session();
   }
 
+  ngOnInit() {
+    
+  }
+
+  session(){
+    this.auth.session()
+      .subscribe(( res: any )=>{
+        console.log(res);
+        this.isLogged = res.isLogged;
+        this.user = res.user;
+        if(this.isLogged){
+          this.auth.isLogged = this.isLogged;
+          this.auth.user = this.user;          
+        }          
+      });
+  }    
+
   logout() {
-    this.isLoading = true;
-    this.auth.logout();
-    this.isLoading = false;
-    this.router.navigate(['/login']);
+    this.auth.logout()
+      .subscribe((res: any) =>{
+        console.log(res);
+        this.isLogout = res.isLogout;
+        if(this.isLogout){
+          this.auth.isLogged = false;
+          console.log(this.auth.isLogged);
+          this.router.navigate(['/login']);      
+        }
+      });
   }
 
   account() {

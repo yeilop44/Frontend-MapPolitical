@@ -3,7 +3,8 @@
   <h5 class="card-header">Crear puesto de votación</h5>
   <div class="card-body">
     <form #electoralForm = "ngForm" (ngSubmit)="addElectoral(electoralForm)">
-        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="electoralService.selectedElectoral._id">    
+      <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
       <div class="form-row">
         <div class="form-group has-icon col-md-6">
           <label>Departamento<span style="color: red">*</span></label>

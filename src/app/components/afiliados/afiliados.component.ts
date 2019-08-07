@@ -1,4 +1,4 @@
-import {Component, ViewChild, OnInit, AfterViewInit, ElementRef, OnDestroy} from '@angular/core';
+import {Component, ViewChild, OnInit,AfterViewInit, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { AffiliatesService } from '../../services/affiliates.service';
 import { ListMasterService } from '../../services/list-master.service';
 import { ElectoralMasterService } from '../../services/electoral-master.service';
@@ -9,8 +9,11 @@ import { NgForm } from '@angular/forms';
 import { Afiliado } from '../../models/afiliado';
 import { Router } from '@angular/router';
 import {} from 'googlemaps';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalCargaMasivaComponent} from './modal-carga-masiva/modal-carga-masiva.component';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { ModalCargaMasivaComponent } from './modal-carga-masiva/modal-carga-masiva.component';
+import { ModalDetalleContactoComponent } from './modal-detalle-contacto/modal-detalle-contacto.component';
+import { subscribeOn } from 'rxjs/operators';
 import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
 
 @Component({
@@ -18,16 +21,20 @@ import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
   templateUrl: './afiliados.component.html',
   styleUrls: ['./afiliados.component.css']
 })
-export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
-
+export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
+ 
   @ViewChild('map') mapElement: ElementRef;
-  @ViewChild('search') public searchElement: any;
+  //@ViewChild('search') public searchElement: ElementRef;
+  @ViewChild('search') public searchElementRef: ElementRef;
   @ViewChild('modalCargaMasiva') modalCargaM: ModalCargaMasivaComponent;
   @ViewChild('infoContactoModal') public infoContactoModal: ModalDirective;
   map: google.maps.Map;
 
   mapPro: google.maps.Map;
   marker: any;
+
+  modalReference: NgbModalRef;
+
 
   lat = 6.231928;
   lng = -75.60116719999996;
@@ -60,86 +67,205 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   professions: any[] = [];
   ocupations: any[] = [];
   sexs: any[] = [];
-  churchs: any[] = [];
-  userNameCurrent;
+  churchs: any[] = [];  
   numberTables = 0;
+  isLogged;
+  username;
+  sessions;
+  userNameCurrent;
+  
 
+  title: string = 'AGM project';
+  latitude: number;
+  longitude: number;
+  zoom:number;
+  address: string;
+  private geoCoder;
   bsModalRef: BsModalRef;
+  bsModalRefTres: BsModalRef;
+
+  public user = {
+    name: 'Izzat Nadiri',
+    age: 26
+  }
 
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
               private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
-              private router: Router, private modalService: NgbModal, private modalServiceDos: BsModalService) {
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
+              private router: Router, private modalService: NgbModal, private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone, private modalServiceDos: BsModalService, private modalServiceTres: BsModalService) {
+    
+    this.session();     
+              
     this.userNameCurrent = this.auth.user;
     console.log(this.userNameCurrent);
   }
 
-  ngOnInit() {
-    this.getAfiliados();
+
+  ngOnInit() {           
+    
   }
 
   ngMaps() {
-    console.log('afterinit');
-    setTimeout(() => {
-      const mapProp = {
+     //load Places Autocomplete
+     this.mapsAPILoader.load().then(() => {
+      this.setCurrentLocation();
+      this.geoCoder = new google.maps.Geocoder;
+ 
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+ 
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+          console.log(place.formatted_address);
+          this.address = place.formatted_address;
+          this.affiliateService.selectedAfiliado.address = this.address;
+
+          //set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.affiliateService.selectedAfiliado.positionLat = this.latitude;        
+          this.affiliateService.selectedAfiliado.positionLng = this.longitude;
+          this.zoom = 14;
+        });
+      });
+    });
+    
+  }
+
+  // Get Current Location Coordinates
+  private setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.affiliateService.selectedAfiliado.positionLat = this.latitude;        
+        this.affiliateService.selectedAfiliado.positionLng = this.longitude;
+        this.zoom = 13;       
+      });
+    }
+  }
+
+  markerDragEnd($event: MouseEvent) {
+    console.log($event);
+    this.latitude = $event.coords.lat;
+    this.longitude = $event.coords.lng;
+    this.affiliateService.selectedAfiliado.positionLat = this.latitude;        
+    this.affiliateService.selectedAfiliado.positionLng = this.longitude;
+    this.getAddress(this.latitude, this.longitude);
+  }
+ 
+  getAddress(latitude, longitude) {
+    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
+      console.log(results);
+      console.log(status);
+      if (status === 'OK') {
+        if (results[0]) {
+          this.zoom = 14;
+          this.address = results[0].formatted_address;
+          this.affiliateService.selectedAfiliado.address = this.address;
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+ 
+    });
+  }
+  
+  ngAfterViewInit(){
+    
+  }
+
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{     
+        console.log(res);     
+        this.isLogged = res.isLogged;
+        if(this.isLogged){
+          console.log(this.isLogged);
+          this.username = res.user.userName;
+          this.userNameCurrent = this.username;
+          this.sessions = res.session;          
+          this.getAfiliados(this.username); 
+        }else{
+          console.log(this.isLogged);
+          this.router.navigate(['login']);
+        }
+      });
+  }
+
+  /*ngMaps() {    
+    
+      let mapProp = {
         center: new google.maps.LatLng(4.2223, -74.3333),
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-      const map = new google.maps.Map(this.mapElement.nativeElement, mapProp);
-
-      const marker = new google.maps.Marker({
+      var map = new google.maps.Map(this.mapElement.nativeElement, mapProp);
+      var marker = new google.maps.Marker({
           position: {lat: 4.2223, lng: -74.3333},
           map,
           draggable: true
-        });
-
-      const searchBox = new google.maps.places.SearchBox(this.searchElement.nativeElement);
-
+      });
+        
+      var searchBox = new google.maps.places.SearchBox(this.searchElement.nativeElement);
       google.maps.event.addListener(searchBox, 'places_changed', () => {
-          const places = searchBox.getPlaces();
-          const bounds = new google.maps.LatLngBounds();
-          let i, place;
-          console.log(places[0].formatted_address);
-          console.log(places[0].geometry.location.lat());
-          console.log(places[0].geometry.location.lng());
-          const positionLat = places[0].geometry.location.lat();
-          const positionLng = places[0].geometry.location.lng();
-          console.log(bounds);
-          /*for ( i = 0 ;  place = places[i]; i++) {
-            bounds.extend(place.geometry.location);
-            marker.setPosition(place.geometry.location);
-          }*/
+        var places = searchBox.getPlaces();
+        var bounds = new google.maps.LatLngBounds();
+        console.log(searchBox);
+        console.log(places[0].formatted_address);
+        console.log(places[0].geometry.location.lat());
+        console.log(places[0].geometry.location.lng());
+        var positionLat = places[0].geometry.location.lat();
+        var positionLng = places[0].geometry.location.lng();
+        console.log(bounds);
+        let i, place;
+          for ( i = 0 ;  place = places[i]; i++) {
+          bounds.extend(place.geometry.location);
+          marker.setPosition(place.geometry.location);
+        }  
+        bounds.extend(places[0].geometry.location);
+        marker.setPosition(places[0].geometry.location);
+        map.fitBounds(bounds);
+        map.setZoom(14);
+        this.affiliateService.selectedAfiliado.positionLat = positionLat;
+        this.affiliateService.selectedAfiliado.positionLng = positionLng;
+      });  
+  }*/      
 
-          bounds.extend(places[0].geometry.location);
-          marker.setPosition(places[0].geometry.location);
-          map.fitBounds(bounds);
-          map.setZoom(14);
-          this.affiliateService.selectedAfiliado.positionLat = positionLat;
-          this.affiliateService.selectedAfiliado.positionLng = positionLng;
-        });
-    }, 500);
-  }
-
-  ngAfterViewInit() {
-
-  }
-
-  getAfiliados() {
-    this.isLoading = true;
-    this.affiliateService.getAffiliatesByUser(this.auth.user, 1)
+  getAfiliados(username: string) {  
+    this.isLoading = true;    
+    this.affiliateService.getAffiliatesByUser(username)
     .subscribe((data: any ) => {
-      this.affiliates = data.Affiliates;
+      //console.log(data);
+      this.affiliates = data.affiliates;
       console.log(this.affiliates);
       this.isLoading = false;
       this.pager = data.pager;
       this.pageOfItems = data.pageOfItems;
-    });
   }
+  
+  postAuthorChanged(newVal: string): void {
+    if (newVal) {
+     this.affiliateService.selectedAfiliado.leader = newVal;
+    } else if (newVal === '') {
+     // here is where we put the default value when the 'newVal' is empty string
+     this.affiliateService.selectedAfiliado.leader = "sin lider";
+    } else {
+      this.affiliateService.selectedAfiliado.leader = newVal;
+    }
+   }
+
 
   addAfiliado(form: NgForm) {
     if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ||
@@ -149,51 +275,58 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
 
           this.isEmptyFields = true;
           console.log('datos basicos vacios');
-          if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ) {
+      if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ) {
         this.isEmptyBirthdate = true;
       } else {
         this.isEmptyBirthdate = false;
       }
-          if (this.affiliateService.selectedAfiliado.names == (null || '')) {
+      if (this.affiliateService.selectedAfiliado.names == (null || '')) {
         this.isEmptyNames = true;
       } else {
         this.isEmptyNames = false;
       }
-          if (this.affiliateService.selectedAfiliado.surnames == (null || '')) {
+      if (this.affiliateService.selectedAfiliado.surnames == (null || '')) {
         this.isEmptySurnames = true;
       } else {
         this.isEmptySurnames = false;
       }
-          if (this.affiliateService.selectedAfiliado.identification == (null || 0)) {
+      if (this.affiliateService.selectedAfiliado.identification == (null || 0)) {
         this.isEmptyIdentification = true;
       } else {
         this.isEmptyIdentification = false;
       }
     } else {
       this.isDisabledButton = true;
-      if (form.value._id) {
+      if (form.value._id) {        
         this.affiliateService.putAfiliado(form.value)
           .subscribe(res => {
             console.log(res);
             console.log('Affiliate Updated');
-            this.getAfiliados();
+            this.getAfiliados(this.username);
             this.isNewAffiliate = false;
           });
-        // this.resetForm(form);
-      } else {
-         this.affiliateService.postAfiliado(form.value)
+        // this.resetForm(form);        
+      } else {  
+        if(form.value.leader){
+          console.log("tiene lider");
+        }else if (form.value.leader === ""){
+          console.log("sin lider, pero le pone");
+          form.value.leader = "sin lider";
+        }            
+        console.log(form.value); 
+        this.affiliateService.postAfiliado(form.value)
           .subscribe(res => {
           console.log('Affiliate Saved');
-          this.getAfiliados();
+          this.getAfiliados(this.username);
           this.isNewAffiliate = false;
-        });
+        });        
       }
       this.isEmptyFields = false;
       this.isEmptyBirthdate = false;
       this.isEmptyNames = false;
       this.isEmptySurnames = false;
       this.isEmptyIdentification = false;
-    }
+    }    
   }
 
   editAfiliado(afiliado: Afiliado) {
@@ -212,7 +345,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
       this.affiliateService.deleteAfiliado(_id)
         .subscribe(res => {
         console.log('Affiliate deleted');
-        this.getAfiliados();
+        this.getAfiliados(this.username);
       });
     }
   }
@@ -244,7 +377,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
   }
 
   getGeographyInfo() {
-    this.geographyMasterService.getGeographyMasterByUser(this.auth.user)
+    this.geographyMasterService.getGeographyMasterByUser(this.username)
       .subscribe((data: any) => {
         this.geographys = data.Items;
         console.log(this.geographys);
@@ -262,7 +395,6 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     this.votingTables = [];
     const votingStations1 = [];
 
-
     for (let i = 0; i < this.electorals.length; i++) {
       if (value == this.electorals[i].municipality &&
         this.affiliateService.selectedAfiliado.state == this.electorals[i].state) {
@@ -270,9 +402,6 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
       }
     }
     this.votingStations = votingStations1.filter(() => true);
-
-
-
   }
 
   onOptionsSelectedZone(value: string) {
@@ -291,10 +420,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     this.subdivisions = subdivisions1.filter(() => true);
   }
 
-
-
   getElectoralInfo() {
-    this.electoralMasterService.getElectoralMastersByUser(this.auth.user)
+    this.electoralMasterService.getElectoralMastersByUser(this.username)
     .subscribe((data: any ) => {
       this.electorals = data.Items;
     });
@@ -375,13 +502,12 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     });
   }
 
-
   // clean the form
   resetForm(form?: NgForm) {
     if (form) {
       form.reset();
       this.affiliateService.selectedAfiliado = new Afiliado();
-      this.userNameCurrent = this.auth.user;
+      this.userNameCurrent = this.username;
       console.log(this.userNameCurrent);
     }
   }
@@ -390,7 +516,6 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     this.isNewAffiliate = true;
     this.resetForm(form);
     this.affiliateService.selectedAfiliado._id = null;
-    // this.ngMaps();
     this.getProfessions(event);
     this.getOcupations(event);
     this.getChurchs(event);
@@ -399,12 +524,13 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     this.getGeographyInfo();
     this.getDivipolInfo();
     this.isDisabledButton = false;
+    this.ngMaps();
   }
 
   cancelar(form: NgForm) {
     this.isNewAffiliate = false;
     this.resetForm(form);
-    this.getAfiliados();
+    this.getAfiliados(this.username);
   }
 
   ngOnDestroy() {
@@ -419,8 +545,23 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy   {
     });
   }
 
+  openModalDetalleContacto(afiliado: Afiliado){
+    const initialState = { 
+      names: afiliado.names, 
+      surnames: afiliado.surnames,
+      identification: afiliado.identification,
+      phone: afiliado.phone,
+      birthdate: afiliado.birthdate,
+      votingStation: afiliado.votingStation,
+      votingTable: afiliado.votingTable,
+      leader: afiliado.leader,
+    };
+    this.bsModalRefTres = this.modalServiceTres.show(ModalDetalleContactoComponent, Object.assign({}, { class: 'gray modal-lg', initialState }));    
+    //this.bsModalRef.content.closeBtnName = 'Close';           
+  }
+
   eventEmmiter(event){
-      this.getAfiliados();
+      this.getAfiliados(this.username);
   }
 
 

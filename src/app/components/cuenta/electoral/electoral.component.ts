@@ -4,6 +4,7 @@ import { AuthService } from '../../../services/auth.service';
 import { DivipolMasterService } from '../../../services/divipol-master.service';
 import { ElectoralMasterService } from '../../../services/electoral-master.service'
 import { Electoral } from 'src/app/models/electoral';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,15 +23,33 @@ export class ElectoralComponent implements OnInit {
   isLoading: boolean = false;
   isEmptyFields: boolean = false;
   isDisabledButton = false;
+  isLogged;
+  username;
+  sessions;
 
-  constructor(public auth: AuthService, private divipolMasterService: DivipolMasterService, 
+  constructor(public auth: AuthService, private router: Router, private divipolMasterService: DivipolMasterService, 
     private electoralService: ElectoralMasterService) { 
-      this.userNameCurrent = this.auth.user;
+      this.session();
     }
 
   ngOnInit() {
-    this.getDivipolInfo();
-    this.getElectoral();
+    this.getDivipolInfo();    
+  }
+
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{     
+        console.log(res);     
+        this.isLogged = res.isLogged;
+        if(this.isLogged){          
+          this.username = res.user.userName;
+          this.userNameCurrent = this.username;
+          this.sessions = res.session;  
+          this.getElectoral(this.userNameCurrent);                  
+        }else{          
+          this.router.navigate(['login']);
+        }
+      });
   }
 
   getDivipolInfo() {
@@ -45,7 +64,8 @@ export class ElectoralComponent implements OnInit {
       });
   }
 
-  onOptionsSelectedState(value: string){    
+  onOptionsSelectedState(value: string){ 
+    this.electoralService.selectedElectoral.municipality = null;   
     this.municipalitys = [];  
     for(let i=0;i<this.divipols.length;i++){
       if(value == this.divipols[i].state){      
@@ -77,7 +97,7 @@ export class ElectoralComponent implements OnInit {
        });
          
        setTimeout(()=>{
-         this.getElectoral();
+         this.getElectoral(this.userNameCurrent);
          form.reset();
          this.isDisabledButton = false;              
        }, 500); 
@@ -88,7 +108,7 @@ export class ElectoralComponent implements OnInit {
        });
        
        setTimeout(()=>{        
-       this.getElectoral();         
+       this.getElectoral(this.userNameCurrent);         
        form.reset();
        this.isDisabledButton = false;                
        }, 500);                
@@ -99,9 +119,9 @@ export class ElectoralComponent implements OnInit {
     
   }
 
-  getElectoral(){
+  getElectoral(username: string){
     this.isLoading = true;
-    this.electoralService.getElectoralMastersByUser(this.auth.user)
+    this.electoralService.getElectoralMastersByUser(username)
       .subscribe((data: any) => {
         this.electorals = data.Items; 
         this.isLoading = false;         
@@ -110,7 +130,7 @@ export class ElectoralComponent implements OnInit {
 
   editElectoral(electoral: Electoral){
     this.electoralService.selectedElectoral = electoral;
-    this.userNameCurrent = this.auth.user;
+    this.userNameCurrent = this.username;
   }
 
   deleteElectoral(_id: string){
@@ -118,7 +138,7 @@ export class ElectoralComponent implements OnInit {
       this.electoralService.deleteElectoral(_id)
         .subscribe(res => {
         console.log('Geografia deleted');
-        this.getElectoral();
+        this.getElectoral(this.userNameCurrent);
       });
     }
   }
