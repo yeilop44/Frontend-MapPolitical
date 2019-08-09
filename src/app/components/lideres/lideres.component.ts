@@ -33,14 +33,12 @@ export class LideresComponent implements OnInit {
 
   session(){
     this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{                  
         this.isLogged = res.isLogged;
-        if(this.isLogged){
-          console.log(this.isLogged);
-          this.user = res.user;           
-          console.log("auth " + this.user.userName); 
-          this.getLideres(this.user.userName);                                                                           
+        if(this.isLogged){          
+          this.user = res.user;
+          this.auth.token = res.user.token;                     
+          this.getLideres(this.user.user.userName);                                                                           
         }else{
           console.log(this.isLogged);
           this.router.navigate(['login']);
@@ -52,30 +50,24 @@ export class LideresComponent implements OnInit {
     this.isLoadingLeaders = true;
     this.affiliateService.getAffiliatesByUser(username)
       .subscribe((data: any) =>{
-        this.afiliados1 = data.affiliates;
-        console.log(this.afiliados1);
-        this.afiliadosLeader = _.uniqBy(this.afiliados1, 'leader');
-        console.log(this.afiliadosLeader);
+        this.afiliados1 = data.affiliates;        
+        this.afiliadosLeader = _.uniqBy(this.afiliados1, 'leader');        
         this.isLoadingLeaders = false;
         this.leader =  this.afiliadosLeader[0];
-        this.isLoadingReferences = true;
-        console.log(this.leader.userName);           
+        this.isLoadingReferences = true;      
         this.affiliateService.getAffiliatesByLeader(this.leader)
           .subscribe((data: any) =>{  
-          this.references = data.Affiliates;
-          console.log(this.references); 
+          this.references = data.Affiliates;          
           this.isLoadingReferences = false;
         });           
     }); 
   }
      
   verLeader(leader: Afiliado) { 
-    this.isLoadingReferences = true;
-    console.log(leader);
+    this.isLoadingReferences = true;    
     this.affiliateService.getAffiliatesByLeader(leader)
       .subscribe((data: any) =>{  
-        this.references = data.Affiliates;
-        console.log(this.references); 
+        this.references = data.Affiliates;        
         this.isLoadingReferences = false;
     });
   }

@@ -188,38 +188,24 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
           this.user = res.user;
           this.auth.token = res.user.token;
           this.userNameCurrent = this.user.user.userName;
-          this.sessions = res.session;          
-          this.getAfiliados(this.user); 
+          this.sessions = res.session;               
+          this.getAfiliados(this.user.user.userName); 
         }else{          
           this.router.navigate(['login']);
         }
       });
   }
   
-  getAfiliados(user: any) {  
-    this.isLoading = true;    
-    this.affiliateService.getAffiliatesByUser(user, 1)
-    .subscribe((data: any ) => {      
-      this.affiliates = data.affiliates;      
-      this.isLoading = false;
-      this.pager = data.pager;
-      this.pageOfItems = data.pageOfItems;
-    });        
-  }  
-     
-
-  
-  postAuthorChanged(newVal: string): void {
-    if (newVal) {
-     this.affiliateService.selectedAfiliado.leader = newVal;
-    } else if (newVal === '') {
-     // here is where we put the default value when the 'newVal' is empty string
-     this.affiliateService.selectedAfiliado.leader = "sin lider";
-    } else {
-      this.affiliateService.selectedAfiliado.leader = newVal;
-    }
-   }
-
+  getAfiliados(user: string) {  
+    this.isLoading = true;   
+    this.affiliateService.getAffiliatesByUserPaginated(user, 1)
+      .subscribe((data: any ) => {      
+        this.affiliates = data.affiliates;      
+        this.isLoading = false;
+        this.pager = data.pager;
+        this.pageOfItems = data.pageOfItems;
+    });
+  }
 
   addAfiliado(form: NgForm) {
     if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ||
@@ -251,12 +237,12 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isDisabledButton = true;
       if (form.value._id) {        
         this.affiliateService.putAfiliado(form.value)
-          .subscribe(res => {            
+          .subscribe((res: any) => {        
             console.log('Affiliate Updated');
-            this.getAfiliados(this.user);
-            this.isNewAffiliate = false;
+            this.getAfiliados(this.user.user.userName);
+            this.isNewAffiliate = false;                                              
           });
-        // this.resetForm(form);        
+               
       } else {  
         if(form.value.leader){          
         }else if (form.value.leader === ""){          
@@ -265,9 +251,10 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.affiliateService.postAfiliado(form.value)
           .subscribe(res => {
           console.log('Affiliate Saved');
-          this.getAfiliados(this.user);
+          this.getAfiliados(this.user.user.userName);
           this.isNewAffiliate = false;
-        });        
+        });
+               
       }
       this.isEmptyFields = false;
       this.isEmptyBirthdate = false;
@@ -296,7 +283,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.affiliateService.deleteAfiliado(_id)
         .subscribe(res => {
         console.log('Affiliate deleted');
-        this.getAfiliados(this.user);
+        this.getAfiliados(this.user.user.userName);
       });
     }
   }

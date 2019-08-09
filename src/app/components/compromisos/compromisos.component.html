@@ -1,6 +1,6 @@
 <div class="container m-5">
   <form #compromisosForm="ngForm" (ngSubmit)=" addCompromisos(compromiso)">
-      <input type="text" name="userName" [(ngModel)]="compromiso.userName">
+      <input type="hidden" name="userName" [(ngModel)]="compromiso.userName">
       <div class="form-row">
         <div class="form-group col-md-6">  
           <label for="inputState">Contacto</label>        

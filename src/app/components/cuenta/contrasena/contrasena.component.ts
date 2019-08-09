@@ -33,34 +33,28 @@ export class ContrasenaComponent implements OnInit {
 
   session(){
     this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{             
         this.isLogged = res.isLogged;
         if(this.isLogged){          
-          this.username = res.user.userName;
+          this.username = res.user.user.userName;
           this.userNameCurrent = this.username;
-          this.sessions = res.session;  
-          console.log(this.userNameCurrent);                           
+          this.sessions = res.session;                                       
         }else{          
           this.router.navigate(['login']);
         }
       });
   }
 
-  changeContrasena(form: NgForm){
-    console.log(form.value);
+  changeContrasena(form: NgForm){    
     this.auth.changePass(form.value)
-      .subscribe((res: any)=>{
-        
-        console.log(res);
+      .subscribe((res: any)=>{ 
         let isChanged = res.isChanged;
         if(isChanged){
           alert("contraseña cambiada " + isChanged);
           this.resetForm(form);
         }else{
           alert("contraseña cambiada " + isChanged);
-        }
-        
+        }        
       });
   }
 

@@ -28,6 +28,7 @@ export class AuthService {
         if(data.isLogged){
           this.isLogged = data.isLogged;
             this.user = data.user.user;
+            this.token = data.user.token
         }else{
           console.log("error de conexion con el servidor");
         }

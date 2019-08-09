@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="pointer" *ngFor="let afiliado of affiliates; let i = index">
+        <tr class="pointer" *ngFor="let afiliado of pageOfItems; let i = index">
             <th scope="row">{{i + 1}}</th>
             <td>
                 <ngx-avatar size="40" [name]="afiliado.names.split(' ')[0]"></ngx-avatar>

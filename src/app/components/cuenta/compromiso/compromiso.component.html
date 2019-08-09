@@ -4,7 +4,7 @@
     <div class="card-body">
       <form #compromisoForm="ngForm" (ngSubmit)=" addCompromiso(compromisoForm)">
         <input type="hidden" name="_id" #_id="ngModel"  [(ngModel)]="commitmentMasterService.selectedCommitmentMaster._id">  
-        <input type="text" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
         <div class="form-row">
           <div class="form-group has-icon col-md-6">
             <label>Tipo de compromiso <span style="color: red">*</span></label>

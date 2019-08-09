@@ -38,11 +38,10 @@ export class ElectoralComponent implements OnInit {
 
   session(){
     this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{                 
         this.isLogged = res.isLogged;
         if(this.isLogged){          
-          this.username = res.user.userName;
+          this.username = res.user.user.userName;
           this.userNameCurrent = this.username;
           this.sessions = res.session;  
           this.getElectoral(this.userNameCurrent);                  
@@ -54,13 +53,11 @@ export class ElectoralComponent implements OnInit {
 
   getDivipolInfo() {
     this.divipolMasterService.getDivipolMasters()
-      .subscribe((data: any ) => {
-        console.log(data.Items);
+      .subscribe((data: any ) => {        
         this.divipols = data.Items;        
         for(let i=0; i<this.divipols.length;i++){
             this.states[i] = this.divipols[i].state;            
-        }
-        console.log(this.states);  
+        }        
       });
   }
 
@@ -73,8 +70,7 @@ export class ElectoralComponent implements OnInit {
           this.municipalitys[j] = this.divipols[i].municipality[j];    
         }               
       }      
-    }
-    console.log(this.municipalitys);    
+    }    
   }
 
   addElectoral(form: NgForm) {

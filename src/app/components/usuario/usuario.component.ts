@@ -34,10 +34,9 @@ export class UsuarioComponent implements OnInit {
       .subscribe((res: any) =>{          
         this.isLogged = res.isLogged;        
         if(this.isLogged){
-          this.user = res.user;  
-          this.isLoading = false;
-          console.log(this.user);
-          let username = res.user.userName;
+          this.user = res.user.user;  
+          this.isLoading = false;          
+          let username = res.user.user.userName;
           this.getAfiliados(username);        
         }else{
           this.router.navigate(['login']);

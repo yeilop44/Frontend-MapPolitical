@@ -42,25 +42,19 @@ export class GraficosComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    
-    
+            
   }
 
   session(){
     this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{               
         this.isLogged = res.isLogged;
-        if(this.isLogged){
-          console.log(this.isLogged);
-          this.user = res.user; 
-          this.auth.user = res.user;
-          this.getCountProfessions(this.auth.user.userName);
-          this.getCountOccupations(this.auth.user.userName);
-          this.getCountZones(this.auth.user.userName);
-          this.getCountSubdivisions(this.auth.user.userName);
-
+        if(this.isLogged){          
+          this.user = res.user;           
+          this.getCountProfessions(this.user.user.userName);
+          this.getCountOccupations(this.user.user.userName);
+          this.getCountZones(this.user.user.userName);
+          this.getCountSubdivisions(this.user.user.userName);
         }else{          
           this.router.navigate(['login']);
         }
@@ -77,8 +71,7 @@ export class GraficosComponent implements OnInit {
   getCountProfessions(username: string){
     this.affiliatesService.getCountProfessions(username)
       .subscribe((data: any) => {
-        this.professions = data.profesions;
-        console.log(this.professions);
+        this.professions = data.profesions;        
       
         for(let i=0;i<this.professions.length;i++){
           if(this.professions[i]._id == "" || this.professions[i]._id == null){
@@ -90,9 +83,7 @@ export class GraficosComponent implements OnInit {
           }
           this.color[i] = this.dynamicColors();
           
-        }
-        console.log(this.professionsName);
-        console.log(this.professionsCount);
+        }     
 
         this.chart = new Chart('canvas', {
           type: 'doughnut',
@@ -119,8 +110,6 @@ export class GraficosComponent implements OnInit {
     this.affiliatesService.getCountOccupations(username)
       .subscribe((data:any) => {
         this.occupations = data.occupations;
-        console.log(this.occupations);
-        console.log(this.color);
               
         for(let i=0;i<this.occupations.length;i++){
           if(this.occupations[i]._id == "" || this.occupations[i]._id == null){
@@ -131,10 +120,7 @@ export class GraficosComponent implements OnInit {
             this.occupationsCount[i] = this.occupations[i].count;          
           }
           this.color[i] = this.dynamicColors();         
-        }
-        console.log(this.color);
-        console.log(this.occupationsName);
-        console.log(this.occupationsCount);   
+        }  
         
         this.chart2 = new Chart('canvas2', {
           type: 'doughnut',

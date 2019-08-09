@@ -37,11 +37,10 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
 
   session(){
     this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{                 
         this.isLogged = res.isLogged;
         if(this.isLogged){          
-          this.username = res.user.userName;
+          this.username = res.user.user.userName;
           this.userNameCurrent = this.username;
           this.sessions = res.session;  
           this.getGeografia(this.userNameCurrent);                  
@@ -120,14 +119,12 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.geographyMasterService.getGeographyMasterByUser(username)
       .subscribe((data: any) => {
-        this.geographys = data.Items;  
-        console.log(this.geographys); 
+        this.geographys = data.Items;           
         this.isLoading = false;     
       });
   }
 
-  editGeografia(geography: Geografia) {    
-    console.log(geography);
+  editGeografia(geography: Geografia) {        
     this.geographyMasterService.selectedGeografia = geography;      
     this.userNameCurrent = this.username;    
   }

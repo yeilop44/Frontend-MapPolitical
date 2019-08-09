@@ -35,15 +35,14 @@ export class MapaComponent implements OnInit, AfterViewInit {
 
   session(){    
       this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{                
         this.isLogged = res.isLogged;
-        if(this.isLogged){
-          console.log(this.isLogged);
+        if(this.isLogged){          
           this.user = res.user;
-          this.lat = res.user.positionLat;
-          this.lng = res.user.positionLng;
-          this.getAfiliados(this.user.userName);                                                                                                     
+          this.auth.token = res.user.token;
+          this.lat = res.user.user.positionLat;
+          this.lng = res.user.user.positionLng;
+          this.getAfiliados(this.user.user.userName);                                                                                                     
         }else{          
           this.router.navigate(['login']);
         }  
@@ -53,8 +52,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
   getAfiliados(username: string) {
     this.affiliateService.getAffiliatesByUser(username)
     .subscribe((data: any ) => {
-      this.marcadores = data.affiliates;
-      console.log(this.marcadores);
+      this.marcadores = data.affiliates;      
     });
   } 
 

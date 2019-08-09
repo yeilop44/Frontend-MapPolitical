@@ -26,14 +26,13 @@ export class CompromisoComponent implements OnInit {
 
   session(){
     this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{             
         this.isLogged = res.isLogged;
         if(this.isLogged){          
-          this.username = res.user.userName;
+          this.username = res.user.user.userName;
           this.userNameCurrent = this.username;
           this.sessions = res.session;
-          this.getCompromisos(res.user.userName);                             
+          this.getCompromisos(this.username);                             
         }else{          
           this.router.navigate(['login']);
         }
@@ -44,7 +43,7 @@ export class CompromisoComponent implements OnInit {
       if(form.value._id) {
         this.commitmentMasterService.putCommitmentMaster(form.value)
           .subscribe(res=>{
-            console.log(res);
+            
         });
         setTimeout(()=>{
           this.getCompromisos(this.userNameCurrent);
@@ -54,7 +53,7 @@ export class CompromisoComponent implements OnInit {
       }else {
         this.commitmentMasterService.postCommitmentMaster(form.value)
           .subscribe(res =>{   
-            console.log(res);       
+                 
         });
         setTimeout(()=>{
           this.getCompromisos(this.userNameCurrent);
@@ -65,10 +64,8 @@ export class CompromisoComponent implements OnInit {
 
   getCompromisos(username: string){    
     this.commitmentMasterService.getCommitmentMasterByUser(username)
-      .subscribe((data: any) => {
-        console.log(data);                   
-        this.commitments = data.Items;  
-        
+      .subscribe((data: any) => {                          
+        this.commitments = data.Items;          
     });
   }
   
