@@ -245,7 +245,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getAfiliados(username: string) {  
     this.isLoading = true;    
-    this.affiliateService.getAffiliatesByUser(username)
+    this.affiliateService.getAffiliatesByUserPaginated(username, 1)
     .subscribe((data: any ) => {
       //console.log(data);
       this.affiliates = data.affiliates;
@@ -253,6 +253,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isLoading = false;
       this.pager = data.pager;
       this.pageOfItems = data.pageOfItems;
+    });
   }
   
   postAuthorChanged(newVal: string): void {

@@ -16,11 +16,17 @@ export class AffiliatesService {
     this.selectedAfiliado = new Afiliado();
   }
 
-  getAffiliatesByUser(user: string, page: number) {
+  getAffiliatesByUserPaginated(user: string, page: number) {
     const httpOptions = {
           headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
     return this.http.get(`${this.urlApi}/${user}/${page}`, httpOptions);
   }
+
+    getAffiliatesByUser(user: string) {
+        const httpOptions = {
+            headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+        return this.http.get(`${this.urlApi}/${user}`, httpOptions);
+    }
 
   postAfiliado(Afiliado: Afiliado) {
     return this.http.post(this.urlApi, Afiliado);
