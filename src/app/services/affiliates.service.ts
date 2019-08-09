@@ -18,11 +18,11 @@ export class AffiliatesService {
     this.selectedAfiliado = new Afiliado();
   }
 
-  getAffiliatesByUser(user: any) {
+  getAffiliatesByUser(user: any,  page: number) {
     let token =  user.token;
     const httpOptions = {      
       headers: new HttpHeaders({'Authorization': `Bearer ${token}`,'Content-Type': 'application/json', 'Accept': 'application/json'})};
-      return this.http.get(`${this.urlApi}/${user.user.userName}`, httpOptions);
+      return this.http.get(`${this.urlApi}/${user.user.userName}/${page}`, httpOptions);
   }
 
   postAfiliado(Afiliado: Afiliado) {    

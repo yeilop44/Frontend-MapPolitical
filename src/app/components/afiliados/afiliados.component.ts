@@ -41,6 +41,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   places: any;
   bounds: any;
   searchBox: any;
+  pager = {};
+  pageOfItems = [];
 
   isNewAffiliate = false;
   isLoading = false;
@@ -196,12 +198,28 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   
   getAfiliados(user: any) {  
     this.isLoading = true;    
-    this.affiliateService.getAffiliatesByUser(user)
+    this.affiliateService.getAffiliatesByUser(user, 1)
     .subscribe((data: any ) => {      
       this.affiliates = data.affiliates;      
       this.isLoading = false;
+      this.pager = data.pager;
+      this.pageOfItems = data.pageOfItems;
     });        
   }  
+     
+
+  
+  postAuthorChanged(newVal: string): void {
+    if (newVal) {
+     this.affiliateService.selectedAfiliado.leader = newVal;
+    } else if (newVal === '') {
+     // here is where we put the default value when the 'newVal' is empty string
+     this.affiliateService.selectedAfiliado.leader = "sin lider";
+    } else {
+      this.affiliateService.selectedAfiliado.leader = newVal;
+    }
+   }
+
 
   addAfiliado(form: NgForm) {
     if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ||
