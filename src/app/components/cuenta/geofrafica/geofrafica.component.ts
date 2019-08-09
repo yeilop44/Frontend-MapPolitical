@@ -126,7 +126,7 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
       });
   }
 
-  x(geography: Geografia) {    
+  editGeografia(geography: Geografia) {    
     console.log(geography);
     this.geographyMasterService.selectedGeografia = geography;      
     this.userNameCurrent = this.username;    

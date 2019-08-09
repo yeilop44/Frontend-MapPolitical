@@ -1,7 +1,7 @@
 <div class="modal-header">
   <div class="row">
     <div class="header-avatar">
-      <ngx-avatar size="70" [name]="names"></ngx-avatar>
+      <ngx-avatar size="70" [name]="names.split(' ')[0]"></ngx-avatar>
     </div>    
     <div class="header-name">      
       <h4 class="modal-title capitalize" id="modal-basic-title">{{names}} {{surnames}}</h4>
@@ -12,7 +12,7 @@
   </button>  
 </div>
 <div class="modal-body">
-  <h6>Información básica</h6>
+  <h6>Detalles básicos</h6>
     <div class="row">
       <div class="body-icon"><i class="far fa-id-card"></i></div>
       <div class="body-description">{{identification}}</div>
@@ -25,21 +25,21 @@
       <div class="body-icon"><i class="fas fa-birthday-cake"></i></div>
       <div class="body-description">{{birthdate}}</div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="address">
       <div class="body-icon"><i class="fas fa-map-marker-alt"></i></div>
       <div class="body-description">{{address}}</div>
     </div>
     <hr>
     <h6>Información electoral</h6>
-    <div class="row">
+    <div class="row" *ngIf="votingStation">
       <div class="body-icon"><i class="fas fa-vote-yea"></i></div>
       <div class="body-description">{{votingStation}}</div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="votingTable">
       <div class="body-icon"><i class="fas fa-person-booth"></i></div>
       <div class="body-description">{{votingTable}}</div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="leader">
       <div class="body-icon"><i class="fas fa-fist-raised"></i></div>
       <div class="body-description">{{leader}}</div>
     </div>         

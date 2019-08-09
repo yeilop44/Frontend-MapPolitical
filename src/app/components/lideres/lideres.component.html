@@ -8,7 +8,7 @@
           <a  class="list-group-item list-group-item-action animated fadeIn fast" data-toggle="list"
             [ngClass]="{'active': i === 0}" style="cursor: pointer" *ngFor="let leader of afiliadosLeader; let i = index;" 
             (click)="verLeader(leader)">
-            <ngx-avatar size="50" [name]="leader.leader"></ngx-avatar>
+            <ngx-avatar size="50" [name]="leader.leader.split(' ')[0]"></ngx-avatar>
             <div class="capitalize" style="padding-left: 60px; margin-top: -35px"><h6>{{leader.leader}}</h6></div>          
           </a>
         </div>
@@ -23,7 +23,7 @@
                 <div class="card-body animated fadeIn fast">
                   <div class="row">
                     <div class="col-4">
-                        <ngx-avatar size="45" [name]="reference.names"></ngx-avatar>
+                        <ngx-avatar size="45" [name]="reference.names.split(' ')[0]"></ngx-avatar>
                     </div>
                     <div class="col-8" style="margin-left: 60px; margin-top: -50px">                      
                       <h6 class="card-title capitalize">{{ reference.names }} {{ reference.surnames.split(" ")[0] }} {{ reference.surnames.split(" ")[1] | slice:0:1}}</h6>

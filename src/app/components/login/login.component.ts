@@ -33,13 +33,11 @@ export class LoginComponent implements OnInit {
     this.isLoading = true; 
     this.auth.login(usuario)
       .subscribe((res: any) => { 
-       
-        // this.isLogged = this.auth.isLogged;        
+                      
         if(this.auth.isLogged){          
           this.user = this.auth.user;                           
           this.isLoading = false; 
-          this.router.navigate(['/afiliados']);
-          
+          this.router.navigate(['/afiliados']);          
         }else{
           this.isAlert = true;
           this.isLoading = false;           

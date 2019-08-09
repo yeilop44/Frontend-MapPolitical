@@ -10,11 +10,14 @@ import { ContrasenaComponent } from './components/cuenta/contrasena/contrasena.c
 import { GeofraficaComponent } from './components/cuenta/geofrafica/geofrafica.component';
 import { ElectoralComponent } from './components/cuenta/electoral/electoral.component';
 import { LideresComponent } from './components/lideres/lideres.component';
+import { CompromisosComponent } from './components/compromisos/compromisos.component';
+import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'inicio', component: InicioComponent },
     { path: 'afiliados', component: AfiliadosComponent},
+    { path: 'compromisos', component: CompromisosComponent},
     { path: 'graficos', component: GraficosComponent},
     { path: 'mapa', component: MapaComponent},
     { path: 'lideres', component: LideresComponent},
@@ -23,6 +26,7 @@ export const appRoutes: Routes = [
         { path: 'geografica', component: GeofraficaComponent },
         { path: 'contrasena', component: ContrasenaComponent },
         { path: 'electoral', component: ElectoralComponent },
+        { path: 'compromiso', component: CompromisoComponent },
         { path: '**', pathMatch: 'full', redirectTo: 'geografica' }
     ]},    
     {path: '', pathMatch: 'full', redirectTo: 'login'},

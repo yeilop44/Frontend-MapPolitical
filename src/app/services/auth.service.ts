@@ -13,6 +13,7 @@ export class AuthService {
   //urlApi = 'https://back-mpolitical.herokuapp.com/user';
   isLogged: any;
   user: any;
+  token: any;
   userInfo: Usuario[]=[];    
 
   constructor(private http: HttpClient) {
@@ -23,13 +24,10 @@ export class AuthService {
     const httpOptions = {
     headers: new HttpHeaders({'Content-Type':  'application/json', 'Accept': 'application/json'}),  withCredentials: true};
     return this.http.post(`${this.urlApi}/signin`, user, httpOptions)
-      .pipe(map((data: any) => {
-        console.log(data);
+      .pipe(map((data: any) => {        
         if(data.isLogged){
           this.isLogged = data.isLogged;
-            this.user = data.user;
-            //console.log(data);
-            //console.log(this.user);
+            this.user = data.user.user;
         }else{
           console.log("error de conexion con el servidor");
         }

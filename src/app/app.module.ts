@@ -14,6 +14,12 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
 
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material';
+
+
 //Routes
 import { app_routing } from './app.routes'
 
@@ -39,6 +45,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalNuevoContactoComponent } from './components/afiliados/modal-nuevo-contacto/modal-nuevo-contacto.component';
 import { LideresComponent } from './components/lideres/lideres.component';
 import { ModalDetalleContactoComponent } from './components/afiliados/modal-detalle-contacto/modal-detalle-contacto.component';
+import { CompromisosComponent } from './components/compromisos/compromisos.component';
+import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +71,9 @@ import { ModalDetalleContactoComponent } from './components/afiliados/modal-deta
     ElectoralComponent,
     FileSelectDirective,
     FileDropDirective,
-    ModalDetalleContactoComponent
+    ModalDetalleContactoComponent,
+    CompromisosComponent,
+    CompromisoComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +93,11 @@ import { ModalDetalleContactoComponent } from './components/afiliados/modal-deta
     MatListModule,
     MatTooltipModule,
     ModalModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   entryComponents: [ModalCargaMasivaComponent, ModalDetalleContactoComponent],
   providers: [AuthService],

@@ -9,6 +9,9 @@
         <a class="nav-link" [routerLink]="['afiliados']"><i class="fas fa-users"></i>  Contactos</a>
       </li>
       <li class="nav-item" routerLinkActive="active" *ngIf="auth.isLogged">
+        <a class="nav-link" [routerLink]="['compromisos']"><i class="far fa-handshake"></i>  Compromisos</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="auth.isLogged">
         <a class="nav-link" [routerLink]="['lideres']"><i class="fas fa-fist-raised"></i>  Lideres</a>
       </li>
       <li class="nav-item" routerLinkActive="active" *ngIf="auth.isLogged">

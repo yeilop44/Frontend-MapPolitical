@@ -82,11 +82,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   bsModalRef: BsModalRef;
   bsModalRefTres: BsModalRef;
 
-  public user = {
-    name: 'Izzat Nadiri',
-    age: 26
-  }
-
+  user: any;
 
   constructor(private affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
@@ -95,9 +91,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
               private ngZone: NgZone, private modalServiceDos: BsModalService, private modalServiceTres: BsModalService) {
     
     this.session();     
-              
-    this.userNameCurrent = this.auth.user;
-    console.log(this.userNameCurrent);
+ 
   }
 
 
@@ -186,92 +180,35 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   session(){
     this.auth.session()
-      .subscribe((res: any) =>{     
-        console.log(res);     
+      .subscribe((res: any) =>{                
         this.isLogged = res.isLogged;
-        if(this.isLogged){
-          console.log(this.isLogged);
-          this.username = res.user.userName;
-          this.userNameCurrent = this.username;
+        if(this.isLogged){          
+          this.user = res.user;
+          this.auth.token = res.user.token;
+          this.userNameCurrent = this.user.user.userName;
           this.sessions = res.session;          
-          this.getAfiliados(this.username); 
-        }else{
-          console.log(this.isLogged);
+          this.getAfiliados(this.user); 
+        }else{          
           this.router.navigate(['login']);
         }
       });
   }
-
-  /*ngMaps() {    
-    
-      let mapProp = {
-        center: new google.maps.LatLng(4.2223, -74.3333),
-        zoom: 8,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-      var map = new google.maps.Map(this.mapElement.nativeElement, mapProp);
-      var marker = new google.maps.Marker({
-          position: {lat: 4.2223, lng: -74.3333},
-          map,
-          draggable: true
-      });
-        
-      var searchBox = new google.maps.places.SearchBox(this.searchElement.nativeElement);
-      google.maps.event.addListener(searchBox, 'places_changed', () => {
-        var places = searchBox.getPlaces();
-        var bounds = new google.maps.LatLngBounds();
-        console.log(searchBox);
-        console.log(places[0].formatted_address);
-        console.log(places[0].geometry.location.lat());
-        console.log(places[0].geometry.location.lng());
-        var positionLat = places[0].geometry.location.lat();
-        var positionLng = places[0].geometry.location.lng();
-        console.log(bounds);
-        let i, place;
-          for ( i = 0 ;  place = places[i]; i++) {
-          bounds.extend(place.geometry.location);
-          marker.setPosition(place.geometry.location);
-        }  
-        bounds.extend(places[0].geometry.location);
-        marker.setPosition(places[0].geometry.location);
-        map.fitBounds(bounds);
-        map.setZoom(14);
-        this.affiliateService.selectedAfiliado.positionLat = positionLat;
-        this.affiliateService.selectedAfiliado.positionLng = positionLng;
-      });  
-  }*/      
-
-  getAfiliados(username: string) {  
+  
+  getAfiliados(user: any) {  
     this.isLoading = true;    
-    this.affiliateService.getAffiliatesByUser(username)
-    .subscribe((data: any ) => {
-      //console.log(data);
-      this.affiliates = data.affiliates;
-      console.log(this.affiliates);
+    this.affiliateService.getAffiliatesByUser(user)
+    .subscribe((data: any ) => {      
+      this.affiliates = data.affiliates;      
       this.isLoading = false;
     });        
-  }
-  
-  postAuthorChanged(newVal: string): void {
-    if (newVal) {
-     this.affiliateService.selectedAfiliado.leader = newVal;
-    } else if (newVal === '') {
-     // here is where we put the default value when the 'newVal' is empty string
-     this.affiliateService.selectedAfiliado.leader = "sin lider";
-    } else {
-      this.affiliateService.selectedAfiliado.leader = newVal;
-    }
-   }
-
+  }  
 
   addAfiliado(form: NgForm) {
     if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ||
         this.affiliateService.selectedAfiliado.names == (null || '') ||
         this.affiliateService.selectedAfiliado.surnames == (null || '') ||
         this.affiliateService.selectedAfiliado.identification == (0) || null) {
-
-          this.isEmptyFields = true;
-          console.log('datos basicos vacios');
+          this.isEmptyFields = true;          
       if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ) {
         this.isEmptyBirthdate = true;
       } else {
@@ -296,25 +233,21 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isDisabledButton = true;
       if (form.value._id) {        
         this.affiliateService.putAfiliado(form.value)
-          .subscribe(res => {
-            console.log(res);
+          .subscribe(res => {            
             console.log('Affiliate Updated');
-            this.getAfiliados(this.username);
+            this.getAfiliados(this.user);
             this.isNewAffiliate = false;
           });
         // this.resetForm(form);        
       } else {  
-        if(form.value.leader){
-          console.log("tiene lider");
-        }else if (form.value.leader === ""){
-          console.log("sin lider, pero le pone");
+        if(form.value.leader){          
+        }else if (form.value.leader === ""){          
           form.value.leader = "sin lider";
-        }            
-        console.log(form.value); 
+        }                    
         this.affiliateService.postAfiliado(form.value)
           .subscribe(res => {
           console.log('Affiliate Saved');
-          this.getAfiliados(this.username);
+          this.getAfiliados(this.user);
           this.isNewAffiliate = false;
         });        
       }
@@ -329,14 +262,13 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   editAfiliado(afiliado: Afiliado) {
     this.affiliateService.selectedAfiliado = afiliado;
     this.isNewAffiliate = true;
-    // this.ngMaps();
+    this.isDisabledButton = false;
     this.getDivipolInfo();
     this.getGeographyInfo();
     this.getProfessions(event);
     this.getOcupations(event);
     this.getChurchs(event);
-    this.getSexs(event);
-    this.isDisabledButton = false;
+    this.getSexs(event);   
     this.ngMaps();
     this.getElectoralInfo();
   }
@@ -346,29 +278,26 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.affiliateService.deleteAfiliado(_id)
         .subscribe(res => {
         console.log('Affiliate deleted');
-        this.getAfiliados(this.username);
+        this.getAfiliados(this.user);
       });
     }
   }
 
   getDivipolInfo() {
     this.divipolMasterService.getDivipolMasters()
-      .subscribe((data: any) => {
-        console.log(data.Items);
+      .subscribe((data: any) => {        
         this.divipols = data.Items;
         for (let i = 0; i < this.divipols.length; i++) {
             this.states[i] = this.divipols[i].state;
-        }
-        console.log(this.states);
-      });
+        }      
+    });
   }
 
   onOptionsSelectedState(value: string) {
     this.affiliateService.selectedAfiliado.municipality = '';
     this.municipalitys = [];
-    // tslint:disable-next-line:prefer-for-of
+
     for (let i = 0; i < this.divipols.length; i++) {
-      // tslint:disable-next-line:triple-equals
       if (value == this.divipols[i].state) {
         for (let j = 0; j < this.divipols[i].municipality.length; j++) {
           this.municipalitys[j] = this.divipols[i].municipality[j];
@@ -378,11 +307,10 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getGeographyInfo() {
-    this.geographyMasterService.getGeographyMasterByUser(this.username)
+    this.geographyMasterService.getGeographyMasterByUser(this.user.user.userName)
       .subscribe((data: any) => {
-        this.geographys = data.Items;
-        console.log(this.geographys);
-      });
+        this.geographys = data.Items;        
+    });
   }
 
   onOptionsSelectedMunicipality(value: string) {
@@ -415,14 +343,11 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
           subdivisions1[i] = this.geographys[i].subdivision;
       }
     }
-    console.log(this.affiliateService.selectedAfiliado.state);
-    console.log(this.affiliateService.selectedAfiliado.municipality);
-    console.log(this.affiliateService.selectedAfiliado.zone);
     this.subdivisions = subdivisions1.filter(() => true);
   }
 
   getElectoralInfo() {
-    this.electoralMasterService.getElectoralMastersByUser(this.username)
+    this.electoralMasterService.getElectoralMastersByUser(this.user.user.userName)
     .subscribe((data: any ) => {
       this.electorals = data.Items;
     });
@@ -430,8 +355,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onOptionsSelectedStation(value: string) {
     this.affiliateService.selectedAfiliado.votingTable = '';
-    this.votingTables = [];
-    // tslint:disable-next-line:prefer-for-of
+    this.votingTables = [];    
     for (let i = 0; i < this.electorals.length; i++) {
       if (value === this.electorals[i].votingStation) {
         this.affiliateService.selectedAfiliado.votingPlace = this.electorals[i].votingPlace;
@@ -451,10 +375,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         if (data.Items[i].type == 'Profesión') {
           arr1[i] = data.Items[i].name;
         }
-      }
-      console.log(arr1);
-      this.professions = arr1.filter( function() { return true; });
-      console.log(this.professions);
+      }      
+      this.professions = arr1.filter( function() { return true; });      
     });
   }
 
@@ -466,10 +388,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         if (data.Items[i].type == 'Ocupación') {
           arr[i] = data.Items[i].name;
         }
-      }
-      console.log(arr);
-      this.ocupations = arr.filter( () => true);
-      console.log(this.ocupations);
+      }      
+      this.ocupations = arr.filter( () => true);      
     });
   }
 
@@ -481,10 +401,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         if (data.Items[i].type == 'Religión') {
           arr[i] = data.Items[i].name;
         }
-      }
-      console.log(arr);
-      this.churchs = arr.filter( () => true);
-      console.log(this.churchs);
+      }      
+      this.churchs = arr.filter( () => true);      
     });
   }
 
@@ -496,10 +414,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         if (data.Items[i].type == 'Sexo') {
           arr[i] = data.Items[i].name;
         }
-      }
-      console.log(arr);
-      this.sexs = arr.filter( () => true);
-      console.log(this.sexs);
+      }      
+      this.sexs = arr.filter( () => true);      
     });
   }
 
@@ -508,8 +424,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     if (form) {
       form.reset();
       this.affiliateService.selectedAfiliado = new Afiliado();
-      this.userNameCurrent = this.username;
-      console.log(this.userNameCurrent);
+      this.userNameCurrent = this.user.user.userName;      
     }
   }
 
@@ -531,7 +446,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   cancelar(form: NgForm) {
     this.isNewAffiliate = false;
     this.resetForm(form);
-    this.getAfiliados(this.username);
+    //this.getAfiliados(this.user);
   }
 
   ngOnDestroy() {
@@ -563,7 +478,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   eventEmmiter(event){
-      this.getAfiliados(this.username);
+      this.getAfiliados(this.user);
   }
 
 

@@ -1,0 +1,116 @@
+<div class="container m-5">
+  <form #compromisosForm="ngForm" (ngSubmit)=" addCompromisos(compromiso)">
+      <input type="text" name="userName" [(ngModel)]="compromiso.userName">
+      <div class="form-row">
+        <div class="form-group col-md-6">  
+          <label for="inputState">Contacto</label>        
+          <form class="example-form">
+              <mat-form-field class="example-full-width">
+                <input class="lowercase" matInput [matAutocomplete]="auto" [formControl]="stateCtrl" [(ngModel)]="compromiso.affiliate.fullname">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getFullName($event.option.value)">
+                  <mat-option *ngFor="let state of filteredStates | async" class="lowercase" [value]="state.fullName">        
+                    <span><strong>{{state.names}} {{state.surnames}}</strong></span>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </form>
+        </div>
+        <div class="form-group col-md-6">                                    
+          <label>Tipo compromiso</label>
+          <select name="typeCommitment" class="form-control" name="typeCommitment" #typeCommitment="ngModel"
+            [(ngModel)]="compromiso.typeCommitment" (change)="onOptionsSelectedTypeCommitment(typeCommitment.value)">  
+            <option>{{compromiso.typeCommitment}}</option>          
+            <option *ngFor="let compromisoMaster of compromisoMasterUnique">{{compromisoMaster.typeCommitment}}</option>
+          </select>
+        </div>
+      </div>        
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputState">Descripción del compromiso</label>
+          <select name="commitmentDescription" class="form-control"
+          [(ngModel)]="compromiso.commitmentDescription">
+          <option>{{compromiso.commitmentDescription}}</option>                      
+            <option *ngFor="let compromiso of compromisoDescriptionsSelect">{{ compromiso }}</option>
+          </select>          
+        </div>        
+        <div class="form-group col-md-3">
+          <label >Cantidad</label>
+          <input type="text" name="quantity" #quantity="ngModel" class="form-control" 
+          [(ngModel)]="compromiso.quantity">
+        </div>
+        <div class="form-group col-md-3">
+          <label >Fecha</label>
+          <form class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="aaaa-mm-dd"
+                       name="d2" #c2="ngModel" [(ngModel)]="compromiso.date" ngbDatepicker #d2="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+          </form> 
+        </div>
+      </div>        
+      <button type="submit" class="btn btn-primary">Guardar</button>      
+  </form>
+  <hr>
+  <div class="row" *ngIf="compromisos.length!=0">
+    <div class="col-4">
+      <div>
+        <div><span><b>Tipos de compromiso</b></span></div>
+        <div class="overflow-auto" style="width:250px; height:200px;">
+          <div class="list-group" style="margin-top: 10px">
+            <a  class="list-group-item list-group-item-action animated fadeIn fast" data-toggle="list"
+              (click)="verTipoCompromiso(compromiso)" style="cursor: pointer"
+              *ngFor="let compromiso of compromisosType; let i = index;"  [ngClass]="{'active': i === 0}">        
+              <div class="capitalize" ><h6>{{compromiso.typeCommitment}}</h6></div>          
+            </a>
+          </div>
+        </div> 
+      </div>          
+    </div>
+    <div class="col-6">
+      <div style="margin-left: -30px">
+        <div><span><b>Contactos comprometidos</b></span></div>  
+        <div class="overflow-auto" style="width:400px; height:250px;">
+          <div class="list-group"  style="margin-top: 10px">
+            <a class="list-group-item animated fadeIn fast" *ngFor="let contacto of contactosComprometidos">
+              <div class="row">
+                <div class="col-2">
+                  <span><ngx-avatar size="40" [name]="contacto.affiliate.fullname.split(' ')[0]"></ngx-avatar></span>
+                </div>
+                <div class="col-8">
+                  <div class="capitalize"><h6>{{contacto.affiliate.fullname}}</h6></div>
+                  <div *ngIf="contacto.commitmentDescription">
+                    <span class="badge badge-info">
+                      {{contacto.commitmentDescription}} <span class="badge badge-light"><b>{{contacto.quantity}}</b></span>
+                    </span>
+                  </div>
+                  <div *ngIf="contacto.date"><span class="badge badge-danger">{{contacto.date}} </span></div>               
+                </div>  
+                <div class="col-2">
+                  <button mat-raised-button matTooltip="Eliminar" type="button" class="btn btn-outline-danger" 
+                    (click)="deleteCompromiso(contacto._id)" style="font-size: 12px">
+                    <i class="fas fa-trash-alt fa-sm" style="color: rgba(246, 74, 74, 0.863)"></i>
+                  </button>
+                </div>                           
+              </div>   
+            </a>     
+          </div>
+        </div> 
+      </div>                           
+    </div>
+    <div class="col-2">
+      <div style="margin-left: -200px">
+        <div style="width: 600px;">
+          <canvas id="canvas">{{ chart }}</canvas> 
+        </div> 
+      </div>          
+    </div>
+  </div>
+</div>
+
+
+

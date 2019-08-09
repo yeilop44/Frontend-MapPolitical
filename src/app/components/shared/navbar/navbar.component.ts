@@ -27,12 +27,12 @@ export class NavbarComponent implements OnInit {
 
   session(){
     this.auth.session()
-      .subscribe(( res: any )=>{
-        console.log(res);
+      .subscribe(( res: any )=>{      
         this.isLogged = res.isLogged;
-        this.user = res.user;
+       
         if(this.isLogged){
           this.auth.isLogged = this.isLogged;
+          this.user = res.user.user;
           this.auth.user = this.user;          
         }          
       });
@@ -40,12 +40,10 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.auth.logout()
-      .subscribe((res: any) =>{
-        console.log(res);
+      .subscribe((res: any) =>{      
         this.isLogout = res.isLogout;
         if(this.isLogout){
-          this.auth.isLogged = false;
-          console.log(this.auth.isLogged);
+          this.auth.isLogged = false;         
           this.router.navigate(['/login']);      
         }
       });

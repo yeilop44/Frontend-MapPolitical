@@ -30,7 +30,7 @@
         <tr class="pointer" *ngFor="let afiliado of affiliates; let i = index">
             <th scope="row">{{i + 1}}</th>
             <td>
-                <ngx-avatar size="40" [name]="afiliado.names"></ngx-avatar>
+                <ngx-avatar size="40" [name]="afiliado.names.split(' ')[0]"></ngx-avatar>
                 <div class="text-overflow capitalize" style="padding-left: 50px; margin-top: -35px">
                     {{ afiliado.names }} {{ afiliado.surnames }}
                 </div>
