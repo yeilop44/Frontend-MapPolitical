@@ -207,6 +207,17 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  getAfiliadosPerPage(user: string, page: number) {
+    this.isLoading = true;
+    this.affiliateService.getAffiliatesByUserPaginated(user, page)
+        .subscribe((data: any ) => {
+          this.affiliates = data.affiliates;
+          this.isLoading = false;
+          this.pager = data.pager;
+          this.pageOfItems = data.pageOfItems;
+        });
+  }
+
   addAfiliado(form: NgForm) {
     if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ||
         this.affiliateService.selectedAfiliado.names == (null || '') ||
