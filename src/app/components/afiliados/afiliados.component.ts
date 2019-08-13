@@ -494,7 +494,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   eventEmmiter(event){
-      this.getAfiliados(this.user);
+      this.getAfiliadosPerPage(this.user.user.userName, 1);
   }
 
 

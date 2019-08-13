@@ -17,11 +17,11 @@
       <div class="body-icon"><i class="far fa-id-card"></i></div>
       <div class="body-description">{{identification}}</div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="phone">
       <div class="body-icon"><i class="fas fa-phone"></i></div>
       <div class="body-description">{{phone}}</div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="birthdate">
       <div class="body-icon"><i class="fas fa-birthday-cake"></i></div>
       <div class="body-description">{{birthdate}}</div>
     </div>
