@@ -95,8 +95,7 @@ export class CompromisosComponent implements OnInit {
               for(let i=0; i<this.afiliados.length; i++){
                  this.afiliados[i].fullName = this.afiliados[i].names + ' ' + this.afiliados[i].surnames; 
               }
-          }); 
-                                                                                   
+          });                                                                                    
         }else{        
           this.router.navigate(['login']);
         }

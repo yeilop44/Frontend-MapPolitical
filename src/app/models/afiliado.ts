@@ -1,11 +1,11 @@
 export class Afiliado {
   // tslint:disable-next-line:max-line-length variable-name
-  constructor (_id = '', userName= '', birthdate='', names='', surnames='', sex='', zone='', subdivision='', address='',state='', municipality='',
+  constructor (_id = '', userName= '', names='', surnames='', sex='', zone='', subdivision='', address='',state='', municipality='',
                votingTable='', votingStationy='', leader='sin lider', positionLat=0, positionLng=0, proffesion='', occupation='', church='',
                 lgtbi= false, disability= false, phone=0, identification=0,familyNumber=0) {
     this._id = _id;
     this.userName = userName;
-    this.birthdate = birthdate;
+    //this.birthdate = birthdate;
     this.names = names;
     this.surnames = surnames;
     this.sex = sex;
@@ -31,7 +31,7 @@ export class Afiliado {
 
   _id: string;
   userName: string;
-  birthdate: string;
+  birthdate: Date;
   names: string;
   surnames: string;
   sex: string;

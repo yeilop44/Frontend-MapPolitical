@@ -23,7 +23,7 @@
     </div>
     <div class="row" *ngIf="birthdate">
       <div class="body-icon"><i class="fas fa-birthday-cake"></i></div>
-      <div class="body-description">{{birthdate}}</div>
+      <div class="body-description">{{birthdate | date}}</div>
     </div>
     <div class="row" *ngIf="address">
       <div class="body-icon"><i class="fas fa-map-marker-alt"></i></div>

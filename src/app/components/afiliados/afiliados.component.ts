@@ -15,11 +15,13 @@ import { ModalCargaMasivaComponent } from './modal-carga-masiva/modal-carga-masi
 import { ModalDetalleContactoComponent } from './modal-detalle-contacto/modal-detalle-contacto.component';
 import { subscribeOn } from 'rxjs/operators';
 import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
+import {NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-afiliados',
   templateUrl: './afiliados.component.html',
-  styleUrls: ['./afiliados.component.css']
+  styleUrls: ['./afiliados.component.css'],
+   providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
 export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
  
@@ -219,12 +221,12 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addAfiliado(form: NgForm) {
-    if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ||
+    if (
         this.affiliateService.selectedAfiliado.names == (null || '') ||
         this.affiliateService.selectedAfiliado.surnames == (null || '') ||
         this.affiliateService.selectedAfiliado.identification == (0) || null) {
           this.isEmptyFields = true;          
-      if (this.affiliateService.selectedAfiliado.birthdate == (null || '') ) {
+      if (!this.affiliateService.selectedAfiliado.birthdate  ) {
         this.isEmptyBirthdate = true;
       } else {
         this.isEmptyBirthdate = false;
@@ -255,12 +257,15 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
           });
                
       } else {  
-        if(form.value.leader){          
+        console.log(form.value);  
+        if(form.value.leader){
+                  
         }else if (form.value.leader === ""){          
           form.value.leader = "sin lider";
         }                    
         this.affiliateService.postAfiliado(form.value)
           .subscribe(res => {
+            console.log(res);
           console.log('Affiliate Saved');
           this.getAfiliados(this.user.user.userName);
           this.isNewAffiliate = false;
