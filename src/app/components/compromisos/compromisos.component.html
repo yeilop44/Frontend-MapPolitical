@@ -88,7 +88,7 @@
                       {{contacto.commitmentDescription}} <span class="badge badge-light"><b>{{contacto.quantity}}</b></span>
                     </span>
                   </div>
-                  <div *ngIf="contacto.date"><span class="badge badge-danger">{{contacto.date}} </span></div>               
+                  <div *ngIf="contacto.date"><span class="badge badge-danger">{{contacto.date | date: 'mediumDate': 'shortTime' }} </span></div>               
                 </div>  
                 <div class="col-2">
                   <button mat-raised-button matTooltip="Eliminar" type="button" class="btn btn-outline-danger" 
