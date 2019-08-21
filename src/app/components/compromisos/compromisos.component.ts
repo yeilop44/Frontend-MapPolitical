@@ -84,7 +84,8 @@ export class CompromisosComponent implements OnInit {
       .subscribe((res: any) =>{                  
         this.isLogged = res.isLogged;
         if(this.isLogged){          
-          this.user = res.user;   
+          this.user = res.user;
+          this.auth.token = res.user.token;   
           this.userNameCurrent = this.user.user.userName;
           this.compromiso.userName = this.user.user.userName;    
           this.getCommitments(this.user.user.userName); 
