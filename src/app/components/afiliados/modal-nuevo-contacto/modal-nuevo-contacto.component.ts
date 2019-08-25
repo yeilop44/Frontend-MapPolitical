@@ -31,16 +31,16 @@ export class ModalNuevoContactoComponent implements OnInit {
                 public auth: AuthService,
                 private router: Router
   ) {
-    if(!this.auth.isLogged){
+    /*if(!this.auth.isLogged){
       this.router.navigate(['/login']);
-    }
+    }*/
 
     this.userNameCurrent = this.auth.user;
     console.log(this.userNameCurrent);
   }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

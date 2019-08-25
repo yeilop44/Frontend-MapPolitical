@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { AffiliatesService } from '../../services/affiliates.service';
 import { Router } from '@angular/router';
 import { Usuario } from '../../models/usuario';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-usuario',
@@ -10,25 +12,45 @@ import { Usuario } from '../../models/usuario';
 })
 export class UsuarioComponent implements OnInit {
 
-  User: Usuario[] = [];
+  user: Usuario[] = [];
+  isLogged: boolean;
+  isLoading: boolean = false;
+  afiliados: any[] = [];
+  afiliadosLeader: any[] = [];
+  countAfiliados: number;
+  countLideres: number;
 
-  constructor(public auth: AuthService, private router: Router) { 
-    if(!this.auth.isLogged){
-      this.router.navigate(['/login']);
-    }
+  constructor(public auth: AuthService, private affiliateService: AffiliatesService, private router: Router) { 
+    this.session();
   }
 
   ngOnInit() {
-    this.getUser();
+  
   }
 
-  getUser(){
-    this.auth.getUserSettings(this.auth.user)
-      .subscribe((data:any) =>{
-        this.User = data.User[0];
-        console.log(this.User);
-      });
+  session(){
+    this.isLoading = true;
+    this.auth.session()  
+      .subscribe((res: any) =>{          
+        this.isLogged = res.isLogged;        
+        if(this.isLogged){
+          this.user = res.user.user;  
+          this.isLoading = false;          
+          let username = res.user.user.userName;
+          this.getAfiliados(username);        
+        }else{
+          this.router.navigate(['login']);
+        }
+    });
   }
 
-
+  getAfiliados(username: string) {
+    this.affiliateService.getAffiliatesByUser(username)
+      .subscribe((res:any) => {
+        this.afiliados = res.affiliates;
+        this.countAfiliados = res.count;
+        this.afiliadosLeader = _.uniqBy(this.afiliados, 'leader');        
+        this.countLideres = this.afiliadosLeader.length;                                        
+      });      
+  }
 }

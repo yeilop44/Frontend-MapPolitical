@@ -1,14 +1,18 @@
 <nav class="navbar navbar-dark navbar-custom navbar-expand-lg justify-content-between">
-
-  <a class="navbar-brand" href="#">Mapeo Politico</a>
-
+  <a class="navbar-brand" href="#">Mapeo Politico </a>  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active" routerLinkActive="active" *ngIf="auth.isLogged">
-        <a class="nav-link" [routerLink]="['inicio']"><i class="fas fa-home"></i>  Inicio<span class="sr-only">(current)</span></a>
-      </li>
       <li class="nav-item" routerLinkActive="active" *ngIf="auth.isLogged">
         <a class="nav-link" [routerLink]="['afiliados']"><i class="fas fa-users"></i>  Contactos</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="auth.isLogged">
+        <a class="nav-link" [routerLink]="['compromisos']"><i class="far fa-handshake"></i>  Compromisos</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="auth.isLogged">
+        <a class="nav-link" [routerLink]="['lideres']"><i class="fas fa-fist-raised"></i>  Lideres</a>
       </li>
       <li class="nav-item" routerLinkActive="active" *ngIf="auth.isLogged">
         <a class="nav-link" [routerLink]="['graficos']"><i class="fas fa-chart-pie"></i>  Estadisticas</a>
@@ -17,7 +21,6 @@
         <a class="nav-link" [routerLink]="['mapa']"><i class="fas fa-globe-americas"></i>  Georeferencia</a>
       </li>
     </ul>
-
     <form class="form-inline my-2 my-lg-0" *ngIf="auth.isLogged">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-light" type="submit">Search</button>
@@ -28,18 +31,16 @@
           Opciones
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" style="cursor: pointer" (click)="settingsUser()"><i class="fas fa-user-circle"></i>  {{auth.user}}</a>
-          <a class="dropdown-item dropdown-item-fullname text-light" (click)="settingsUser()">{{auth.userInfo.names}} {{auth.userInfo.surnames}}</a>
+          <a class="dropdown-item" style="cursor: pointer" (click)="settingsUser()"><i class="fas fa-user-circle"></i>  {{auth.user.userName}}</a>
+          <a class="dropdown-item dropdown-item-fullname text-light"  style="cursor: pointer" (click)="settingsUser()">{{auth.user.names}} {{auth.user.surnames}}</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" style="cursor: pointer" (click)="account()">Cuenta</a>
+          <a class="dropdown-item" style="cursor: pointer" (click)="account()"><i class="fas fa-cog"></i> Configuración</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" style="cursor: pointer" (click)="logOut()">Cerrar sesión  <i class="fas fa-sign-in-alt"></i></a>
+          <a class="dropdown-item" style="cursor: pointer" (click)="logout()">Cerrar sesión  <i class="fas fa-sign-in-alt"></i></a>
         </div>
       </li>
     </ul>
   </div>
-
-
-
 </nav>
+<app-loading class="container" *ngIf="isLoading" ></app-loading>
 

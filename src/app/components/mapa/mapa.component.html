@@ -1,10 +1,24 @@
-<agm-map [latitude]="User.positionLat" [longitude]="User.positionLng" [zoom]="zoom" style="width:100%;height:600px">
-  <agm-marker *ngFor="let marcador of marcadores" [latitude]="marcador.positionLat" [longitude]="marcador.positionLng" [iconUrl]="icon">
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="width:100%;height:600px" #AgmMap>
+  <agm-marker *ngFor="let marcador of marcadores" [latitude]="marcador.positionLat" [longitude]="marcador.positionLng" [iconUrl]="icon" [markerDraggable]="true">
     <agm-info-window>
-      <ngx-avatar size="50" [name]="marcador.fullName"></ngx-avatar>
-      <strong><i class="fas fa-user"></i> {{marcador.fullName}}</strong>
-      <p><i class="fas fa-id-card"></i> {{marcador.identification}}</p>
-      <p><i class="fas fa-phone"></i>  {{marcador.phone}}</p>
+        <ngx-avatar size="50" [name]="marcador.names"></ngx-avatar>           
+      <table class="table table-borderless">        
+        <tbody>
+          <tr>
+            <td><i class="fas fa-user" ></i></td>
+            <td class="capitalize">{{marcador.names}} {{marcador.surnames | slice:0:1}}</td>            
+          </tr>
+          <tr>
+            <td><i class="fas fa-id-card"></i></td>
+            <td>{{marcador.identification}}</td>            
+          </tr>
+          <tr>
+            <td><i class="fas fa-phone"></i></td>
+            <td>{{marcador.phone}}</td>            
+          </tr>
+        </tbody>
+      </table>  
+      
     </agm-info-window>
   </agm-marker>
 </agm-map>

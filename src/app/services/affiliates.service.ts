@@ -1,42 +1,89 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Afiliado } from '../models/afiliado';
+import { AuthService } from '../services/auth.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AffiliatesService {
 
-  selectedAfiliado: Afiliado;
-  afilaidos: Afiliado[];
+  selectedAfiliado: Afiliado; 
+ 
+  urlApi = 'http://localhost:3000/affiliates';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
 
-  urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
-
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private auth: AuthService) {
     this.selectedAfiliado = new Afiliado();
   }
 
-  getAffiliatesByUser(user: string) {
+  getAffiliatesByUserPaginated(user: string, page: number) {
+    let token = this.auth.token;
     const httpOptions = {
-          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
-    return this.http.get(`${this.urlApi}/${user}`, httpOptions);
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${user}/${page}`, httpOptions);
   }
 
+getAffiliatesByUser(user: string) {
+    let token = this.auth.token;
+    const httpOptions = {
+        headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${user}`, httpOptions);
+}
+
   postAfiliado(Afiliado: Afiliado) {
-    return this.http.post(this.urlApi, Afiliado);
+    let token = this.auth.token;
+    const httpOptions = {      
+      headers: new HttpHeaders({'Authorization': `Bearer ${token}`,'Content-Type': 'application/json', 'Accept': 'application/json'})
+    };
+    return this.http.post(this.urlApi, Afiliado, httpOptions);
   }
 
   putAfiliado(Afiliado: Afiliado) {
-    return this.http.put(this.urlApi + `/${Afiliado._id}`, Afiliado);
+    let token = this.auth.token;
+    const httpOptions = {      
+      headers: new HttpHeaders({'Authorization': `Bearer ${token}`,'Content-Type': 'application/json', 'Accept': 'application/json'})
+    };
+    return this.http.put(this.urlApi + `/${Afiliado._id}`, Afiliado, httpOptions);
   }
 
   deleteAfiliado(_id: string) {
-  return this.http.delete(this.urlApi + `/${_id}`);
+    let token = this.auth.token;    
+    const httpOptions = {      
+      headers: new HttpHeaders({'Authorization': `Bearer ${token}`,'Content-Type': 'application/json', 'Accept': 'application/json'})
+    };
+  return this.http.delete(this.urlApi + `/${_id}`,  httpOptions);
   }
 
+  getAffiliatesByLeader(leader: Afiliado) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${leader.userName}/leader/${leader.leader}`, httpOptions);
+  }
 
+  getCountProfessions(user: string) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/count/profession/${user}`, httpOptions);
+  }
 
+  getCountOccupations(user: string) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/count/occupation/${user}`, httpOptions);
+  }
 
+  getCountZones(user: string) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/count/zone/${user}`, httpOptions);
+  }
+
+  getCountSubdivisions(user: string) {
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/count/subdivision/${user}`, httpOptions);
+  }
 
 }

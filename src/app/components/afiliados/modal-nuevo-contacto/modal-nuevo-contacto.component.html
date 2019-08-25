@@ -1,78 +1,235 @@
-<ng-template #content let-modal>
+<ng-template #content let-modal size="'xl'">
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
 
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Creación de nuevo contacto</h4>
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <h5 class="modal-title" id="exampleModalLabel">Creación de contacto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
-
-
         <div class="modal-body">
 
-          <div class="container m-5" >
-            <form #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
-              <input type="hidden" name="_id"  [(ngModel)]="affiliateService.selectedAfiliado._id">
-              <input type="hidden" name="userName" [(ngModel)]="userNameCurrent">
+          <div class="container m-2">
+            <form id="afiliadoForm" #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
+              <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
+              <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+
+              <h6>Información básica</h6>
+              <hr>
+
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label >Fecha</label>
-                  <input type="text" class="form-control" name="date"
-                         [(ngModel)]="affiliateService.selectedAfiliado.date" placeholder="Fecha de nacimiento">
+                <div class="form-group has-icon col-md-4">
+                  <span class="fas fa-birthday-cake form-control-feedback"></span>
+                  <input type="text" class="form-control" name="birthdate" #birthdate="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.birthdate" placeholder="Fecha de nacimiento*" [ngClass]="{'red': isEmptyBirthdate, 'gray': !isEmptyBirthdate}">
                 </div>
-                <div class="form-group col-md-6">
-                  <label>Nombre Completo</label>
-                  <input type="text" class="form-control" name="fullName"
-                         [(ngModel)]="affiliateService.selectedAfiliado.fullName" placeholder="Nombre completo">
+                <div class="form-group has-icon col-md-4">
+                  <span class="far fa-user form-control-feedback"></span>
+                  <input type="text" class="form-control" name="names" #names="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.names" placeholder="Nombres*" [ngClass]="{'red': isEmptyNames, 'gray': !isEmptyNames}">
+                </div>
+                <div class="form-group  has-icon col-md-4">
+                  <span class="far fa-user form-control-feedback"></span>
+                  <input type="text" class="form-control" name="surnames" #surnames="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.surnames" placeholder="Apellidos*" [ngClass]="{'red': isEmptySurnames, 'gray': !isEmptySurnames}">
                 </div>
               </div>
+
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label>Dirección</label>
-                  <input type="text" class="form-control" name="address"
+
+                <div class="form-group has-icon col-md-6">
+                  <span class="far fa-id-card form-control-feedback"></span>
+                  <input type="text" class="form-control" name="identification" #identification="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación*" [ngClass]="{'red': isEmptyIdentification, 'gray': !isEmptyIdentification}">
+                </div>
+                <div class="form-group has-icon col-md-6">
+                  <span class="fas fa-phone form-control-feedback"></span>
+                  <input type="text" class="form-control" name="phone" #phone="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
+                </div>
+              </div>
+
+              <h6>Información geográfica</h6>
+              <hr>
+              <div class="form-row">
+                <div class="form-group has-icon col-md-6">
+                  <label>Departamento</label>
+                  <span class="far fa-flag form-control-feedback"></span>
+                  <select class="form-control" name="state" #state="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.state"
+                          (change)="onOptionsSelectedState(state.value)" placeholder="Dpto" >
+                    <option selected>{{affiliateService.selectedAfiliado.state}}</option>
+                    <option *ngFor="let state of states">{{ state }}</option>
+                  </select>
+                </div>
+                <div class="form-group has-icon col-md-6">
+                  <label>Municipio</label>
+                  <span class="far fa-flag form-control-feedback"></span>
+                  <select class="form-control"  name="municipality" #municipality="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.municipality"
+                          (change)="onOptionsSelectedMunicipality(municipality.value)" placeholder="Municipio">
+                    <option selected>{{affiliateService.selectedAfiliado.municipality}}</option>
+                    <option *ngFor="let municipality of municipalitys">{{ municipality }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group has-icon col-md-6">
+                  <label>Zona</label>
+                  <span class="fas fa-map-marker-alt form-control-feedback"></span>
+                  <select class="form-control"  name="zone" #zone="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.zone" placeholder="zona"
+                          (change)="onOptionsSelectedZone(zone.value)">
+                    <option selected>{{affiliateService.selectedAfiliado.zone}}</option>
+                    <option selected>Urbana</option>
+                    <option>Rural</option>
+                  </select>
+                </div>
+                <div class="form-group has-icon col-md-6">
+                  <label>Subdivisión</label>
+                  <span class="fas fa-map-marker-alt form-control-feedback"></span>
+                  <select id="inputState" class="form-control"  name="subdivision" #subdivision="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.subdivision" placeholder="subdivision">
+                    <option selected>{{ affiliateService.selectedAfiliado.subdivision }}</option>
+                    <option *ngFor="let subdivision of subdivisions">{{ subdivision }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group has-icon col-md-6">
+                  <label for="inputEmail4">Dirección</label>
+                  <span class="fas fa-map-pin form-control-feedback"></span>
+                  <input type="text" class="form-control" name="address" #search
                          [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">
-                  <div class="container">
-                    <div #map style="width:50%;height:250px"></div>
+                  <div class="container m-2" *ngIf="isMap">
+                    <div #map style="width:80%;height:250px"></div>
                   </div>
                 </div>
-                <div class="form-group col-md-6">
-                  <label>Profesión</label>
-                  <input type="text" class="form-control" name="profession"
-                         [(ngModel)]="affiliateService.selectedAfiliado.profession" placeholder="Profesión/Ocupación">
-                </div>
               </div>
+              <mat-slide-toggle name="toggle" [(ngModel)]="isMap"  (change)="ngMaps()">Mapa</mat-slide-toggle>
+              <p>{{ isMap }}</p>
+
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <input type="hidden" class="form-control" name="positionLat"
+                  <input type="hidden" class="form-control" name="positionLat" #positionLat="ngModel"
                          [(ngModel)]="affiliateService.selectedAfiliado.positionLat" placeholder="latitud">
                 </div>
                 <div class="form-group col-md-6">
-                  <input type="hidden" class="form-control" name="positionLng"
+                  <input type="hidden" class="form-control" name="positionLng" #positionLng="ngModel"
                          [(ngModel)]="affiliateService.selectedAfiliado.positionLng" placeholder="longitud">
                 </div>
               </div>
+
+              <h6>Información electoral</h6>
+              <hr>
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label >Teléfono/celular</label>
-                  <input type="text" class="form-control" name="phone"
-                         [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
+                <div class="form-group has-icon col-md-6">
+                  <label for="inputEmail4">Puesto de votación</label>
+                  <span class="fas fa-vote-yea form-control-feedback"></span>
+                  <select id="inputState" class="form-control"  name="votingStation" #votingStation="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.votingStation"
+                          (change)="onOptionsSelectedStation(votingStation.value)">
+                    <option selected>{{ affiliateService.selectedAfiliado.votingStation }}</option>
+                    <option *ngFor="let votingStation of votingStations">{{ votingStation }}</option>
+                  </select>
                 </div>
-                <div class="form-group col-md-6">
-                  <label >No. Identificación</label>
-                  <input type="text" class="form-control" name="identification"
-                         [(ngModel)]="affiliateService.selectedAfiliado.identification" placeholder="No. Identificación">
+                <div class="form-group has-icon col-md-6">
+                  <label for="inputEmail4">Lugar de votación</label>
+                  <span class="fas fa-landmark form-control-feedback"></span>
+                  <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación" disabled>
                 </div>
               </div>
+
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label >Observaciones</label>
-                  <input type="text" class="form-control" name="observations"
-                         [(ngModel)]="affiliateService.selectedAfiliado.observations" placeholder="Observaciones">
+                <div class="form-group has-icon col-md-6">
+                  <label for="inputEmail4">Mesa de votación</label>
+                  <span class="fas fa-person-booth form-control-feedback"></span>
+                  <select id="inputState" class="form-control"  name="votingTable" #votingTable="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.votingTable">
+                    <option selected >{{ affiliateService.selectedAfiliado.votingTable }}</option>
+                    <option *ngFor="let table of votingTables">{{ table }}</option>
+                  </select>
+                </div>
+                <div class="form-group has-icon col-md-6">
+                  <label for="inputEmail4">Lider</label>
+                  <span class="fas fa-hiking form-control-feedback"></span>
+                  <input type="text" class="form-control" name="leader" #leader="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.leader" placeholder="Lider">
+                </div>
+              </div>
+
+
+              <h6>Información profesional</h6>
+              <hr>
+              <div class="form-row">
+                <div class="form-group has-icon col-md-6">
+                  <label>Profesión académica</label>
+                  <span class="fas fa-graduation-cap form-control-feedback"></span>
+                  <select class="form-control"  name="profession" #profession="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.profession">
+                    <option selected>{{ affiliateService.selectedAfiliado.profession }}</option>
+                    <option *ngFor="let profession of professions">{{ profession }}</option>
+                  </select>
+                </div>
+                <div class="form-group has-icon col-md-6">
+                  <label for="inputEmail4">Ocupación</label>
+                  <span class="fas fa-user-tie form-control-feedback"></span>
+                  <select id="inputState" class="form-control"  name="occupation" #occupation="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.occupation">
+                    <option selected>{{ affiliateService.selectedAfiliado.occupation }}</option>
+                    <option *ngFor="let ocupation of ocupations">{{ ocupation }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <h6>Información demográfica</h6>
+              <hr>
+              <div class="form-row">
+                <div class="form-group has-icon col-md-3">
+                  <label for="inputEmail4">Genero</label>
+                  <span class="fas fa-venus-mars form-control-feedback"></span>
+                  <select class="form-control"  name="sex" #sex="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.sex">
+                    <option selected>{{ affiliateService.selectedAfiliado.sex }}</option>
+                    <option *ngFor="let sex of sexs">{{ sex }}</option>
+                  </select>
+                </div>
+                <div class="form-group has-icon col-md-3">
+                  <label for="inputEmail4">Religión</label>
+                  <span class="fas fa-church form-control-feedback"></span>
+                  <select class="form-control" name="church" #church="ngModel"
+                          [(ngModel)]="affiliateService.selectedAfiliado.church" placeholder="iglesia">
+                    <option selected>{{ affiliateService.selectedAfiliado.church }}</option>
+                    <option *ngFor="let church of churchs">{{ church }}</option>
+                  </select>
+                </div>
+                <div class="form-group has-icon col-md-2">
+                  <label for="inputEmail4">Nº Familia</label>
+                  <span class="fas fa-home form-control-feedback"></span>
+                  <input type="text" class="form-control" name="familyNumber" #familyNumber="ngModel"
+                         [(ngModel)]="affiliateService.selectedAfiliado.familyNumber" placeholder="Número de familia">
+                </div>
+                <div class="form-group has-icon col-md-2">
+                  <label for="inputEmail4">Lgtbi</label>
+                  <span class="fas fa-transgender form-control-feedback"></span>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="lgtbi" #lgtbi="ngModel"
+                           [(ngModel)]="affiliateService.selectedAfiliado.lgtbi">
+                  </div>
+                </div>
+                <div class="form-group has-icon col-md-2">
+                  <label for="inputEmail4">Discapacidad</label>
+                  <span class="fas fa-wheelchair form-control-feedback"></span>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="disability" #disability="ngModel"
+                           [(ngModel)]="affiliateService.selectedAfiliado.disability">
+                  </div>
                 </div>
               </div>
 
@@ -82,18 +239,15 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-          <button type="submit" class="btn btn-primary" style="margin: 10px"><i class="far fa-save"></i> Guardar</button>
-          <button type="button" class="btn btn-secondary"><i class="far fa-times-circle"></i> Cancelar</button>
+          <button type="submit" form="afiliadoForm" class="btn btn-primary" style="margin: 10px" [disabled]="isDisabledButton"><i class="far fa-save"></i> Guardar</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelar(afiliadoForm)"><i class="far fa-times-circle"></i> Cancelar</button>
         </div>
-
+        <div class="alert alert-danger text-center" role="alert" *ngIf="isEmptyFields">
+          Uno o varios campos obligatorios están vacíos
+        </div>
 
       </div>
     </div>
-  </div>
-
-
-
 
 
 </ng-template>
