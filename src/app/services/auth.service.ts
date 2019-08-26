@@ -9,8 +9,8 @@ import { Usuario, UsuarioChangePass } from '../models/usuario';
   providedIn: 'root'
 })
 export class AuthService {
-  urlApi = 'http://localhost:3000/user';
-  //urlApi = 'https://back-mpolitical.herokuapp.com/user';
+  //urlApi = 'http://localhost:3000/user';
+  urlApi = 'https://back-mpolitical.herokuapp.com/user';
   isLogged: any;
   user: any;
   token: any;
