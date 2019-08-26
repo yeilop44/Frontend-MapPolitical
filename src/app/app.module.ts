@@ -12,7 +12,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import {FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
+//import {FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
+import {FileUploadModule} from 'ng2-file-upload/ng2-file-upload';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -69,14 +70,15 @@ import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.c
     ContrasenaComponent,
     GeofraficaComponent,
     ElectoralComponent,
-    FileSelectDirective,
-    FileDropDirective,
+    //FileSelectDirective,
+    //FileDropDirective,
     ModalDetalleContactoComponent,
     CompromisosComponent,
     CompromisoComponent
   ],
   imports: [
     BrowserModule,
+    FileUploadModule,
     HttpClientModule,
     FormsModule,
     app_routing,

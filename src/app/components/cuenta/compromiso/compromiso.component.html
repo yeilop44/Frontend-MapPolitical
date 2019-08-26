@@ -17,13 +17,13 @@
             [(ngModel)]="commitmentMasterService.selectedCommitmentMaster.commitmentDescription" >             
           </div>
         </div>            
-        <button type="submit" class="btn btn-primary" [disabled]="isDisabledButton"><i class="far fa-save"></i> Guardar</button>
+        <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Guardar</button>
       </form>   
     </div>
   </div>
 
 <!-- LISTADO DE TIPOS DE COMPROMISO-->
-  <div class="card animated fadeIn fast" style="margin-top: 20px" *ngIf="!isLoading">
+  <div class="card animated fadeIn fast" style="margin-top: 20px">
       <h5 class="card-header">Tipos de Compromisos</h5>
       <div class="card-body">
         <table class="table table-sm">

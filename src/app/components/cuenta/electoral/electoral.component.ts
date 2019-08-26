@@ -28,7 +28,7 @@ export class ElectoralComponent implements OnInit {
   sessions;
 
   constructor(public auth: AuthService, private router: Router, private divipolMasterService: DivipolMasterService, 
-    private electoralService: ElectoralMasterService) { 
+    public electoralService: ElectoralMasterService) { 
       this.session();
     }
 

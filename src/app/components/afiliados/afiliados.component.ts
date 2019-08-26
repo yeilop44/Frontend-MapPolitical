@@ -88,7 +88,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   user: any;
 
-  constructor(private affiliateService: AffiliatesService, public auth: AuthService,
+  constructor(public affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
               private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
               private router: Router, private modalService: NgbModal, private mapsAPILoader: MapsAPILoader,
