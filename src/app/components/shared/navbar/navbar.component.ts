@@ -12,16 +12,41 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  isLoading = false;
+  user: any;
+  isLogged = false;
+  isLogout: boolean;
 
-  constructor(private auth: AuthService, public router: Router) { }
-
-  ngOnInit() {
-
+  constructor(private auth: AuthService, public router: Router) { 
+    this.session();
   }
 
-  logOut() {
-  	this.auth.logOut();
-  	this.router.navigate(['/login']);
+  ngOnInit() {
+    
+  }
+
+  session(){
+    this.auth.session()
+      .subscribe(( res: any )=>{      
+        this.isLogged = res.isLogged;
+       
+        if(this.isLogged){
+          this.auth.isLogged = this.isLogged;
+          this.user = res.user.user;
+          this.auth.user = this.user;          
+        }          
+      });
+  }    
+
+  logout() {
+    this.auth.logout()
+      .subscribe((res: any) =>{      
+        this.isLogout = res.isLogout;
+        if(this.isLogout){
+          this.auth.isLogged = false;         
+          this.router.navigate(['/login']);      
+        }
+      });
   }
 
   account() {

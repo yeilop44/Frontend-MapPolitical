@@ -1,4 +1,6 @@
-<div class="wrapper fadeInDown zero-raduis">
+<app-loading class="container" *ngIf="isLoading" ></app-loading>
+
+<div class="wrapper fadeInDown zero-raduis" *ngIf="!isLoading">
   <div id="formContent">
     <!-- Tabs Titles -->
 
@@ -6,6 +8,9 @@
     <div class="fadeIn first">
       <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
       <h2 class="my-5">Inicio de Sesión</h2>
+    </div>
+    <div class="alert alert-danger text-center m-5" role="alert" *ngIf="isAlert">
+      El usuario o la contraseña es incorrecta
     </div>
 
     <!-- Login Form -->
@@ -21,7 +26,7 @@
       </div>
      
       <div id="formFooter">
-        <a class="underlineHover" href="#">Forgot Password?</a>
+        <a class="underlineHover" href="#">Olvidó su contraseña?</a>
       </div>
       <input type="submit" class="btn btn-primary fadeIn fourth zero-raduis" value="Inicia sesión">
     </form>
@@ -29,5 +34,7 @@
   
   </div>
 </div>
+
+
 
 

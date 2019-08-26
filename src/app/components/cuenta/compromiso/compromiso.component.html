@@ -1,0 +1,57 @@
+<!-- FORMULARIO CREAR NUEVO TIPO DE COMPROMISO-->
+<div class="card">
+    <h5 class="card-header">Crear tipo de compromiso</h5>
+    <div class="card-body">
+      <form #compromisoForm="ngForm" (ngSubmit)=" addCompromiso(compromisoForm)">
+        <input type="hidden" name="_id" #_id="ngModel"  [(ngModel)]="commitmentMasterService.selectedCommitmentMaster._id">  
+        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+        <div class="form-row">
+          <div class="form-group has-icon col-md-6">
+            <label>Tipo de compromiso <span style="color: red">*</span></label>
+            <input type="text" name="typeCommitment" #typeCommitment="ngModel" class="form-control"
+            [(ngModel)]="commitmentMasterService.selectedCommitmentMaster.typeCommitment" >             
+          </div>
+          <div class="form-group has-icon col-md-6">
+            <label>Descripción del compromiso <span style="color: red">*</span></label>
+            <input type="text" name="commitmentDescription" #commitmentDescription="ngModel" class="form-control"
+            [(ngModel)]="commitmentMasterService.selectedCommitmentMaster.commitmentDescription" >             
+          </div>
+        </div>            
+        <button type="submit" class="btn btn-primary" [disabled]="isDisabledButton"><i class="far fa-save"></i> Guardar</button>
+      </form>   
+    </div>
+  </div>
+
+<!-- LISTADO DE TIPOS DE COMPROMISO-->
+  <div class="card animated fadeIn fast" style="margin-top: 20px" *ngIf="!isLoading">
+      <h5 class="card-header">Tipos de Compromisos</h5>
+      <div class="card-body">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>                        
+              <th scope="col">Tipo</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Acciones</th>           
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let commitment of commitments; let i = index">
+              <th scope="row">{{ i+1 }}</th>          
+              <td>{{ commitment.typeCommitment }}</td>
+              <td>{{ commitment.commitmentDescription }}</td> 
+              <td>
+                  <button mat-raised-button matTooltip="Editar" type="button" class="btn btn-outline-primary" style="margin-right: 5px" 
+                    (click)="editCompromiso(commitment)">
+                    <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
+                  </button>        
+                  <button mat-raised-button matTooltip="Eliminar" type="button" class="btn btn-outline-danger" 
+                    (click)="deleteCompromiso(commitment._id)">
+                    <i class="fas fa-trash-alt" style="color: rgba(246, 74, 74, 0.863)"></i>
+                  </button>
+                </td>                           
+            </tr>      
+          </tbody>
+        </table>
+      </div>
+    </div>

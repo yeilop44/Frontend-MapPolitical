@@ -1,51 +1,58 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Usuario } from '../models/usuario.js';
+import { Usuario, UsuarioChangePass } from '../models/usuario';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  urlApi = 'http://localhost:3000/user';
+  //urlApi = 'http://localhost:3000/user';
+  urlApi = 'https://back-mpolitical.herokuapp.com/user';
   isLogged: any;
   user: any;
-  userInfo: Usuario[]=[];
- 
+  token: any;
+  userInfo: Usuario[]=[];    
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    
+  }
 
   login(user: Usuario) {
     const httpOptions = {
-    headers: new HttpHeaders({'Content-Type':  'application/json', 'Accept': 'application/json'})};
-
+    headers: new HttpHeaders({'Content-Type':  'application/json', 'Accept': 'application/json'}),  withCredentials: true};
     return this.http.post(`${this.urlApi}/signin`, user, httpOptions)
-      .pipe(map((data: any) => {
-            this.isLogged = data.ok;
-            this.user = user.userName;
-            console.log(data);
-            console.log(this.user);
+      .pipe(map((data: any) => {        
+        if(data.isLogged){
+          this.isLogged = data.isLogged;
+            this.user = data.user.user;
+            this.token = data.user.token
+        }else{
+          console.log("error de conexion con el servidor");
+        }
       }));
+  }
+  
+  session(){
+    return this.http.get(`${this.urlApi}/session`, { withCredentials: true });
   }
 
-  logOut() {
-    this.isLogged = false;
-    console.log('Logout');
+  logout() {
+    return this.http.post(`${this.urlApi}/logout`, {}, { withCredentials: true });
   }
-  
-  //Obtiene user para componete Login
-  getUser(user: string){
-    return this.http.get(`${this.urlApi}/${user}`)
-      .pipe(map((data: any)=>{
-        this.userInfo = data.User[0];
-        console.log(this.userInfo);
-      }));
-  }
-  
+    
   //Obtiene user para componente Usuario y Mapa
   getUserSettings(user: string){
     return this.http.get(`${this.urlApi}/${user}`);
   }
+
+  changePass(user: UsuarioChangePass){
+    return this.http.post(`${this.urlApi}/changepass`, user);
+  }
+
+
 
 }
 

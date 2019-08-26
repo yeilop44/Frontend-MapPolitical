@@ -8,3 +8,10 @@ export interface Usuario {
   positionLat?: number;
   positionLng?: number;
 }
+
+export interface UsuarioChangePass {
+  userName: string;
+  currentpass: string;  
+  newpass: string;
+  newpassconfirm: string;
+}

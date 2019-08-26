@@ -13,34 +13,46 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   url = 'http://localhost:3000/user';
 
-  isLogged = false;
-  user: string;
+  isLoading: boolean = false;
+  isLogged: boolean;
+  isAlert = false;
+  user: any;
 
   usuario: Usuario = {
     userName: '',
     password: ''
   };
-  constructor(public auth: AuthService, public router: Router) { }
+  constructor(public auth: AuthService, public router: Router) {
+    this.session()
+   }
 
   ngOnInit() {
   }
 
   login(usuario: Usuario) {
-    
-    this.auth.login(this.usuario)
-      .subscribe(res=>{
-        console.log(this.auth.user);
-  
-         if(this.auth.isLogged){
-             console.log('is true');
-             this.router.navigate(['/inicio']);
-             this.auth.getUser(this.auth.user)
-               .subscribe((data:any) =>{
-                 console.log(this.auth.userInfo);
-               });
-         }else{
-            console.log('is false');
-         }       
+    this.isLoading = true; 
+    this.auth.login(usuario)
+      .subscribe((res: any) => {                       
+        if(this.auth.isLogged){          
+          this.user = this.auth.user;                           
+          this.isLoading = false; 
+          this.router.navigate(['/afiliados']);          
+        }else{
+          this.isAlert = true;
+          this.isLoading = false;           
+        }               
+      });
+  }
+
+  session(){
+    this.auth.session()
+      .subscribe((res: any) =>{          
+        this.isLogged = res.isLogged;        
+        if(this.isLogged){
+          this.router.navigate(['/afiliados']);
+        }else{
+          console.log(this.isLogged)
+        }
       });
   }
 

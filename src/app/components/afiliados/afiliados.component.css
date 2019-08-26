@@ -2,10 +2,52 @@
     background-color: #215f80;
 }
 
+.has-icon .form-control {
+    padding-left: 2.375rem;
+}
+.has-icon .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+.red {
+    border-color: red;
+}
+.gray {
+    border-color: #e7eaed;
+}
 .custom-button-2{
     background-color: #0a5c5a;
 }
-
 .custom-thead{
     background-color: #1b3646;
+}
+
+agm-map {
+    height: 300px;
+    width: 1000px;
+}
+
+::ng-deep .pac-container {
+    z-index: 1052 !important;
+ }
+
+ .text-overflow {         
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+ }
+
+ .capitalize {
+    text-transform: capitalize
+}
+
+.pointer { 
+    cursor: pointer;
 }
