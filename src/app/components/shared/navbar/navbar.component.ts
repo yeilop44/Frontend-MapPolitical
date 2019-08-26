@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
   isLogged = false;
   isLogout: boolean;
 
-  constructor(private auth: AuthService, public router: Router) { 
+  constructor(public auth: AuthService, public router: Router) { 
     this.session();
   }
 

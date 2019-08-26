@@ -17,7 +17,7 @@ export class CompromisoComponent implements OnInit {
   username;
   sessions;
 
-  constructor(public auth: AuthService, private router: Router, private commitmentMasterService: CommitmentMasterService) { 
+  constructor(public auth: AuthService, private router: Router, public commitmentMasterService: CommitmentMasterService) { 
     this.session();   
   }
 
