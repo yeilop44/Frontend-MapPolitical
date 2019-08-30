@@ -33,4 +33,4 @@ export const appRoutes: Routes = [
     { path: '**', component: LoginComponent }
   ];
 
-  export const app_routing = RouterModule.forRoot(appRoutes);
+  export const app_routing = RouterModule.forRoot(appRoutes, {useHash: true});

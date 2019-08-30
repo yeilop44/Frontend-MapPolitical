@@ -13,7 +13,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Label} from 'ng2-charts';
 import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 
-const URL = 'http://localhost:3000/upload';
+//const URL = 'http://localhost:3000/upload';
+const URL = 'https://back-mpolitical.herokuapp.com/upload'
 
 @Component({
   selector: 'app-modal-carga-masiva',
