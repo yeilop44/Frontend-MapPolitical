@@ -48,6 +48,7 @@ import { LideresComponent } from './components/lideres/lideres.component';
 import { ModalDetalleContactoComponent } from './components/afiliados/modal-detalle-contacto/modal-detalle-contacto.component';
 import { CompromisosComponent } from './components/compromisos/compromisos.component';
 import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.component';
+import { FechaPipe } from './pipes/fecha.pipe';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.c
     //FileDropDirective,
     ModalDetalleContactoComponent,
     CompromisosComponent,
-    CompromisoComponent
+    CompromisoComponent,
+    FechaPipe
   ],
   imports: [
     BrowserModule,

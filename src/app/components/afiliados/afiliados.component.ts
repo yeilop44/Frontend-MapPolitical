@@ -209,9 +209,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getAfiliadosPerPage(user: string, page: number) {
+  getAfiliadosPerPage( page: number) {
     this.isLoading = true;
-    this.affiliateService.getAffiliatesByUserPaginated(user, page)
+    this.affiliateService.getAffiliatesByUserPaginated(this.user.user.userName, page)
         .subscribe((data: any ) => {
           this.affiliates = data.affiliates;
           this.isLoading = false;
