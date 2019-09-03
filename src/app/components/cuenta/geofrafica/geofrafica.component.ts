@@ -26,7 +26,7 @@ export class GeofraficaComponent implements OnInit, OnDestroy {
   username;
   sessions;
   
-  constructor( public auth: AuthService, private router: Router, private geographyMasterService: GeographyMasterService, 
+  constructor( public auth: AuthService, private router: Router, public geographyMasterService: GeographyMasterService, 
     private divipolMasterService: DivipolMasterService ) { 
     this.session();   
   }

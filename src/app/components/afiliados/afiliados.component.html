@@ -1,17 +1,25 @@
 <div class="container">
-    <div class="container col-md-4 my-2 text-left mr-1">
-        <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
-        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
-            <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
-        </button>
-        <!--<button class="btn custom-button text-light" data-toggle="modal"><i class="fas fa-user-plus"></i> Nuevo contact
-            <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto>
-        </button>-->
-        &nbsp;<button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
-        <!--<button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
-            <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
-        </button>-->        
+    <div class="container row my-2 text-left mr-1">
+
+        <p class="text-left">Total de registros: {{ affiliates }}</p>
+        
+        <div class="container col-md-4 my-2 text-left mr-1">
+            
+            <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
+            <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
+                <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
+            </button>
+            <!--<button class="btn custom-button text-light" data-toggle="modal"><i class="fas fa-user-plus"></i> Nuevo contact
+                <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto>
+            </button>-->
+            &nbsp;<button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
+            <!--<button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
+                <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
+            </button>-->        
+        </div>
+
     </div>
+    
     <app-loading class="container" *ngIf="isLoading"></app-loading>
     <!-- LISTADO DE CONTACTOS -->
     <div *ngIf="!isLoading">
@@ -35,7 +43,7 @@
                     </div>
                 </td>
                 <td class="text-overflow">{{ afiliado.identification }}</td>
-                <td class="text-overflow">{{ afiliado.birthdate | date }}</td>
+                <td class="text-overflow">{{ afiliado.birthdate | fecha }}</td>
                 <td class="text-overflow capitalize"> {{ afiliado.subdivision }}</td>
                 <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>            
                 <td class="text-overflow">
@@ -60,21 +68,23 @@
             <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
                 <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
                     <!--<a routerLink [queryParams]="{ page: 1 }" class="page-link">First</a>-->
-                    <a (click)="getAfiliadosPerPage('ylopez', 1)" class="page-link">First</a>
+                    <a (click)="getAfiliadosPerPage(1)" class="page-link">Primera</a>
                 </li>
                 <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item previous-item">
                     <!--<a routerLink [queryParams]="{ page: pager.currentPage - 1 }" class="page-link">Previous</a>-->
-                    <a (click)="getAfiliadosPerPage('ylopez', pager.currentPage - 1)" class="page-link">Previous</a>
+                    <a (click)="getAfiliadosPerPage( pager.currentPage - 1)" class="page-link">Anterior</a>
                 </li>
                 <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item number-item">
                     <!--<a routerLink [queryParams]="{ page: page }" class="page-link">{{page}}</a>-->
-                    <a (click)="getAfiliadosPerPage('ylopez', page)" class="page-link">{{page}}</a>
+                    <a (click)="getAfiliadosPerPage( page )" class="page-link">{{page}}</a>
                 </li>
                 <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next-item">
-                    <a routerLink [queryParams]="{ page: pager.currentPage + 1 }" class="page-link">Next</a>
+                    <!--<a routerLink [queryParams]="{ page: pager.currentPage + 1 }" class="page-link">Next</a>-->
+                    <a (click)="getAfiliadosPerPage( pager.currentPage + 1)" class="page-link">Siguiente</a>
                 </li>
                 <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
-                    <a routerLink [queryParams]="{ page: pager.totalPages }" class="page-link">Last</a>
+                    <!--<a routerLink [queryParams]="{ page: pager.totalPages }" class="page-link">Last</a>-->
+                    <a (click)="getAfiliadosPerPage( pager.totalPages )" class="page-link">Última</a>
                 </li>
             </ul>
         </div>

@@ -12,7 +12,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import {FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
+//import {FileDropDirective, FileSelectDirective} from 'ng2-file-upload';
+import {FileUploadModule} from 'ng2-file-upload/ng2-file-upload';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -47,6 +48,7 @@ import { LideresComponent } from './components/lideres/lideres.component';
 import { ModalDetalleContactoComponent } from './components/afiliados/modal-detalle-contacto/modal-detalle-contacto.component';
 import { CompromisosComponent } from './components/compromisos/compromisos.component';
 import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.component';
+import { FechaPipe } from './pipes/fecha.pipe';
 
 @NgModule({
   declarations: [
@@ -69,14 +71,16 @@ import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.c
     ContrasenaComponent,
     GeofraficaComponent,
     ElectoralComponent,
-    FileSelectDirective,
-    FileDropDirective,
+    //FileSelectDirective,
+    //FileDropDirective,
     ModalDetalleContactoComponent,
     CompromisosComponent,
-    CompromisoComponent
+    CompromisoComponent,
+    FechaPipe
   ],
   imports: [
     BrowserModule,
+    FileUploadModule,
     HttpClientModule,
     FormsModule,
     app_routing,
