@@ -54,6 +54,10 @@ export class CompromisosComponent implements OnInit {
   model1: Date;
   model2: Date;
 
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three', 'Four', 'Five'];
+  filteredOptions: Observable<string[]>;
+
   constructor(private auth: AuthService, private affiliateService: AffiliatesService, private router: Router, 
               private commitmentMasterService: CommitmentMasterService, private  commitmentService: CommitmentsService) { 
     this.session();  
@@ -70,7 +74,17 @@ export class CompromisosComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+  
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.afiliados.filter(option => option.fullName.toLowerCase().includes(filterValue));
   }
 
 

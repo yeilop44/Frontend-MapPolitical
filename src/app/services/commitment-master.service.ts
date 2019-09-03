@@ -8,7 +8,9 @@ import { CommitmentMaster } from '../models/commimentMaster';
 export class CommitmentMasterService {
 
   selectedCommitmentMaster: CommitmentMaster;
+  
   urlApi = 'http://localhost:3000/commitmentMaster';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/commitmentMaster';
 
   constructor(private http: HttpClient) { 
     this.selectedCommitmentMaster = new CommitmentMaster();

@@ -10,7 +10,8 @@ export class GeographyMasterService {
 
   selectedGeografia: Geografia;
   
-  urlApi = 'https://back-mpolitical.herokuapp.com/geographyMaster';
+  urlApi = 'http://localhost:3000/geographyMaster';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/geographyMaster';
 
   constructor(private http: HttpClient) { 
     this.selectedGeografia = new Geografia();

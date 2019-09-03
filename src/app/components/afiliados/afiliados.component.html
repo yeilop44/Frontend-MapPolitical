@@ -1,12 +1,12 @@
 <div class="container">
     <div class="container row my-2 text-left mr-1">
 
-        <p class="text-left">Total de registros: {{ affiliates }}</p>
+        <p class="text-left">Total de registros: {{ affiliates.length }}</p>
         
         <div class="container col-md-4 my-2 text-left mr-1">
             
             <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
-            <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
+            <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="loadMasterLists()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
                 <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
             </button>
             <!--<button class="btn custom-button text-light" data-toggle="modal"><i class="fas fa-user-plus"></i> Nuevo contact
@@ -204,9 +204,7 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group has-icon col-md-12">
-                                <label for="inputEmail4">Dirección</label>
-                                <span class="fas fa-map-pin form-control-feedback"></span>
+                            <div class="form-group has-icon col-md-12">                              
                                 <div class="form-group">
                                     <input type="text" class="form-control pac-container" (keydown.enter)="$event.preventDefault()" placeholder="Ingrese su dirección" 
                                     autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search >
@@ -229,7 +227,9 @@
                         
                         
                         <div class="form-row">
-                            <div class="form-group col-md-12">                                
+                            <div class="form-group  has-icon col-md-12">
+                                <label for="inputEmail4">Dirección</label> 
+                                <span class="fas fa-map-pin form-control-feedback"></span>                                
                                 <input type="text" class="form-control" name="address" #address="ngModel"
                                 [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">        
                             </div>                                
@@ -264,7 +264,7 @@
                                 <label for="inputEmail4">Lugar de votación</label>
                                 <span class="fas fa-landmark form-control-feedback"></span>
                                 <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
-                                [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación" disabled>
+                                [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación">
                             </div>
                         </div>
 

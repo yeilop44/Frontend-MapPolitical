@@ -449,7 +449,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  NewAffiliate(form: NgForm) {
+  loadMasterLists(form: NgForm) {
     this.isNewAffiliate = true;
     this.resetForm(form);
     this.affiliateService.selectedAfiliado._id = null;
@@ -492,14 +492,14 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       votingStation: afiliado.votingStation,
       votingTable: afiliado.votingTable,
       leader: afiliado.leader,
-      address: afiliado.address
+      subdivision: afiliado.subdivision
     };
     this.bsModalRefTres = this.modalServiceTres.show(ModalDetalleContactoComponent, Object.assign({}, { class: 'gray modal-lg', initialState }));    
     //this.bsModalRef.content.closeBtnName = 'Close';           
   }
 
   eventEmmiter(event){
-      this.getAfiliadosPerPage(this.user.user.userName, 1);
+      this.getAfiliadosPerPage(1);
   }
 
 

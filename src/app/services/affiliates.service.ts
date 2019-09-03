@@ -11,8 +11,8 @@ export class AffiliatesService {
 
   selectedAfiliado: Afiliado; 
  
-  //urlApi = 'http://localhost:3000/affiliates';
-  urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
+  urlApi = 'http://localhost:3000/affiliates';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/affiliates';
 
   constructor(private http: HttpClient, private auth: AuthService) {
     this.selectedAfiliado = new Afiliado();

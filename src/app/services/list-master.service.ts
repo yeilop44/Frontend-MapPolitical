@@ -6,7 +6,8 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 })
 export class ListMasterService {
   
-  urlApi = 'https://back-mpolitical.herokuapp.com/listMaster';
+  urlApi = 'http://localhost:3000/listMaster';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/listMaster';
 
   constructor(private http: HttpClient) { }
 

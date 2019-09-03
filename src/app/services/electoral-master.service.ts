@@ -8,8 +8,9 @@ import{ Electoral } from '../models/electoral';
 export class ElectoralMasterService {
   
   selectedElectoral: Electoral;
-
-  urlApi = 'https://back-mpolitical.herokuapp.com/electoralMaster';
+  
+  urlApi = 'http://localhost:3000/electoralMaster';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/electoralMaster';
 
   constructor(private http: HttpClient) { 
     this.selectedElectoral = new Electoral();

@@ -2,18 +2,19 @@
   <form #compromisosForm="ngForm" (ngSubmit)=" addCompromisos(compromiso)">
       <input type="hidden" name="userName" [(ngModel)]="compromiso.userName">
       <div class="form-row">
-        <div class="form-group col-md-6">  
-          <label for="inputState">Contacto</label>        
+        <div class="form-group col-md-6">
+            <label for="inputState">contacto</label>                  
           <form class="example-form">
-              <mat-form-field class="example-full-width">
-                <input class="lowercase" matInput [matAutocomplete]="auto" [formControl]="stateCtrl" [(ngModel)]="compromiso.affiliate.fullname">
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getFullName($event.option.value)">
-                  <mat-option *ngFor="let state of filteredStates | async" class="lowercase" [value]="state.fullName">        
-                    <span><strong>{{state.names}} {{state.surnames}}</strong></span>
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </form>
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Busque el contacto" aria-label="Number" matInput [formControl]="myControl" 
+              [(ngModel)]="compromiso.affiliate.fullname" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getFullName($event.option.value)">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.fullName">
+                  {{option.fullName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form> 
         </div>
         <div class="form-group col-md-6">                                    
           <label>Tipo compromiso</label>
@@ -23,7 +24,8 @@
             <option *ngFor="let compromisoMaster of compromisoMasterUnique">{{compromisoMaster.typeCommitment}}</option>
           </select>
         </div>
-      </div>        
+      </div>      
+
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputState">Descripción del compromiso</label>

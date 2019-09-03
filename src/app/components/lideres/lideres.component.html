@@ -15,7 +15,7 @@
       </div>                     
     </div>      
     <div class="col-8">
-      <div class="text-center"><span><b>Referidos</b></span></div>
+      <div class="text-center"><span><b>Referidos {{ references.length }}</b></span></div>
       <app-loading class="container" *ngIf="isLoadingReferences" ></app-loading>
       <div class="row" *ngIf="!isLoadingReferences">        
           <div class="col-sm-6" style="margin-top: 10px" *ngFor="let reference of references">

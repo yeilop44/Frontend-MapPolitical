@@ -47,7 +47,9 @@ export class CompromisoComponent implements OnInit {
         });
         setTimeout(()=>{
           this.getCompromisos(this.userNameCurrent);
-          form.reset();                        
+          this.commitmentMasterService.selectedCommitmentMaster._id = '';
+          this.commitmentMasterService.selectedCommitmentMaster.typeCommitment = '';
+          this.commitmentMasterService.selectedCommitmentMaster.commitmentDescription  = '';                         
         }, 500); 
                 
       }else {
@@ -57,8 +59,9 @@ export class CompromisoComponent implements OnInit {
         });
         setTimeout(()=>{
           this.getCompromisos(this.userNameCurrent);
-          form.reset();                        
-        }, 500);                               
+          this.commitmentMasterService.selectedCommitmentMaster.typeCommitment = '';
+          this.commitmentMasterService.selectedCommitmentMaster.commitmentDescription  = '';                                        
+        }, 500);                                          
       }              
   }
 
