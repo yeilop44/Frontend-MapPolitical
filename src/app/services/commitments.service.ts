@@ -8,7 +8,8 @@ import { Compromiso } from '../models/compromiso'
 export class CommitmentsService {
   
   selectedCompromiso: Compromiso;
-  urlApi = 'http://localhost:3000/commitments';
+  urlApi = 'http://localhost:3000/commitments';  
+  //urlApi = 'https://back-mpolitical.herokuapp.com/commitments';
 
   constructor(private http: HttpClient) {
     this.selectedCompromiso = new Compromiso();

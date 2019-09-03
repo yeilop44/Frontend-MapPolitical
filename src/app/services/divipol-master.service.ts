@@ -6,7 +6,8 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 })
 export class DivipolMasterService {
   
-  urlApi = 'https://back-mpolitical.herokuapp.com/divipolMaster';
+  urlApi = 'http://localhost:3000/divipolMaster';
+  //urlApi = 'https://back-mpolitical.herokuapp.com/divipolMaster';  
   
   constructor(private http: HttpClient) { }
 
