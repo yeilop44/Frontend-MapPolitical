@@ -17,7 +17,7 @@ export class CompromisoComponent implements OnInit {
   username;
   sessions;
 
-  constructor(public auth: AuthService, private router: Router, private commitmentMasterService: CommitmentMasterService) { 
+  constructor(public auth: AuthService, private router: Router, public commitmentMasterService: CommitmentMasterService) { 
     this.session();   
   }
 
@@ -47,7 +47,9 @@ export class CompromisoComponent implements OnInit {
         });
         setTimeout(()=>{
           this.getCompromisos(this.userNameCurrent);
-          form.reset();                        
+          this.commitmentMasterService.selectedCommitmentMaster._id = '';
+          this.commitmentMasterService.selectedCommitmentMaster.typeCommitment = '';
+          this.commitmentMasterService.selectedCommitmentMaster.commitmentDescription  = '';                         
         }, 500); 
                 
       }else {
@@ -57,8 +59,9 @@ export class CompromisoComponent implements OnInit {
         });
         setTimeout(()=>{
           this.getCompromisos(this.userNameCurrent);
-          form.reset();                        
-        }, 500);                               
+          this.commitmentMasterService.selectedCommitmentMaster.typeCommitment = '';
+          this.commitmentMasterService.selectedCommitmentMaster.commitmentDescription  = '';                                        
+        }, 500);                                          
       }              
   }
 

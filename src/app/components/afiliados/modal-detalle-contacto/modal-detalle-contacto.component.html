@@ -17,17 +17,17 @@
       <div class="body-icon"><i class="far fa-id-card"></i></div>
       <div class="body-description">{{identification}}</div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="phone">
       <div class="body-icon"><i class="fas fa-phone"></i></div>
       <div class="body-description">{{phone}}</div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="birthdate">
       <div class="body-icon"><i class="fas fa-birthday-cake"></i></div>
-      <div class="body-description">{{birthdate}}</div>
+      <div class="body-description">{{birthdate | date}}</div>
     </div>
-    <div class="row" *ngIf="address">
+    <div class="row" *ngIf="subdivision">
       <div class="body-icon"><i class="fas fa-map-marker-alt"></i></div>
-      <div class="body-description">{{address}}</div>
+      <div class="body-description">{{subdivision}}</div>
     </div>
     <hr>
     <h6>Información electoral</h6>

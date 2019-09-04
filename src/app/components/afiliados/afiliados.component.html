@@ -1,81 +1,95 @@
 <div class="container">
-    <div class="container col-md-4 my-2 text-left mr-1">
-        <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
-        <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="NewAffiliate()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
-            <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
-        </button>
-        <!--<button class="btn custom-button text-light" data-toggle="modal"><i class="fas fa-user-plus"></i> Nuevo contact
-            <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto>
-        </button>-->
-        &nbsp;<button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
-        <!--<button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
-            <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
-        </button>-->        
+    <div class="container row my-2 text-left mr-1">
+
+        <p class="text-left">Total de registros: {{ affiliates.length }}</p>
+        
+        <div class="container col-md-4 my-2 text-left mr-1">
+            
+            <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
+            <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="loadMasterLists()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
+                <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
+            </button>
+            <!--<button class="btn custom-button text-light" data-toggle="modal"><i class="fas fa-user-plus"></i> Nuevo contact
+                <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto>
+            </button>-->
+            &nbsp;<button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
+            <!--<button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
+                <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
+            </button>-->        
+        </div>
+
     </div>
+    
     <app-loading class="container" *ngIf="isLoading"></app-loading>
-    <!-- LISTADO DE CONTACTOS -->    
-    <table class="table table-hover table-bordered animated fadeIn fast" *ngIf="!isLoading">            
-        <thead class="custom-thead text-light">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombres y Apellidos</th>
-            <th scope="col">Identificacón</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Barrio/vereda</th>
-            <th scope="col">Profesión</th>            
-            <th scope="col">Acciones</th>            
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="pointer" *ngFor="let afiliado of pageOfItems; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td>
-                <ngx-avatar size="40" [name]="afiliado.names.split(' ')[0]"></ngx-avatar>
-                <div class="text-overflow capitalize" style="padding-left: 50px; margin-top: -35px">
-                    {{ afiliado.names }} {{ afiliado.surnames }}
-                </div>
-            </td>
-            <td class="text-overflow">{{ afiliado.identification }}</td>
-            <td class="text-overflow">{{ afiliado.birthdate }}</td>
-            <td class="text-overflow capitalize"> {{ afiliado.subdivision }}</td>
-            <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>            
-            <td class="text-overflow">
-                <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
-                    type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 
-                    (click)="editAfiliado(afiliado)">
-                    <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
-                </button>
-                <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="above"                     
-                    type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteAfiliado(afiliado._id)">
-                    <i class="fas fa-trash-alt" style="color: rgba(253, 44, 44, 0.863)"></i>
-                </button>
-                <button mat-raised-button matTooltip="Detalles" matTooltipPosition="right"                     
-                    type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalDetalleContacto(afiliado)">
-                    <i class="fas fa-info" style="color: rgba(0, 250, 250, 0.945)"></i>
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="pagination pb-0 pt-3">
-        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
-                <a routerLink [queryParams]="{ page: 1 }" class="page-link">First</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item previous-item">
-                <a routerLink [queryParams]="{ page: pager.currentPage - 1 }" class="page-link">Previous</a>
-            </li>
-            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item number-item">
-                <a routerLink [queryParams]="{ page: page }" class="page-link">{{page}}</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next-item">
-                <a routerLink [queryParams]="{ page: pager.currentPage + 1 }" class="page-link">Next</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
-                <a routerLink [queryParams]="{ page: pager.totalPages }" class="page-link">Last</a>
-            </li>
-        </ul>
-    </div>
+    <!-- LISTADO DE CONTACTOS -->
+    <div *ngIf="!isLoading">
+        <table class="table table-hover table-bordered animated fadeIn fast" >            
+            <thead class="custom-thead text-light">
+            <tr>
+                <th scope="col">Nombres y Apellidos</th>
+                <th scope="col">No. Identificacón</th>
+                <th scope="col">Fecha de Nacimiento</th>
+                <th scope="col">Barrio/vereda</th>
+                <th scope="col">Profesión</th>            
+                <th scope="col">Acciones</th>            
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="pointer" *ngFor="let afiliado of pageOfItems">           
+                <td>
+                    <ngx-avatar size="40" [name]="afiliado.names.split(' ')[0]"></ngx-avatar>
+                    <div class="text-overflow capitalize" style="padding-left: 50px; margin-top: -35px">
+                        {{ afiliado.names }} {{ afiliado.surnames }}
+                    </div>
+                </td>
+                <td class="text-overflow">{{ afiliado.identification }}</td>
+                <td class="text-overflow">{{ afiliado.birthdate | fecha }}</td>
+                <td class="text-overflow capitalize"> {{ afiliado.subdivision }}</td>
+                <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>            
+                <td class="text-overflow">
+                    <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
+                        type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 
+                        (click)="editAfiliado(afiliado)">
+                        <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
+                    </button>
+                    <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="above"                     
+                        type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteAfiliado(afiliado._id)">
+                        <i class="fas fa-trash-alt" style="color: rgba(253, 44, 44, 0.863)"></i>
+                    </button>
+                    <button mat-raised-button matTooltip="Detalles" matTooltipPosition="right"                     
+                        type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalDetalleContacto(afiliado)">
+                        <i class="fas fa-info" style="color: rgba(0, 250, 250, 0.945)"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="pagination pb-0 pt-3">
+            <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
+                    <!--<a routerLink [queryParams]="{ page: 1 }" class="page-link">First</a>-->
+                    <a (click)="getAfiliadosPerPage(1)" class="page-link">Primera</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item previous-item">
+                    <!--<a routerLink [queryParams]="{ page: pager.currentPage - 1 }" class="page-link">Previous</a>-->
+                    <a (click)="getAfiliadosPerPage( pager.currentPage - 1)" class="page-link">Anterior</a>
+                </li>
+                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item number-item">
+                    <!--<a routerLink [queryParams]="{ page: page }" class="page-link">{{page}}</a>-->
+                    <a (click)="getAfiliadosPerPage( page )" class="page-link">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next-item">
+                    <!--<a routerLink [queryParams]="{ page: pager.currentPage + 1 }" class="page-link">Next</a>-->
+                    <a (click)="getAfiliadosPerPage( pager.currentPage + 1)" class="page-link">Siguiente</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
+                    <!--<a routerLink [queryParams]="{ page: pager.totalPages }" class="page-link">Last</a>-->
+                    <a (click)="getAfiliadosPerPage( pager.totalPages )" class="page-link">Última</a>
+                </li>
+            </ul>
+        </div>
+    </div>    
+  
 </div>
 
 <!-- MODAL CREAR NUEVO CONTACTO -->
@@ -91,35 +105,45 @@
             </div>
 
             <div class="modal-body">
-
                 <div class="container m-2">
                     <form id="afiliadoForm" #afiliadoForm="ngForm" (ngSubmit)="addAfiliado(afiliadoForm)">
                         <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="affiliateService.selectedAfiliado._id">
                         <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
-
                         <h6>Información básica</h6>
                         <hr>
-
                         <div class="form-row">
-                            <div class="form-group has-icon col-md-4">
-                                <span class="fas fa-birthday-cake form-control-feedback"></span>
-                                <input type="text" class="form-control" name="birthdate" #birthdate="ngModel"
-                                       [(ngModel)]="affiliateService.selectedAfiliado.birthdate" placeholder="Fecha de nacimiento*" [ngClass]="{'red': isEmptyBirthdate, 'gray': !isEmptyBirthdate}">
-                            </div>
-                            <div class="form-group has-icon col-md-4">
+                            <div class="form-group has-icon col-md-6">
                                 <span class="far fa-user form-control-feedback"></span>
                                 <input type="text" class="form-control" name="names" #names="ngModel"
                                        [(ngModel)]="affiliateService.selectedAfiliado.names" placeholder="Nombres*" [ngClass]="{'red': isEmptyNames, 'gray': !isEmptyNames}">
                             </div>
-                            <div class="form-group  has-icon col-md-4">
+                            <div class="form-group  has-icon col-md-6">
                                 <span class="far fa-user form-control-feedback"></span>
                                 <input type="text" class="form-control" name="surnames" #surnames="ngModel"
                                        [(ngModel)]="affiliateService.selectedAfiliado.surnames" placeholder="Apellidos*" [ngClass]="{'red': isEmptySurnames, 'gray': !isEmptySurnames}">
                             </div>
                         </div>
-
                         <div class="form-row">
-
+                            <div class="form-group has-icon col-md-6">
+                                <span class="far fa-calendar-alt form-control-feedback"></span>
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                        <input class="form-control" placeholder="aaaa-mm-dd"
+                                                name="d2" #c2="ngModel" [(ngModel)]="affiliateService.selectedAfiliado.birthdate" ngbDatepicker #d2="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </form>                                                         
+                            </div>
+                            <div class="form-group has-icon col-md-6">
+                                <span class="fas fa-birthday-cake form-control-feedback"></span>
+                                <input type="text" class="form-control" name="birthdate" #birthdate="ngModel" [(ngModel)]="affiliateService.selectedAfiliado.birthdate">                                   
+                            </div>
+                        </div>                    
+                        <div class="form-row">
                             <div class="form-group has-icon col-md-6">
                                 <span class="far fa-id-card form-control-feedback"></span>
                                 <input type="text" class="form-control" name="identification" #identification="ngModel"
@@ -131,7 +155,6 @@
                                        [(ngModel)]="affiliateService.selectedAfiliado.phone" placeholder="Teléfono/celular">
                             </div>
                         </div>
-
                         <h6>Información geográfica</h6>
                         <hr>
                         <div class="form-row">
@@ -181,9 +204,7 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group has-icon col-md-12">
-                                <label for="inputEmail4">Dirección</label>
-                                <span class="fas fa-map-pin form-control-feedback"></span>
+                            <div class="form-group has-icon col-md-12">                              
                                 <div class="form-group">
                                     <input type="text" class="form-control pac-container" (keydown.enter)="$event.preventDefault()" placeholder="Ingrese su dirección" 
                                     autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search >
@@ -206,7 +227,9 @@
                         
                         
                         <div class="form-row">
-                            <div class="form-group col-md-12">                                
+                            <div class="form-group  has-icon col-md-12">
+                                <label for="inputEmail4">Dirección</label> 
+                                <span class="fas fa-map-pin form-control-feedback"></span>                                
                                 <input type="text" class="form-control" name="address" #address="ngModel"
                                 [(ngModel)]="affiliateService.selectedAfiliado.address" placeholder="Dirección">        
                             </div>                                
@@ -241,7 +264,7 @@
                                 <label for="inputEmail4">Lugar de votación</label>
                                 <span class="fas fa-landmark form-control-feedback"></span>
                                 <input type="text" class="form-control" name="votingPlace" #votingPlace="ngModel"
-                                [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación" disabled>
+                                [(ngModel)]="affiliateService.selectedAfiliado.votingPlace" placeholder="Lugar de votación">
                             </div>
                         </div>
 

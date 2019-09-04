@@ -36,7 +36,8 @@ export class CompromisosComponent implements OnInit {
   stateCtrl = new FormControl();
   filteredStates: Observable<State[]>;
   
-  afiliados: any [] = [];  
+  afiliados: any [] = [];
+  afiliadosFilter: any [] = [];  
   compromisos: any [] = [];
   compromisosType: any [] = [];
   compromisoMaster: any [] = [];  
@@ -54,6 +55,10 @@ export class CompromisosComponent implements OnInit {
   model1: Date;
   model2: Date;
 
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three', 'Four', 'Five'];
+  filteredOptions: Observable<string[]>;
+
   constructor(private auth: AuthService, private affiliateService: AffiliatesService, private router: Router, 
               private commitmentMasterService: CommitmentMasterService, private  commitmentService: CommitmentsService) { 
     this.session();  
@@ -70,7 +75,31 @@ export class CompromisosComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+  
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();          
+      return this.afiliadosFilter.filter(option => option.names.toLowerCase().includes(filterValue));   
+  }
+
+  filterContact(termino: string){
+    const filterValue = termino.toLowerCase();
+    const contactSearch = {
+      userName: this.userNameCurrent,
+      names: filterValue 
+    }
+
+    this.affiliateService.getAffiliatesByNames(contactSearch)
+      .subscribe((res:any)=>{
+        
+        this.afiliadosFilter = res.Affiliates; 
+        console.log(this.afiliadosFilter);       
+      });    
   }
 
 
@@ -84,19 +113,20 @@ export class CompromisosComponent implements OnInit {
       .subscribe((res: any) =>{                  
         this.isLogged = res.isLogged;
         if(this.isLogged){          
-          this.user = res.user;   
+          this.user = res.user;
+          this.auth.token = res.user.token;   
           this.userNameCurrent = this.user.user.userName;
           this.compromiso.userName = this.user.user.userName;    
           this.getCommitments(this.user.user.userName); 
           this.getCommitmentsMaster(this.user.user.userName);             
-          this.affiliateService.getAffiliatesByUser(this.user.user.userName)
+         /* this.affiliateService.getAffiliatesByUser(this.user.user.userName)
             .subscribe((data:any) => {              
               this.afiliados = data.affiliates;              
               for(let i=0; i<this.afiliados.length; i++){
                  this.afiliados[i].fullName = this.afiliados[i].names + ' ' + this.afiliados[i].surnames; 
               }
-          }); 
-                                                                                   
+              console.log(this.afiliados);
+            });   */                                                                                 
         }else{        
           this.router.navigate(['login']);
         }

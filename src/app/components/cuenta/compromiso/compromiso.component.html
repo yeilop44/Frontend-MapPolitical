@@ -4,7 +4,7 @@
     <div class="card-body">
       <form #compromisoForm="ngForm" (ngSubmit)=" addCompromiso(compromisoForm)">
         <input type="hidden" name="_id" #_id="ngModel"  [(ngModel)]="commitmentMasterService.selectedCommitmentMaster._id">  
-        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="userNameCurrent">
+        <input type="hidden" name="userName" #userName="ngModel" [(ngModel)]="username">
         <div class="form-row">
           <div class="form-group has-icon col-md-6">
             <label>Tipo de compromiso <span style="color: red">*</span></label>
@@ -17,13 +17,13 @@
             [(ngModel)]="commitmentMasterService.selectedCommitmentMaster.commitmentDescription" >             
           </div>
         </div>            
-        <button type="submit" class="btn btn-primary" [disabled]="isDisabledButton"><i class="far fa-save"></i> Guardar</button>
+        <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Guardar</button>
       </form>   
     </div>
   </div>
 
 <!-- LISTADO DE TIPOS DE COMPROMISO-->
-  <div class="card animated fadeIn fast" style="margin-top: 20px" *ngIf="!isLoading">
+  <div class="card animated fadeIn fast" style="margin-top: 20px">
       <h5 class="card-header">Tipos de Compromisos</h5>
       <div class="card-body">
         <table class="table table-sm">

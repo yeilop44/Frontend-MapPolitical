@@ -18,7 +18,7 @@ export class ModalDetalleContactoComponent implements OnInit {
 @Input() votingStation: string; 
 @Input() votingTable: string; 
 @Input() leader: string; 
-@Input() address: string; 
+@Input() subdivision: string; 
   modalRef: BsModalRef;
 
 

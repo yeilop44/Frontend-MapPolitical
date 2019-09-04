@@ -2,18 +2,19 @@
   <form #compromisosForm="ngForm" (ngSubmit)=" addCompromisos(compromiso)">
       <input type="hidden" name="userName" [(ngModel)]="compromiso.userName">
       <div class="form-row">
-        <div class="form-group col-md-6">  
-          <label for="inputState">Contacto</label>        
+        <div class="form-group col-md-6">
+            <label for="inputState">contacto</label>                  
           <form class="example-form">
-              <mat-form-field class="example-full-width">
-                <input class="lowercase" matInput [matAutocomplete]="auto" [formControl]="stateCtrl" [(ngModel)]="compromiso.affiliate.fullname">
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getFullName($event.option.value)">
-                  <mat-option *ngFor="let state of filteredStates | async" class="lowercase" [value]="state.fullName">        
-                    <span><strong>{{state.names}} {{state.surnames}}</strong></span>
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </form>
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Busque el contacto" aria-label="Number" matInput [formControl]="myControl" 
+              [(ngModel)]="compromiso.affiliate.fullname" [matAutocomplete]="auto"  (keydown.enter)="filterContact(termino.value)" #termino>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getFullName($event.option.value)">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.names + ' ' + option.surnames ">
+                  {{option.names}} {{option.surnames}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form> 
         </div>
         <div class="form-group col-md-6">                                    
           <label>Tipo compromiso</label>
@@ -23,7 +24,8 @@
             <option *ngFor="let compromisoMaster of compromisoMasterUnique">{{compromisoMaster.typeCommitment}}</option>
           </select>
         </div>
-      </div>        
+      </div>      
+
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputState">Descripción del compromiso</label>
@@ -53,7 +55,7 @@
           </form> 
         </div>
       </div>        
-      <button type="submit" class="btn btn-primary">Guardar</button>      
+      <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Guardar</button>      
   </form>
   <hr>
   <div class="row" *ngIf="compromisos.length!=0">
@@ -88,7 +90,7 @@
                       {{contacto.commitmentDescription}} <span class="badge badge-light"><b>{{contacto.quantity}}</b></span>
                     </span>
                   </div>
-                  <div *ngIf="contacto.date"><span class="badge badge-danger">{{contacto.date}} </span></div>               
+                  <div *ngIf="contacto.date"><span class="badge badge-danger">{{contacto.date | date: 'mediumDate': 'shortTime' }} </span></div>               
                 </div>  
                 <div class="col-2">
                   <button mat-raised-button matTooltip="Eliminar" type="button" class="btn btn-outline-danger" 

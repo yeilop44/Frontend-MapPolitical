@@ -15,7 +15,7 @@
       </div>                     
     </div>      
     <div class="col-8">
-      <div class="text-center"><span><b>Referidos</b></span></div>
+      <div class="text-center"><span><b>Referidos {{ references.length }}</b></span></div>
       <app-loading class="container" *ngIf="isLoadingReferences" ></app-loading>
       <div class="row" *ngIf="!isLoadingReferences">        
           <div class="col-sm-6" style="margin-top: 10px" *ngFor="let reference of references">
@@ -29,8 +29,8 @@
                       <h6 class="card-title capitalize">{{ reference.names }} {{ reference.surnames.split(" ")[0] }} {{ reference.surnames.split(" ")[1] | slice:0:1}}</h6>
                       <div class="font-size gray" style="margin-top: -10px">                        
                         <div><span class="card-text"><i class="far fa-id-card"></i> {{ reference.identification }}</span></div>
-                        <div *ngIf="reference.phone != (null || '')"><span class="card-text"><i class="fas fa-phone"></i> {{ reference.phone }}</span></div>
-                        <div *ngIf="reference.subdivision != (null || '')"><span class="card-text"><i class="fas fa-map-marker-alt"></i> {{ reference.subdivision }} </span></div>                                                                          
+                        <div *ngIf="reference.phone"><span class="card-text"><i class="fas fa-phone"></i> {{ reference.phone }}</span></div>
+                        <div *ngIf="reference.subdivision"><span class="card-text"><i class="fas fa-map-marker-alt"></i> {{ reference.subdivision }} </span></div>                                                                          
                       </div>                      
                     </div>                           
                   </div>                                                     

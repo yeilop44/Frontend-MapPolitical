@@ -19,17 +19,18 @@ export class AffiliatesService {
   }
 
   getAffiliatesByUserPaginated(user: string, page: number) {
+    let token = this.auth.token;
     const httpOptions = {
-          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
     return this.http.get(`${this.urlApi}/${user}/${page}`, httpOptions);
   }
 
-getAffiliatesByUser(user: string) {
-    let token = this.auth.token;
-    const httpOptions = {
-        headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
-    return this.http.get(`${this.urlApi}/${user}`, httpOptions);
-}
+  getAffiliatesByUser(user: string) {
+      let token = this.auth.token;
+      const httpOptions = {
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+      return this.http.get(`${this.urlApi}/${user}`, httpOptions);
+  }
 
   postAfiliado(Afiliado: Afiliado) {
     let token = this.auth.token;
@@ -59,6 +60,13 @@ getAffiliatesByUser(user: string) {
     const httpOptions = {
           headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
     return this.http.get(`${this.urlApi}/${leader.userName}/leader/${leader.leader}`, httpOptions);
+  }
+
+  getAffiliatesByNames(contactSearch: any) {
+
+    const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${contactSearch.userName}/names/${contactSearch.names}`, httpOptions);
   }
 
   getCountProfessions(user: string) {

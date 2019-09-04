@@ -6,7 +6,7 @@ interface Affiliate{
 export class Compromiso {
   
   constructor (_id = '', userName= '', affiliate = {_id:'', fullname:''},typeCommitment='',
-               commitmentDescription='', quantity=0,  ) {
+               commitmentDescription='', quantity=0  ) {
     this._id = _id;
     this.userName = userName;
     this.affiliate = affiliate;
