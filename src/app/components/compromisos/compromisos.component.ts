@@ -63,11 +63,11 @@ export class CompromisosComponent implements OnInit {
               private commitmentMasterService: CommitmentMasterService, private  commitmentService: CommitmentsService) { 
     this.session();  
     
-    this.filteredStates = this.stateCtrl.valueChanges
+   /* this.filteredStates = this.stateCtrl.valueChanges
       .pipe(
         startWith(''),
         map(state => state ? this._filterStates(state) : this.afiliados.slice())
-    );
+    );*/
 
     this.compromiso = new Compromiso();
     
@@ -95,11 +95,10 @@ export class CompromisosComponent implements OnInit {
     }
 
     this.affiliateService.getAffiliatesByNames(contactSearch)
-      .subscribe((res:any)=>{
-        
+      .subscribe((res:any)=>{        
         this.afiliadosFilter = res.Affiliates; 
         console.log(this.afiliadosFilter);       
-      });    
+    });    
   }
 
 
