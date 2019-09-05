@@ -49,6 +49,7 @@ import { ModalDetalleContactoComponent } from './components/afiliados/modal-deta
 import { CompromisosComponent } from './components/compromisos/compromisos.component';
 import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.component';
 import { FechaPipe } from './pipes/fecha.pipe';
+import { AffiliateSearchResultComponent } from './components/afiliados/affiliate-search-result/affiliate-search-result.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { FechaPipe } from './pipes/fecha.pipe';
     ModalDetalleContactoComponent,
     CompromisosComponent,
     CompromisoComponent,
-    FechaPipe
+    FechaPipe,
+    AffiliateSearchResultComponent
   ],
   imports: [
     BrowserModule,
