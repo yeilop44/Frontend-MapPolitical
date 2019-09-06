@@ -22,8 +22,8 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" *ngIf="auth.isLogged">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-light" type="submit">Search</button>
+      <input class="form-control mr-sm-2" type="search" placeholder="Buscar contacto" aria-label="Search" #searchContact>
+      <button (click)="searchContacts(searchContact.value)" class="btn btn-outline-light" type="submit">Buscar</button>
     </form>
     <ul class="navbar-nav">
       <li class="nav-item dropdown"  *ngIf="auth.isLogged">

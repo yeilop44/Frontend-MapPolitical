@@ -56,9 +56,9 @@ export class NavbarComponent implements OnInit {
     this._router.navigate(['/usuario']);
   }
 
-  buscarHeroe( searchCriteria: string){
+  searchContacts( searchCriteria: string){
     console.log(searchCriteria);
-    this._router.navigate(['/searchEngine/', searchCriteria]);   
+    this._router.navigate(['/searchengine/', searchCriteria]);   
   }
 
 }

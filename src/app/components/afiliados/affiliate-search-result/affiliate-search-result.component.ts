@@ -4,8 +4,7 @@ import { AffiliatesService } from '../../../services/affiliates.service';
 
 @Component({
   selector: 'app-affiliate-search-result',
-  templateUrl: './affiliate-search-result.component.html',
-  styleUrls: ['./affiliate-search-result.component.css']
+  templateUrl: './affiliate-search-result.component.html'
 })
 export class AffiliateSearchResultComponent implements OnInit {
 
@@ -16,6 +15,7 @@ export class AffiliateSearchResultComponent implements OnInit {
 
   ngOnInit() {
     this._activatedRoute.params.subscribe( params => {
+      console.log("Estoy en el componente");
       console.log(params['searchCriteria']);
       this.searchCriteria = params['searchCriteria'];
       //this.contactResultList = this._affiliateService.searchContacts( this.searchCriteria );
