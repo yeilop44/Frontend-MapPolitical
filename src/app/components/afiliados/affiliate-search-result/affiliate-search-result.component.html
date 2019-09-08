@@ -1,6 +1,6 @@
 <h1>Buscador <small>{{searchCriteria}}</small></h1>
 <hr>
-
+<app-loading class="container" *ngIf="isLoading"></app-loading>
 <div *ngIf="contactResultList.length === 0" class="row">
   <div class="col-md-12">
     <div class="alert alert-info animated fadeIn" role="alert">

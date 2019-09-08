@@ -1,9 +1,9 @@
 <div class="card animated fadeIn fast">
     
     <div class="card-body">
-        <h5 class="card-title">{{item.nombre}}</h5>
-        <p class="card-text">{{item.cedula}}</p>
-        <p class="card-text"><small class="text-muted">{{ item.cumpleanios }}</small></p>
+        <h5 class="card-title">{{item.names}} {{ item.surnames }}</h5>
+        <p class="card-text">{{item.identification}}</p>
+        <p class="card-text"><small class="text-muted">{{ item.birthdate | fecha}}</small></p>
 
 
         <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"

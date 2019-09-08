@@ -1,43 +1,56 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AffiliatesService } from '../../../services/affiliates.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-affiliate-search-result',
   templateUrl: './affiliate-search-result.component.html'
 })
-export class AffiliateSearchResultComponent implements OnInit {
+export class AffiliateSearchResultComponent {
 
-  contactResultList: any[] = [{
-    nombre: "Mark Antony",
-    cedula: 12012255,
-    telefono: 1245887,
-    cumpleanios:"10-05-1989",
-    barrio: "el prado",
-    mesaVotacion: "mesa 1",
-    lider: "Jonathan Vëlez"
-  },
-  {
-    nombre: "Mark Buffalo",
-    cedula: 12012255,
-    telefono: 1245887,
-    cumpleanios:"10-05-1989",
-    barrio: "el prado",
-    mesaVotacion: "mesa 1",
-    lider: "Jonathan Vëlez"
-  }];
+  isLogged: boolean;
+  user: any;
+  isLoading = false;
+
+  contactResultList: any[];
   
   searchCriteria:string;
 
-  constructor( private _activatedRoute: ActivatedRoute, private _affiliateService: AffiliatesService ) { }
+  constructor( private _auth: AuthService, 
+                private _activatedRoute: ActivatedRoute,
+                private _router: Router,
+                private _affiliateService: AffiliatesService ) {
+                  this.session();
+                }
 
-  ngOnInit() {
+  search() {
+    this.isLoading = true;
     this._activatedRoute.params.subscribe( params => {
-      console.log("Estoy en el componente");
-      console.log(params['searchCriteria']);
       this.searchCriteria = params['searchCriteria'];
-      //this.contactResultList = this._affiliateService.searchContacts( this.searchCriteria );
+      this._affiliateService.searchContactsByUser(this.user.user.userName, this.searchCriteria ).subscribe((data: any ) => {
+        //this.contactResultList = data.affiliates;
+        //this.isLoading = false;
+        //this.pager = data.pager;
+        this.contactResultList = data.pageOfItems;
+        this.isLoading = false;
+        console.log(JSON.stringify(this.contactResultList));
+      });
     } )
+  }
+
+  session(){
+    this._auth.session()
+      .subscribe((res: any) =>{                  
+        this.isLogged = res.isLogged;
+        if(this.isLogged){          
+          this.user = res.user;
+          this._auth.token = res.user.token; 
+          this.search();
+        }else{        
+          this._router.navigate(['login']);
+        }
+    });
   }
 
 }
