@@ -12,6 +12,7 @@ import { ElectoralComponent } from './components/cuenta/electoral/electoral.comp
 import { LideresComponent } from './components/lideres/lideres.component';
 import { CompromisosComponent } from './components/compromisos/compromisos.component';
 import { CompromisoComponent } from './components/cuenta/compromiso/compromiso.component';
+import { AffiliateSearchResultComponent } from './components/afiliados/affiliate-search-result/affiliate-search-result.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -28,7 +29,8 @@ export const appRoutes: Routes = [
         { path: 'electoral', component: ElectoralComponent },
         { path: 'compromiso', component: CompromisoComponent },
         { path: '**', pathMatch: 'full', redirectTo: 'geografica' }
-    ]},    
+    ]},
+    {path: 'searchengine/:searchCriteria', component: AffiliateSearchResultComponent},  
     {path: '', pathMatch: 'full', redirectTo: 'login'},
     { path: '**', component: LoginComponent }
   ];

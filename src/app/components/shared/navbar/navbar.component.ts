@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
   isLogged = false;
   isLogout: boolean;
 
-  constructor(public auth: AuthService, public router: Router) { 
+  constructor(public auth: AuthService, private _router: Router) { 
     this.session();
   }
 
@@ -44,16 +44,21 @@ export class NavbarComponent implements OnInit {
         this.isLogout = res.isLogout;
         if(this.isLogout){
           this.auth.isLogged = false;         
-          this.router.navigate(['/login']);      
+          this._router.navigate(['/login']);      
         }
       });
   }
 
   account() {
-    this.router.navigate(['/cuenta']);
+    this._router.navigate(['/cuenta']);
   }
   settingsUser() {
-    this.router.navigate(['/usuario']);
+    this._router.navigate(['/usuario']);
+  }
+
+  searchContacts( searchCriteria: string){
+    console.log(searchCriteria);
+    this._router.navigate(['/searchengine/', searchCriteria]);   
   }
 
 }
