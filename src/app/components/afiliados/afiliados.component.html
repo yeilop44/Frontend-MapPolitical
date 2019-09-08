@@ -1,7 +1,10 @@
-<div class="container">
+<div class="container m-5">
     <div class="container row my-2 text-left mr-1">
-
-        <p class="text-left">Total de registros: {{ affiliates.length }}</p>
+        <div class="card shadow-sm p-6 mb-10 bg-white rounded" style="width: 16rem; height: 4rem; border-left: 6px solid #1b3646;">
+            <div class="card-body">
+                <h5 class="card-title">{{ affiliates.length }} <span style="color: #BBBBBB">Total Contactos</span> </h5>                                        
+            </div>
+        </div>       
         
         <div class="container col-md-4 my-2 text-left mr-1">
             
@@ -39,7 +42,7 @@
                 <td>
                     <ngx-avatar size="40" [name]="afiliado.names.split(' ')[0]"></ngx-avatar>
                     <div class="text-overflow capitalize" style="padding-left: 50px; margin-top: -35px">
-                        {{ afiliado.names }} {{ afiliado.surnames }}
+                        {{ afiliado.fullname }} 
                     </div>
                 </td>
                 <td class="text-overflow">{{ afiliado.identification }}</td>

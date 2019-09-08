@@ -7,10 +7,15 @@
           <form class="example-form">
             <mat-form-field class="example-full-width">
               <input type="text" placeholder="Busque el contacto" aria-label="Number" matInput [formControl]="myControl" 
-              [(ngModel)]="compromiso.affiliate.fullname" [matAutocomplete]="auto"  (keydown.enter)="filterContact(termino.value)" #termino>
+              [(ngModel)]="compromiso.affiliate.fullname" [matAutocomplete]="auto"  (keyup)="filterContact(termino.value)" #termino>
+              <div class="text-right" *ngIf="isLoading">
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getFullName($event.option.value)">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.names + ' ' + option.surnames ">
-                  {{option.names}} {{option.surnames}}
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.fullname">
+                  {{option.fullname}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>

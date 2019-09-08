@@ -59,6 +59,8 @@ export class CompromisosComponent implements OnInit {
   options: string[] = ['One', 'Two', 'Three', 'Four', 'Five'];
   filteredOptions: Observable<string[]>;
 
+  isLoading = false;
+
   constructor(private auth: AuthService, private affiliateService: AffiliatesService, private router: Router, 
               private commitmentMasterService: CommitmentMasterService, private  commitmentService: CommitmentsService) { 
     this.session();  
@@ -84,21 +86,36 @@ export class CompromisosComponent implements OnInit {
   
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();          
-      return this.afiliadosFilter.filter(option => option.names.toLowerCase().includes(filterValue));   
+      return this.afiliadosFilter.filter(option => option.fullname.toLowerCase().includes(filterValue));   
   }
 
   filterContact(termino: string){
-    const filterValue = termino.toLowerCase();
-    const contactSearch = {
-      userName: this.userNameCurrent,
-      names: filterValue 
-    }
+    
+    
 
-    this.affiliateService.getAffiliatesByNames(contactSearch)
-      .subscribe((res:any)=>{        
-        this.afiliadosFilter = res.Affiliates; 
-        console.log(this.afiliadosFilter);       
-    });    
+    if(termino){
+      if(termino.length > 2){
+        this.isLoading = true;
+        const filterValue = termino.toLowerCase();
+        const contactSearch = {
+          userName: this.userNameCurrent,
+          names: filterValue 
+        }
+        
+        this.affiliateService.getAffiliatesByNames(contactSearch)
+          .subscribe((res:any)=>{        
+            this.afiliadosFilter = res.Affiliates; 
+            console.log(this.afiliadosFilter); 
+            this.isLoading = false;      
+        });
+      }else{
+        console.log('parameto menor a 2 caracteres');
+        this.afiliadosFilter = [];
+      }      
+    }else{
+      console.log('parametro vacio');
+      this.afiliadosFilter = [];
+    }        
   }
 
 
