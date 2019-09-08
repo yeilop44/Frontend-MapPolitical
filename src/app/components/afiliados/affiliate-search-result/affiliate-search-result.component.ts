@@ -8,7 +8,25 @@ import { AffiliatesService } from '../../../services/affiliates.service';
 })
 export class AffiliateSearchResultComponent implements OnInit {
 
-  contactResultList: any[];
+  contactResultList: any[] = [{
+    nombre: "Mark Antony",
+    cedula: 12012255,
+    telefono: 1245887,
+    cumpleanios:"10-05-1989",
+    barrio: "el prado",
+    mesaVotacion: "mesa 1",
+    lider: "Jonathan Vëlez"
+  },
+  {
+    nombre: "Mark Buffalo",
+    cedula: 12012255,
+    telefono: 1245887,
+    cumpleanios:"10-05-1989",
+    barrio: "el prado",
+    mesaVotacion: "mesa 1",
+    lider: "Jonathan Vëlez"
+  }];
+  
   searchCriteria:string;
 
   constructor( private _activatedRoute: ActivatedRoute, private _affiliateService: AffiliatesService ) { }

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-contacts-table',
@@ -6,8 +7,19 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ContactsTableComponent implements OnInit {
 
-  @Input() pageOfItems: any[]; 
+  @Input() item: any; 
+  @Input() index: string;
 
+  itemPrueba: any = {
+    nombre: "Mark Antony",
+    cedula: 12012255,
+    telefono: 1245887,
+    cumpleanios:"10-05-1989",
+    barrio: "el prado",
+    mesaVotacion: "mesa 1",
+    lider: "Jonathan Vëlez"
+  };
+  
   affiliates: number;
   
   constructor() { }

@@ -1,65 +1,24 @@
-<table class="table table-hover table-bordered animated fadeIn fast" >            
-  <thead class="custom-thead text-light">
-  <tr>
-      <th scope="col">Nombres y Apellidos</th>
-      <th scope="col">No. Identificacón</th>
-      <th scope="col">Fecha de Nacimiento</th>
-      <th scope="col">Barrio/vereda</th>
-      <th scope="col">Profesión</th>            
-      <th scope="col">Acciones</th>            
-  </tr>
-  </thead>
-  <tbody>
-  <tr class="pointer" *ngFor="let afiliado of pageOfItems">           
-      <td>
-          <ngx-avatar size="40" [name]="afiliado.names.split(' ')[0]"></ngx-avatar>
-          <div class="text-overflow capitalize" style="padding-left: 50px; margin-top: -35px">
-              {{ afiliado.names }} {{ afiliado.surnames }}
-          </div>
-      </td>
-      <td class="text-overflow">{{ afiliado.identification }}</td>
-      <td class="text-overflow">{{ afiliado.birthdate | fecha }}</td>
-      <td class="text-overflow capitalize"> {{ afiliado.subdivision }}</td>
-      <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>            
-      <td class="text-overflow">
-          <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
-              type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 
-              (click)="editAfiliado(afiliado)">
-              <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
-          </button>
-          <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="above"                     
-              type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteAfiliado(afiliado._id)">
-              <i class="fas fa-trash-alt" style="color: rgba(253, 44, 44, 0.863)"></i>
-          </button>
-          <button mat-raised-button matTooltip="Detalles" matTooltipPosition="right"                     
-              type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalDetalleContacto(afiliado)">
-              <i class="fas fa-info" style="color: rgba(0, 250, 250, 0.945)"></i>
-          </button>
-      </td>
-  </tr>
-  </tbody>
-</table>
-<div class="pagination pb-0 pt-3">
-  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-      <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
-          <!--<a routerLink [queryParams]="{ page: 1 }" class="page-link">First</a>-->
-          <a (click)="getAfiliadosPerPage(1)" class="page-link">Primera</a>
-      </li>
-      <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item previous-item">
-          <!--<a routerLink [queryParams]="{ page: pager.currentPage - 1 }" class="page-link">Previous</a>-->
-          <a (click)="getAfiliadosPerPage( pager.currentPage - 1)" class="page-link">Anterior</a>
-      </li>
-      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item number-item">
-          <!--<a routerLink [queryParams]="{ page: page }" class="page-link">{{page}}</a>-->
-          <a (click)="getAfiliadosPerPage( page )" class="page-link">{{page}}</a>
-      </li>
-      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next-item">
-          <!--<a routerLink [queryParams]="{ page: pager.currentPage + 1 }" class="page-link">Next</a>-->
-          <a (click)="getAfiliadosPerPage( pager.currentPage + 1)" class="page-link">Siguiente</a>
-      </li>
-      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
-          <!--<a routerLink [queryParams]="{ page: pager.totalPages }" class="page-link">Last</a>-->
-          <a (click)="getAfiliadosPerPage( pager.totalPages )" class="page-link">Última</a>
-      </li>
-  </ul>
+<div class="card animated fadeIn fast">
+    
+    <div class="card-body">
+        <h5 class="card-title">{{item.nombre}}</h5>
+        <p class="card-text">{{item.cedula}}</p>
+        <p class="card-text"><small class="text-muted">{{ item.cumpleanios }}</small></p>
+
+
+        <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
+            type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 
+            (click)="editAfiliado(afiliado)">
+            <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
+        </button>
+        <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="above"                     
+            type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteAfiliado(afiliado._id)">
+            <i class="fas fa-trash-alt" style="color: rgba(253, 44, 44, 0.863)"></i>
+        </button>
+        <button mat-raised-button matTooltip="Detalles" matTooltipPosition="right"                     
+            type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalDetalleContacto(afiliado)">
+            <i class="fas fa-info" style="color: rgba(0, 250, 250, 0.945)"></i>
+        </button>
+
+    </div>
 </div>

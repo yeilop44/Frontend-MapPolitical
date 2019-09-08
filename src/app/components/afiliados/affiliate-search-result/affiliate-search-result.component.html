@@ -1,1 +1,17 @@
-<p>Algo va aqui</p>
+<h1>Buscador <small>{{searchCriteria}}</small></h1>
+<hr>
+
+<div *ngIf="contactResultList.length === 0" class="row">
+  <div class="col-md-12">
+    <div class="alert alert-info animated fadeIn" role="alert">
+        No existen resultados con el término: {{searchCriteria}}
+    </div>      
+  </div>
+</div>
+
+<div class="card-columns">
+  
+  <app-contacts-table [item] = "contact" [index] = "i" *ngFor="let contact of contactResultList; let i = index"></app-contacts-table>
+
+
+</div>
