@@ -25,11 +25,11 @@ export class AffiliatesService {
     return this.http.get(`${this.urlApi}/${user}/${page}`, httpOptions);
   }
 
-  searchContactsByUser(user: string, searchCriteria: string) {
+  searchContactsByUser(user: string, searchCriteria: string, page: number) {
     let token = this.auth.token;
     const httpOptions = {
           headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
-    return this.http.get(`${this.urlApi}/searchengine/${user}/${searchCriteria}/1`, httpOptions);
+    return this.http.get(`${this.urlApi}/searchengine/${user}/${searchCriteria}/${page}`, httpOptions);
   }
 
   getAffiliatesByUser(user: string) {

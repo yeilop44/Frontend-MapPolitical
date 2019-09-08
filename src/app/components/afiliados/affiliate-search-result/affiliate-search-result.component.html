@@ -12,8 +12,33 @@
     
     <div class="card-columns">
         
-        <app-contacts-table [item] = "contact" [index] = "i" *ngFor="let contact of contactResultList; let i = index"></app-contacts-table>
+        <app-contacts-table [item] = "contact" [index] = "i" *ngFor="let contact of contactResultList; let i = index" (deleteEvent)="deleteContact($event)" ></app-contacts-table>
     
     
-    </div>    
+    </div>
+    <hr>
+    <div class="pagination pb-0 pt-3">
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
+                <!--<a routerLink [queryParams]="{ page: 1 }" class="page-link">First</a>-->
+                <a (click)="search(1)" class="page-link">Primera</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item previous-item">
+                <!--<a routerLink [queryParams]="{ page: pager.currentPage - 1 }" class="page-link">Previous</a>-->
+                <a (click)="search( pager.currentPage - 1)" class="page-link">Anterior</a>
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item number-item">
+                <!--<a routerLink [queryParams]="{ page: page }" class="page-link">{{page}}</a>-->
+                <a (click)="search( page )" class="page-link">{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next-item">
+                <!--<a routerLink [queryParams]="{ page: pager.currentPage + 1 }" class="page-link">Next</a>-->
+                <a (click)="search( pager.currentPage + 1)" class="page-link">Siguiente</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
+                <!--<a routerLink [queryParams]="{ page: pager.totalPages }" class="page-link">Last</a>-->
+                <a (click)="search( pager.totalPages )" class="page-link">Última</a>
+            </li>
+        </ul>
+    </div>   
 </div>

@@ -36,17 +36,13 @@
     </div>
 
     <div class="card-footer border-dark">
-        <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
-            type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 
-            (click)="editAfiliado(afiliado)">
-            <i class="fas fa-pen" style="color: rgb(12, 168, 240)"></i>
-        </button>
+        
         <button mat-raised-button matTooltip="Eliminar" matTooltipPosition="above"                     
-            type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteAfiliado(afiliado._id)">
+            type="button" class="btn btn-outline-danger" style="margin-left: 5px" (click)="deleteContact()">
             <i class="fas fa-trash-alt" style="color: rgba(253, 44, 44, 0.863)"></i>
         </button>
         <button mat-raised-button matTooltip="Detalles" matTooltipPosition="right"                     
-            type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalDetalleContacto(afiliado)">
+            type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalContactDetail()">
             <i class="fas fa-info" style="color: rgba(0, 250, 250, 0.945)"></i>
         </button>
     </div>

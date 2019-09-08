@@ -13,6 +13,7 @@ export class AffiliateSearchResultComponent {
   user: any;
   isLoading = false;
 
+  pager = {};
   contactResultList: any[] = [{}];
   
   searchCriteria:string;
@@ -24,16 +25,17 @@ export class AffiliateSearchResultComponent {
                   this.session();
                 }
 
-  search() {
+  search(page:number) {
     this.isLoading = true;
     this._activatedRoute.params.subscribe( params => {
       this.searchCriteria = params['searchCriteria'];
-      this._affiliateService.searchContactsByUser(this.user.user.userName, this.searchCriteria ).subscribe((data: any ) => {
+      this._affiliateService.searchContactsByUser(this.user.user.userName, this.searchCriteria, page ).subscribe((data: any ) => {
         //this.contactResultList = data.affiliates;
         //this.pager = data.pager;
         this.contactResultList = data.pageOfItems;
+        this.pager = data.pager;
         this.isLoading = false;
-        console.log(JSON.stringify(this.contactResultList, null, 4));
+        //console.log(JSON.stringify(this.contactResultList, null, 4));
       });
     } )
   }
@@ -45,11 +47,22 @@ export class AffiliateSearchResultComponent {
         if(this.isLogged){          
           this.user = res.user;
           this._auth.token = res.user.token; 
-          this.search();
+          this.search(1);
         }else{        
           this._router.navigate(['login']);
         }
     });
+  }
+
+  deleteContact(contact:any){
+    console.log("Estoy en el parent");
+    console.log(JSON.stringify(contact, null, 4));
+
+    this._affiliateService.deleteAfiliado(contact._id)
+        .subscribe(res => {
+        console.log('contacto borrado');
+        this.search(1);
+      });
   }
 
 }
