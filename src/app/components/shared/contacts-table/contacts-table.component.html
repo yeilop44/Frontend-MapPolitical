@@ -1,11 +1,41 @@
-<div class="card animated fadeIn fast">
+<div class="card border-dark mb-3 animated fadeIn fast" style="max-width: 18rem;">
     
+    <div class="card-header border-dark">
+        <div class="row">
+            <div class="header-avatar">
+                <ngx-avatar size="40" [name]="item.names.split(' ')[0]"></ngx-avatar>
+            </div>&nbsp;
+            <div class="header-name">      
+                <p>{{item.names}} {{item.surnames}}</p>
+            </div>
+        </div>        
+    </div>
     <div class="card-body">
-        <h5 class="card-title">{{item.names}} {{ item.surnames }}</h5>
-        <p class="card-text">{{item.identification}}</p>
+        <div class="row">
+            <div class="body-icon"><i class="far fa-id-card"></i></div>&nbsp;&nbsp;
+            <div class="body-description">
+                <h5 class="card-title">{{item.identification}}</h5>
+            </div>
+        </div>
+        
+        <div class="row" *ngIf="item.phone">
+            <div class="body-icon"><i class="fas fa-phone"></i></div>&nbsp;&nbsp;
+            <div class="body-description"><p class="card-text">{{item.phone}}</p></div>
+        </div>
+        
+        <div class="row" *ngIf="item.leader">
+            <div class="body-icon"><i class="fas fa-fist-raised"></i></div>&nbsp;&nbsp;
+            <div class="body-description"><p class="card-text">{{item.leader}}</p></div>
+        </div>
+        
         <p class="card-text"><small class="text-muted">{{ item.birthdate | fecha}}</small></p>
 
+        
+        
 
+    </div>
+
+    <div class="card-footer border-dark">
         <button mat-raised-button matTooltip="Editar" matTooltipPosition="left"
             type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContactoModal" 
             (click)="editAfiliado(afiliado)">
@@ -19,6 +49,5 @@
             type="button" class="btn btn-outline-info" style="margin-left: 5px" (click)="openModalDetalleContacto(afiliado)">
             <i class="fas fa-info" style="color: rgba(0, 250, 250, 0.945)"></i>
         </button>
-
     </div>
 </div>

@@ -29,7 +29,7 @@ export class AffiliatesService {
     let token = this.auth.token;
     const httpOptions = {
           headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
-    return this.http.get(`${this.urlApi}/${user}/${searchCriteria}/1`, httpOptions);
+    return this.http.get(`${this.urlApi}/searchengine/${user}/${searchCriteria}/1`, httpOptions);
   }
 
   getAffiliatesByUser(user: string) {

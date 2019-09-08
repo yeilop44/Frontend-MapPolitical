@@ -13,7 +13,7 @@ export class AffiliateSearchResultComponent {
   user: any;
   isLoading = false;
 
-  contactResultList: any[];
+  contactResultList: any[] = [{}];
   
   searchCriteria:string;
 
@@ -30,11 +30,10 @@ export class AffiliateSearchResultComponent {
       this.searchCriteria = params['searchCriteria'];
       this._affiliateService.searchContactsByUser(this.user.user.userName, this.searchCriteria ).subscribe((data: any ) => {
         //this.contactResultList = data.affiliates;
-        //this.isLoading = false;
         //this.pager = data.pager;
         this.contactResultList = data.pageOfItems;
         this.isLoading = false;
-        console.log(JSON.stringify(this.contactResultList));
+        console.log(JSON.stringify(this.contactResultList, null, 4));
       });
     } )
   }

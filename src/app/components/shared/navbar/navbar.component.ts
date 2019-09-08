@@ -57,8 +57,10 @@ export class NavbarComponent implements OnInit {
   }
 
   searchContacts( searchCriteria: string){
-    console.log(searchCriteria);
-    this._router.navigate(['/searchengine/', searchCriteria]);   
+    //console.log(searchCriteria);
+    if( typeof searchCriteria !== "undefined" && searchCriteria.length > 2 ){
+      this._router.navigate(['/searchengine/', searchCriteria]);
+    }    
   }
 
 }
