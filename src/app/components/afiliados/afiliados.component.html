@@ -1,27 +1,39 @@
-<div class="container">
-    <div class="container row my-2 text-left mr-1">
-        <div class="card shadow-sm p-6 mb-10 bg-white rounded animated fadeIn fast" style="width: 16rem; height: 4rem; border-left: 6px solid #1b3646;" *ngIf="!isLoading">
-            <div class="card-body">
-                <h5 class="card-title">{{ affiliates }} <span style="color: #BBBBBB">Contactos</span> </h5>                                        
+<div class="container div-margin-top div-margin-bottom">
+    <div class="row my-2 mr-1">
+        <div class="col-sm-2">
+            <div class="card shadow-sm p-6 mb-10 bg-white rounded animated fadeIn fast" style="width: 8rem; height: 2rem; border-left: 6px solid #1b3646;" *ngIf="!isLoading">
+                <div>
+                    <p class="card-title mg-left-15">{{ affiliates }} <small style="color: #BBBBBB">Contactos</small> </p>                                        
+                </div>
             </div>
-        </div>       
-    
-        <div class="container col-md-4 my-2 text-left mr-1">
-            
-            <!--<button (click)="NewAffiliate()" class="btn custom-button text-light"><i class="fas fa-user-plus"></i> Nuevo Contacto</button>-->
-            <button class="btn custom-button text-light" data-toggle="modal" data-target="#infoContactoModal" (click)="loadMasterLists()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
-                <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
-            </button>
-            <!--<button class="btn custom-button text-light" data-toggle="modal"><i class="fas fa-user-plus"></i> Nuevo contact
-                <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto>
-            </button>-->
-            &nbsp;<button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
-            <!--<button class="btn custom-button text-light"><i class="fas fa-file-upload"></i>
-                <app-modal-carga-masiva id="modalCargaMasiva"></app-modal-carga-masiva>
-            </button>-->        
         </div>
 
+        <div class="col-sm-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Filtrar por</span>
+                </div>
+                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" #contactFilter (keyup)="contactSearcher(contactFilter.value, 1)">
+            </div> 
+        </div>
+
+        <div class="col-sm-2">
+            
+        </div>
+
+        <div class="col-sm-4">
+            <button class="btn custom-button text-light mg-right-2" data-toggle="modal" data-target="#infoContactoModal" (click)="loadMasterLists()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
+                <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
+            </button>
+            <button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
+        </div>
+
+        <!--<div class="col-sm-2">
+            <button class="btn custom-button text-light" (click)="openModalCargaMasiva()" ><i class="fas fa-file-upload"></i> Carga masiva</button>
+        </div>-->
+
     </div>
+    
     
     <app-loading class="container" *ngIf="isLoading"></app-loading>
     <!-- LISTADO DE CONTACTOS -->

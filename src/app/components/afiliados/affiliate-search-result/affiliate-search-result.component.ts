@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AffiliatesService } from '../../../services/affiliates.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -7,7 +7,8 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-affiliate-search-result',
   templateUrl: './affiliate-search-result.component.html'
 })
-export class AffiliateSearchResultComponent {
+export class AffiliateSearchResultComponent implements OnInit{
+  
 
   isLogged: boolean;
   user: any;
@@ -15,6 +16,7 @@ export class AffiliateSearchResultComponent {
 
   pager = {};
   contactResultList: any[] = [{}];
+  resultListLength:number = 0;
   
   searchCriteria:string;
 
@@ -30,14 +32,17 @@ export class AffiliateSearchResultComponent {
     this._activatedRoute.params.subscribe( params => {
       this.searchCriteria = params['searchCriteria'];
       this._affiliateService.searchContactsByUser(this.user.user.userName, this.searchCriteria, page ).subscribe((data: any ) => {
-        //this.contactResultList = data.affiliates;
-        //this.pager = data.pager;
+        this.resultListLength = data.totalRows;
         this.contactResultList = data.pageOfItems;
         this.pager = data.pager;
         this.isLoading = false;
         //console.log(JSON.stringify(this.contactResultList, null, 4));
       });
     } )
+  }
+
+  ngOnInit(): void {
+    
   }
 
   session(){
@@ -55,14 +60,16 @@ export class AffiliateSearchResultComponent {
   }
 
   deleteContact(contact:any){
-    console.log("Estoy en el parent");
-    console.log(JSON.stringify(contact, null, 4));
-
+    
     this._affiliateService.deleteAfiliado(contact._id)
         .subscribe(res => {
         console.log('contacto borrado');
         this.search(1);
       });
+  }
+
+  editContact(){
+
   }
 
 }

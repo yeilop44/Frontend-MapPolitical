@@ -86,6 +86,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   bsModalRef: BsModalRef;
   bsModalRefTres: BsModalRef;
 
+  globalSearchCriteria:string = "";
+
   user: any;
 
   constructor(public affiliateService: AffiliatesService, public auth: AuthService,
@@ -211,13 +213,20 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getAfiliadosPerPage( page: number) {
     this.isLoading = true;
-    this.affiliateService.getAffiliatesByUserPaginated(this.user.user.userName, page)
+    if( this.globalSearchCriteria.length === 0 )
+    {
+      this.affiliateService.getAffiliatesByUserPaginated(this.user.user.userName, page)
         .subscribe((data: any ) => {
           this.affiliates = data.affiliates;
           this.isLoading = false;
           this.pager = data.pager;
           this.pageOfItems = data.pageOfItems;
         });
+    }
+    else if(this.globalSearchCriteria.length > 2){
+      this.contactSearcher(this.globalSearchCriteria, page);
+    }
+    
   }
 
   addAfiliado(form: NgForm) {
@@ -500,6 +509,27 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   eventEmmiter(event){
       this.getAfiliadosPerPage(1);
+  }
+
+  contactSearcher(searchCriteria:string, page:number){
+    this.globalSearchCriteria = searchCriteria;
+    if(typeof searchCriteria !== "undefined"){
+      if( searchCriteria.length > 2 )
+      {
+        this.isLoading = true;
+        this.affiliateService.searchContactsByUser(this.user.user.userName, searchCriteria, page ).subscribe((data: any ) => {
+          this.isLoading = false;
+          this.affiliates = data.totalRows;
+          this.pager = data.pager;
+          this.pageOfItems = data.pageOfItems;
+          //console.log(JSON.stringify(this.contactResultList, null, 4));
+        });
+      }
+      else if( searchCriteria.length === 0 ){
+        this.getAfiliadosPerPage(1);
+      }
+      
+    }
   }
 
 

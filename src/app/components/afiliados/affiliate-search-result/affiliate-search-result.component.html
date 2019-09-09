@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Buscador <small>{{searchCriteria}}</small></h1>
+    <h1>Buscando <small>{{searchCriteria}} ({{resultListLength}} contactos encontrados)</small></h1>
     <hr>
     <app-loading class="container" *ngIf="isLoading"></app-loading>
     <div *ngIf="contactResultList.length === 0" class="row">
