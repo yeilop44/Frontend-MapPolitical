@@ -16,6 +16,7 @@ import { ModalDetalleContactoComponent } from './modal-detalle-contacto/modal-de
 import { subscribeOn } from 'rxjs/operators';
 import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
 import {NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-afiliados',
@@ -56,7 +57,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   isEmptySurnames = false;
   isEmptyIdentification = false;
 
-  affiliates: any[] = [];
+  affiliates: any;
   divipols: any[] = [];
   states: any[] = [];
   municipalitys: any[] = [];
@@ -90,6 +91,11 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   user: any;
   isFilter = false;
+  subdivisionByZoneFilter: any[] = [];
+  count = 0;
+  temp: any;
+  temp2: any;
+  
   
   constructor(public affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
@@ -545,13 +551,23 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         //this.pager = data.pager;
         this.pageOfItems = data.pageOfItems;
         console.log(this.pageOfItems)
+        const subdivisionByZoneFilter1 = []
+        for(let i=0; i<this.pageOfItems.length; i++){
+          if(this.pageOfItems[i].zone === zone){
+             subdivisionByZoneFilter1[i] = this.pageOfItems[i].subdivision
+          }
+        }
+        console.log(subdivisionByZoneFilter1);
+        this.subdivisionByZoneFilter = _.uniqBy(subdivisionByZoneFilter1);
+        console.log(this.subdivisionByZoneFilter);
       });  
     }               
   }
 
   contactSearchBySubdivision(subdivision:string){ 
-    console.log(subdivision);
+    console.log(subdivision);   
     this.isLoading = true;  
+    
     if(subdivision === 'Ninguno'){
       this.getAfiliadosPerPage(1);
     }else{
@@ -562,7 +578,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pageOfItems = data.pageOfItems;
         console.log(this.pageOfItems)
       });  
-    }               
+    }                    
   }
 
   contactSearchByProfession(profession:string){ 
@@ -583,7 +599,10 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   contactSearchByChurch(church:string){ 
     console.log(church);
+    
     this.isLoading = true;  
+    
+
     if(church === 'Ninguno'){
       this.getAfiliadosPerPage(1);
     }else{

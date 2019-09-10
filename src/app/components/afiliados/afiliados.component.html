@@ -52,21 +52,8 @@
                 </div>
                 <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #subdivisionFilter (change)="contactSearchBySubdivision(subdivisionFilter.value)">
                     <option selected>Ninguno</option>
-                    <option selected>alvarez</option>
-                    <option selected>centro</option>                    
-                    <option selected>comuneros</option>
-                    <option selected>conucos</option>
-                    <option selected>el estadio</option>
-                    <option selected>el prado</option>
-                    <option selected>el rosal</option>
-                    <option selected>la aurora</option>
-                    <option selected>la concordia</option>
-                    <option selected>los angeles</option>
-                    <option selected>mejoras publicas</option>
-                    <option selected>san alonso</option>
-                    <option selected>soto mayor</option>
-                    <option selected>san ignacio</option>
-                    <option selected>villa helena</option>
+                    <option *ngFor="let x of subdivisionByZoneFilter">{{ x }}</option>
+                    
                 </select>    
             </div> 
         </div>
