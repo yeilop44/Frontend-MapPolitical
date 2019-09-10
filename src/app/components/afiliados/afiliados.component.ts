@@ -89,7 +89,8 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   globalSearchCriteria:string = "";
 
   user: any;
-
+  isFilter = false;
+  
   constructor(public affiliateService: AffiliatesService, public auth: AuthService,
               private listMaster: ListMasterService, private electoralMasterService: ElectoralMasterService,
               private geographyMasterService: GeographyMasterService, private divipolMasterService: DivipolMasterService, 
@@ -527,9 +528,73 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else if( searchCriteria.length === 0 ){
         this.getAfiliadosPerPage(1);
-      }
-      
-    }
+      }      
+    }    
+  }
+
+
+  contactSearchByZone(zone:string){ 
+    console.log(zone);
+    this.isLoading = true;  
+    if(zone === 'Ninguno'){
+      this.getAfiliadosPerPage(1);
+    }else{
+      this.affiliateService.searchContactsByZone(this.user.user.userName, zone ).subscribe((data: any ) => {
+        this.isLoading = false;
+        this.affiliates = data.totalRows;
+        //this.pager = data.pager;
+        this.pageOfItems = data.pageOfItems;
+        console.log(this.pageOfItems)
+      });  
+    }               
+  }
+
+  contactSearchBySubdivision(subdivision:string){ 
+    console.log(subdivision);
+    this.isLoading = true;  
+    if(subdivision === 'Ninguno'){
+      this.getAfiliadosPerPage(1);
+    }else{
+      this.affiliateService.searchContactsBySubdivision(this.user.user.userName, subdivision ).subscribe((data: any ) => {
+        this.isLoading = false;
+        this.affiliates = data.totalRows;
+        //this.pager = data.pager;
+        this.pageOfItems = data.pageOfItems;
+        console.log(this.pageOfItems)
+      });  
+    }               
+  }
+
+  contactSearchByProfession(profession:string){ 
+    console.log(profession);
+    this.isLoading = true;  
+    if(profession === 'Ninguno'){
+      this.getAfiliadosPerPage(1);
+    }else{
+      this.affiliateService.searchContactsByProfession(this.user.user.userName, profession ).subscribe((data: any ) => {
+        this.isLoading = false;
+        this.affiliates = data.totalRows;
+        //this.pager = data.pager;
+        this.pageOfItems = data.pageOfItems;
+        console.log(this.pageOfItems)
+      });  
+    }               
+  }
+
+  contactSearchByChurch(church:string){ 
+    console.log(church);
+    this.isLoading = true;  
+    if(church === 'Ninguno'){
+      this.getAfiliadosPerPage(1);
+    }else{
+      this.affiliateService.searchContactsByChurch(this.user.user.userName, church ).subscribe((data: any ) => {
+        this.isLoading = false;
+        this.affiliates = data.totalRows;
+        //this.pager = data.pager;
+        this.pageOfItems = data.pageOfItems;
+        console.log(this.pageOfItems)
+      });  
+    }               
   }
 
 

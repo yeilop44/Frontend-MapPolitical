@@ -3,7 +3,7 @@
         <div class="col-sm-2">
             <div class="card shadow-sm p-6 mb-10 bg-white rounded animated fadeIn fast" style="width: 8rem; height: 2rem; border-left: 6px solid #1b3646;" *ngIf="!isLoading">
                 <div>
-                    <p class="card-title mg-left-15">{{ affiliates }} <small style="color: #BBBBBB">Contactos</small> </p>                                        
+                    <p class="card-title mg-left-15"><b>{{ affiliates }} </b><small style="color: #BBBBBB">Contactos</small> </p>                                        
                 </div>
             </div>
         </div>
@@ -11,16 +11,15 @@
         <div class="col-sm-4">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">Filtrar por</span>
+                    <span class="input-group-text" id="basic-addon3"><i class="fas fa-search"></i></span>
                 </div>
-                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" #contactFilter (keyup)="contactSearcher(contactFilter.value, 1)">
+                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" #contactFilter (keyup)="contactSearcher(contactFilter.value, 1)" placeholder="Busque por nombre o apellido">
             </div> 
         </div>
-
-        <div class="col-sm-2">
-            
-        </div>
-
+        <div class="col-sm-2" >
+                <button type="button" class="btn btn-outline-secondary" (click)="isFilter = !isFilter"><i class="fas fa-sliders-h"></i> Filtros</button>
+        </div>        
+        
         <div class="col-sm-4">
             <button class="btn custom-button text-light mg-right-2" data-toggle="modal" data-target="#infoContactoModal" (click)="loadMasterLists()" style="z-index: 1051"><i class="fas fa-user-plus"></i> Nuevo contacto
                 <!-- <app-modal-nuevo-contacto id="modalNuevoContacto"></app-modal-nuevo-contacto> -->
@@ -33,6 +32,81 @@
         </div>-->
 
     </div>
+    <div class="row my-2 mr-1" *ngIf="isFilter">
+        <div class="col-sm-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Zona</span>
+                </div>
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #zoneFilter (change)="contactSearchByZone(zoneFilter.value)">
+                    <option selected>Ninguno</option>
+                    <option selected>Urbana</option>
+                    <option selected>Rural</option>
+                </select>    
+            </div> 
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Barrio</span>
+                </div>
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #subdivisionFilter (change)="contactSearchBySubdivision(subdivisionFilter.value)">
+                    <option selected>Ninguno</option>
+                    <option selected>alvarez</option>
+                    <option selected>centro</option>                    
+                    <option selected>comuneros</option>
+                    <option selected>conucos</option>
+                    <option selected>el estadio</option>
+                    <option selected>el prado</option>
+                    <option selected>el rosal</option>
+                    <option selected>la aurora</option>
+                    <option selected>la concordia</option>
+                    <option selected>los angeles</option>
+                    <option selected>mejoras publicas</option>
+                    <option selected>san alonso</option>
+                    <option selected>soto mayor</option>
+                    <option selected>san ignacio</option>
+                    <option selected>villa helena</option>
+                </select>    
+            </div> 
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Profesión</span>
+                </div>
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #professionFilter (change)="contactSearchByProfession(professionFilter.value)">
+                    <option selected>Ninguno</option>
+                    <option selected>Administración</option>
+                    <option selected>Contaduría pública</option>
+                    <option selected>Derecho</option>
+                    <option selected>Diseño</option>
+                    <option selected>Economía</option>
+                    <option selected>Enfermería</option>
+                    <option selected>Física</option>
+                    <option selected>Psicología</option>
+
+                </select>    
+            </div> 
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Religión</span>
+                </div>
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #churchFilter (change)="contactSearchByChurch(churchFilter.value)">
+                    <option selected>Ninguno</option>
+                    <option selected>Adventista del séptimo día</option>
+                    <option selected>Católica</option>
+                    <option selected>Islam</option>
+                    <option selected>Judaísmo</option>
+                    <option selected>Protestante o evangélica</option>
+                    <option selected>Otra</option>
+                    
+                </select>    
+            </div> 
+        </div>
+    </div>
     
     
     <app-loading class="container" *ngIf="isLoading"></app-loading>
@@ -43,7 +117,7 @@
             <tr>
                 <th scope="col">Nombres y Apellidos</th>
                 <th scope="col">No. Identificacón</th>
-                <th scope="col">Fecha de Nacimiento</th>
+                <th scope="col">Religión</th>
                 <th scope="col">Barrio/vereda</th>
                 <th scope="col">Profesión</th>            
                 <th scope="col">Acciones</th>            
@@ -58,7 +132,7 @@
                     </div>
                 </td>
                 <td class="text-overflow">{{ afiliado.identification }}</td>
-                <td class="text-overflow">{{ afiliado.birthdate | fecha }}</td>
+                <td class="text-overflow">{{ afiliado.church }}</td>
                 <td class="text-overflow capitalize"> {{ afiliado.subdivision }}</td>
                 <td class="text-overflow">{{ afiliado.profession | slice:0:22}}</td>            
                 <td class="text-overflow">

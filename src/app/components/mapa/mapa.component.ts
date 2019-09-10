@@ -52,8 +52,13 @@ export class MapaComponent implements OnInit, AfterViewInit {
   getAfiliados(username: string) {
     this.affiliateService.getAffiliatesByUser(username)
     .subscribe((data: any ) => {
-      this.marcadores = data.affiliates;      
+      this.marcadores = data.affiliates;  
+      for(let i=0; i<this.marcadores.length; i++){
+        console.log(this.marcadores[i].positionLat +' '+ this.marcadores[i].positionLng );  
+      }    
     });
+
+    
   } 
 
 }

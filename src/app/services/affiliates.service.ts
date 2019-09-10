@@ -32,6 +32,34 @@ export class AffiliatesService {
     return this.http.get(`${this.urlApi}/searchengine/${user}/${searchCriteria}/${page}`, httpOptions);
   }
 
+  searchContactsByZone(user: string, zone: string) {
+    let token = this.auth.token;
+    const httpOptions = {
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${user}/zone/${zone}`, httpOptions);
+  }
+
+  searchContactsBySubdivision(user: string, subdivision: string) {
+    let token = this.auth.token;
+    const httpOptions = {
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${user}/subdivision/${subdivision}`, httpOptions);
+  }
+
+  searchContactsByProfession(user: string, profession: string) {
+    let token = this.auth.token;
+    const httpOptions = {
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${user}/profession/${profession}`, httpOptions);
+  }
+
+  searchContactsByChurch(user: string, church: string) {
+    let token = this.auth.token;
+    const httpOptions = {
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.get(`${this.urlApi}/${user}/church/${church}`, httpOptions);
+  }
+
   getAffiliatesByUser(user: string) {
       let token = this.auth.token;
       const httpOptions = {
