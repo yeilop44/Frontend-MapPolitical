@@ -92,9 +92,11 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   user: any;
   isFilter = false;
   subdivisionByZoneFilter: any[] = [];
+  professionByZoneFilter: any[] = [];
   count = 0;
   temp: any;
   temp2: any;
+  subdivisionParameter: any;
   
   
   constructor(public affiliateService: AffiliatesService, public auth: AuthService,
@@ -108,7 +110,9 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  ngOnInit() {           
+  ngOnInit() { 
+    
+    this.showFilters();
     
   }
 
@@ -538,6 +542,18 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     }    
   }
 
+  showFilters(){
+    this.isFilter = !this.isFilter;
+    let zonaFiltrada: any[] = [];
+    let zonaFiltrada1 = _.uniqBy(this.pageOfItems, 'zone');
+    console.log(zonaFiltrada1);
+    for(let i=0; i<zonaFiltrada1.length; i++){
+      zonaFiltrada[i] = zonaFiltrada1[i].zone;
+    }
+  console.log(zonaFiltrada);
+    
+  }
+
 
   contactSearchByZone(zone:string){ 
     console.log(zone);
@@ -565,18 +581,29 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   contactSearchBySubdivision(subdivision:string){ 
-    console.log(subdivision);   
+    console.log(subdivision); 
+
+    this.subdivisionParameter = subdivision;
     this.isLoading = true;  
     
     if(subdivision === 'Ninguno'){
-      this.getAfiliadosPerPage(1);
+      this.getAfiliadosPerPage(1);      
     }else{
       this.affiliateService.searchContactsBySubdivision(this.user.user.userName, subdivision ).subscribe((data: any ) => {
         this.isLoading = false;
         this.affiliates = data.totalRows;
         //this.pager = data.pager;
         this.pageOfItems = data.pageOfItems;
+        this.temp = data.pageOfItems;
         console.log(this.pageOfItems)
+        const professionByZoneFilter1 = []
+      for(let i=0; i<this.pageOfItems.length; i++){
+        if(this.pageOfItems[i].subdivision === subdivision){
+          professionByZoneFilter1[i] = this.pageOfItems[i].profession
+        }
+      }
+      this.professionByZoneFilter = _.uniqBy(professionByZoneFilter1);
+      console.log(this.professionByZoneFilter);
       });  
     }                    
   }
@@ -584,17 +611,34 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   contactSearchByProfession(profession:string){ 
     console.log(profession);
     this.isLoading = true;  
-    if(profession === 'Ninguno'){
-      this.getAfiliadosPerPage(1);
+
+    if(this.pageOfItems){
+      console.log(this.pageOfItems);
+      for(let i=0; i<this.pageOfItems.length; i++){
+        if(this.pageOfItems[i].profession !== profession){
+          this.pageOfItems.splice(i,1);
+          i--;
+        }
+      }
+      this.isLoading = false;
+      this.affiliates = this.pageOfItems.length;
+      console.log(this.temp.length + " array temp");
+      
     }else{
-      this.affiliateService.searchContactsByProfession(this.user.user.userName, profession ).subscribe((data: any ) => {
-        this.isLoading = false;
-        this.affiliates = data.totalRows;
-        //this.pager = data.pager;
-        this.pageOfItems = data.pageOfItems;
-        console.log(this.pageOfItems)
-      });  
-    }               
+      if(profession === 'Ninguno'){
+        this.getAfiliadosPerPage(1);
+      }else{
+        this.affiliateService.searchContactsByProfession(this.user.user.userName, profession ).subscribe((data: any ) => {
+          this.isLoading = false;
+          this.affiliates = data.totalRows;
+          //this.pager = data.pager;
+          this.pageOfItems = data.pageOfItems;
+          //console.log(this.pageOfItems)
+        });  
+      }    
+    }
+    
+               
   }
 
   contactSearchByChurch(church:string){ 

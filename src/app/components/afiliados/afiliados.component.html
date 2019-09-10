@@ -17,7 +17,7 @@
             </div> 
         </div>
         <div class="col-sm-2" >
-                <button type="button" class="btn btn-outline-secondary" (click)="isFilter = !isFilter"><i class="fas fa-sliders-h"></i> Filtros</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="showFilters()"><i class="fas fa-sliders-h"></i> Filtros</button>
         </div>        
         
         <div class="col-sm-4">
@@ -32,7 +32,7 @@
         </div>-->
 
     </div>
-    <div class="row my-2 mr-1" *ngIf="isFilter">
+    <div class="row my-2 mr-1" *ngIf="!isFilter">        
         <div class="col-sm-3">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -40,8 +40,8 @@
                 </div>
                 <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #zoneFilter (change)="contactSearchByZone(zoneFilter.value)">
                     <option selected>Ninguno</option>
-                    <option selected>Urbana</option>
-                    <option selected>Rural</option>
+                    <option >Urbana</option>
+                    <option >Rural</option>s                                  
                 </select>    
             </div> 
         </div>
@@ -64,14 +64,8 @@
                 </div>
                 <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #professionFilter (change)="contactSearchByProfession(professionFilter.value)">
                     <option selected>Ninguno</option>
-                    <option selected>Administración</option>
-                    <option selected>Contaduría pública</option>
-                    <option selected>Derecho</option>
-                    <option selected>Diseño</option>
-                    <option selected>Economía</option>
-                    <option selected>Enfermería</option>
-                    <option selected>Física</option>
-                    <option selected>Psicología</option>
+                    <option *ngFor="let x of professionByZoneFilter">{{ x }}</option>
+                    
 
                 </select>    
             </div> 
@@ -82,13 +76,13 @@
                     <span class="input-group-text" id="basic-addon3">Religión</span>
                 </div>
                 <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #churchFilter (change)="contactSearchByChurch(churchFilter.value)">
-                    <option selected>Ninguno</option>
-                    <option selected>Adventista del séptimo día</option>
-                    <option selected>Católica</option>
-                    <option selected>Islam</option>
-                    <option selected>Judaísmo</option>
-                    <option selected>Protestante o evangélica</option>
-                    <option selected>Otra</option>
+                    <option>Ninguno</option>
+                    <option>Adventista del séptimo día</option>
+                    <option>Católica</option>
+                    <option>Islam</option>
+                    <option>Judaísmo</option>
+                    <option>Protestante o evangélica</option>
+                    <option >Otra</option>
                     
                 </select>    
             </div> 
