@@ -64,9 +64,7 @@
                 </div>
                 <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #professionFilter (change)="contactSearchByProfession(professionFilter.value)">
                     <option selected>Ninguno</option>
-                    <option *ngFor="let x of professionByZoneFilter">{{ x }}</option>
-                    
-
+                    <option *ngFor="let profession of professionsList" >{{ profession.name }}</option>
                 </select>    
             </div> 
         </div>
@@ -77,13 +75,7 @@
                 </div>
                 <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #churchFilter (change)="contactSearchByChurch(churchFilter.value)">
                     <option>Ninguno</option>
-                    <option>Adventista del séptimo día</option>
-                    <option>Católica</option>
-                    <option>Islam</option>
-                    <option>Judaísmo</option>
-                    <option>Protestante o evangélica</option>
-                    <option >Otra</option>
-                    
+                    <option *ngFor="let religion of religionList" >{{ religion.name }}</option>                    
                 </select>    
             </div> 
         </div>

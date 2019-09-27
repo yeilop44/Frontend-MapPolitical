@@ -17,4 +17,10 @@ export class ListMasterService {
     return   this.http.get(this.urlApi, httpOptions);
   }
 
+  getListByType(type:string){
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
+      return this.http.get(`${this.urlApi}/${type}`, httpOptions);
+  }
+
 }

@@ -17,6 +17,7 @@ import { subscribeOn } from 'rxjs/operators';
 import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
 import {NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import { ListMaster } from 'src/app/models/listMaster';
 
 @Component({
   selector: 'app-afiliados',
@@ -68,6 +69,12 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   votingTables: any[] = [];
   votingPlaces: any[] = [];
   professions: any[] = [];
+  
+  professionsList: ListMaster[] = [];
+  ocupationList: any[] = [];
+  religionList: any[] = [];
+  genderList: any[] = [];
+
   ocupations: any[] = [];
   sexs: any[] = [];
   churchs: any[] = [];  
@@ -113,6 +120,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() { 
     
     this.showFilters();
+    this.loadFilterProfessionLists();
     
   }
 
@@ -574,7 +582,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
         console.log(subdivisionByZoneFilter1);
-        this.subdivisionByZoneFilter = _.uniqBy(subdivisionByZoneFilter1);
+        //this.subdivisionByZoneFilter = _.uniqBy(subdivisionByZoneFilter1);
         console.log(this.subdivisionByZoneFilter);
       });  
     }               
@@ -602,7 +610,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
           professionByZoneFilter1[i] = this.pageOfItems[i].profession
         }
       }
-      this.professionByZoneFilter = _.uniqBy(professionByZoneFilter1);
+      //this.professionByZoneFilter = _.uniqBy(professionByZoneFilter1);
       console.log(this.professionByZoneFilter);
       });  
     }                    
@@ -658,6 +666,35 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(this.pageOfItems)
       });  
     }               
+  }
+
+  loadFilterProfessionLists(){
+    this.listMaster.getListByType("Profesion").subscribe((data: any) => {
+      this.professionsList = data.Items;
+      this.loadFilterOcupacionLists();     
+    });
+  }
+
+  loadFilterOcupacionLists(){
+    this.listMaster.getListByType("Ocupacion").subscribe((data: any) => {
+      this.ocupationList = data;
+      console.log("OCUPACIONES: " + JSON.stringify(this.ocupationList, null, 4));
+      this.loadFilterReligionLists();
+    });
+  }
+
+  loadFilterReligionLists(){
+    this.listMaster.getListByType("Religion").subscribe((data: any) => {
+      this.religionList = data.Items;
+      this.loadFilterGenderLists();
+    });
+  }
+
+  loadFilterGenderLists(){
+    this.listMaster.getListByType("Sexo").subscribe((data: any) => {
+      this.genderList = data;      
+      console.log("GENEROS: " + JSON.stringify(this.genderList, null, 4));
+    });
   }
 
 
