@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Afiliado } from '../models/afiliado';
 import { AuthService } from '../services/auth.service';
+import { FilterOptions } from '../models/filterOptions';
 
 
 @Injectable({
@@ -18,11 +19,19 @@ export class AffiliatesService {
     this.selectedAfiliado = new Afiliado();
   }
 
-  getAffiliatesByUserPaginated(user: string, page: number) {
+  getAffiliatesByUserPaginated(user: string, page: number, filterOptions:FilterOptions) {
+    console.log("OPTIONS:" + typeof filterOptions)
     let token = this.auth.token;
     const httpOptions = {
           headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
-    return this.http.get(`${this.urlApi}/${user}/${page}`, httpOptions);
+    return this.http.post(`${this.urlApi}/${user}/${page}`, filterOptions, httpOptions);
+  }
+
+  getFilteredAffiliatesByUserPaginated(user: string, page: number, filterOptions:FilterOptions) {
+    let token = this.auth.token;
+    const httpOptions = {
+          headers: new HttpHeaders({'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/json'})};
+    return this.http.post(`${this.urlApi}/${user}/${page}`, filterOptions, httpOptions);
   }
 
   searchContactsByUser(user: string, searchCriteria: string, page: number) {
@@ -126,6 +135,14 @@ export class AffiliatesService {
     const httpOptions = {
           headers: new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'})};
     return this.http.get(`${this.urlApi}/count/subdivision/${user}`, httpOptions);
+  }
+
+  getNeighborhoodListByUser(user: string){
+    let token = this.auth.token;
+    const httpOptions = {      
+      headers: new HttpHeaders({'Authorization': `Bearer ${token}`,'Content-Type': 'application/json', 'Accept': 'application/json'})
+    };
+    return this.http.get(`${this.urlApi}/listar/neighborhood/${user}`, httpOptions);
   }
 
 }

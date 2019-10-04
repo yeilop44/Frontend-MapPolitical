@@ -38,10 +38,9 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Zona</span>
                 </div>
-                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #zoneFilter (change)="contactSearchByZone(zoneFilter.value)">
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #zoneFilter (change)="onZoneFilterChangeEvent(zoneFilter.value)">
                     <option selected>Ninguno</option>
-                    <option >Urbana</option>
-                    <option >Rural</option>s                                  
+                    <option *ngFor="let zone of zoneList">{{ zone.name }}</option>                                 
                 </select>    
             </div> 
         </div>
@@ -50,9 +49,9 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Barrio</span>
                 </div>
-                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #subdivisionFilter (change)="contactSearchBySubdivision(subdivisionFilter.value)">
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #subdivisionFilter (change)="onNeighborhoodFilterChangeEvent(subdivisionFilter.value)">
                     <option selected>Ninguno</option>
-                    <option *ngFor="let x of subdivisionByZoneFilter">{{ x }}</option>
+                    <option *ngFor="let neighborhood of neighborhoodList">{{ neighborhood }}</option>
                     
                 </select>    
             </div> 
@@ -62,7 +61,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Profesión</span>
                 </div>
-                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #professionFilter (change)="contactSearchByProfession(professionFilter.value)">
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #professionFilter (change)="onProfessionFilterChangeEvent(professionFilter.value)">
                     <option selected>Ninguno</option>
                     <option *ngFor="let profession of professionsList" >{{ profession.name }}</option>
                 </select>    
@@ -73,7 +72,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Religión</span>
                 </div>
-                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #churchFilter (change)="contactSearchByChurch(churchFilter.value)">
+                <select class="form-control" id="basic-url" aria-describedby="basic-addon3" #churchFilter (change)="onReligionFilterChangeEvent(churchFilter.value)">
                     <option>Ninguno</option>
                     <option *ngFor="let religion of religionList" >{{ religion.name }}</option>                    
                 </select>    

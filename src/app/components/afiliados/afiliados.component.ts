@@ -18,6 +18,7 @@ import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
 import {NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 import { ListMaster } from 'src/app/models/listMaster';
+import { FilterOptions } from 'src/app/models/filterOptions';
 
 @Component({
   selector: 'app-afiliados',
@@ -71,9 +72,11 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   professions: any[] = [];
   
   professionsList: ListMaster[] = [];
-  ocupationList: any[] = [];
+  zoneList: any[] = [];
   religionList: any[] = [];
-  genderList: any[] = [];
+  neighborhoodList: any[] = [];
+
+  filterOptions:FilterOptions = new FilterOptions();
 
   ocupations: any[] = [];
   sexs: any[] = [];
@@ -221,7 +224,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   
   getAfiliados(user: string) {  
     this.isLoading = true;   
-    this.affiliateService.getAffiliatesByUserPaginated(user, 1)
+    this.affiliateService.getAffiliatesByUserPaginated(user, 1, this.filterOptions)
       .subscribe((data: any ) => {      
         this.affiliates = data.affiliates;                 
         this.isLoading = false;
@@ -234,7 +237,7 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
     if( this.globalSearchCriteria.length === 0 )
     {
-      this.affiliateService.getAffiliatesByUserPaginated(this.user.user.userName, page)
+      this.affiliateService.getAffiliatesByUserPaginated(this.user.user.userName, page, this.filterOptions)
         .subscribe((data: any ) => {
           this.affiliates = data.affiliates;
           this.isLoading = false;
@@ -671,14 +674,14 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   loadFilterProfessionLists(){
     this.listMaster.getListByType("Profesion").subscribe((data: any) => {
       this.professionsList = data.Items;
-      this.loadFilterOcupacionLists();     
+      this.loadFilterZonasLists();     
     });
   }
 
-  loadFilterOcupacionLists(){
-    this.listMaster.getListByType("Ocupacion").subscribe((data: any) => {
-      this.ocupationList = data;
-      console.log("OCUPACIONES: " + JSON.stringify(this.ocupationList, null, 4));
+  loadFilterZonasLists(){
+    this.listMaster.getListByType("Zona").subscribe((data: any) => {
+      this.zoneList = data.Items;
+      console.log("Zonas: " + JSON.stringify(this.zoneList, null, 4));
       this.loadFilterReligionLists();
     });
   }
@@ -686,16 +689,40 @@ export class AfiliadosComponent implements OnInit, AfterViewInit, OnDestroy {
   loadFilterReligionLists(){
     this.listMaster.getListByType("Religion").subscribe((data: any) => {
       this.religionList = data.Items;
-      this.loadFilterGenderLists();
+      this.loadFilterNeighborhoodLists();
     });
   }
 
-  loadFilterGenderLists(){
-    this.listMaster.getListByType("Sexo").subscribe((data: any) => {
-      this.genderList = data;      
-      console.log("GENEROS: " + JSON.stringify(this.genderList, null, 4));
+  loadFilterNeighborhoodLists(){
+    this.affiliateService.getNeighborhoodListByUser(this.user.user.userName).subscribe((data: any) => {
+      this.neighborhoodList = data.Items;
     });
   }
+
+  onProfessionFilterChangeEvent( prof:string ){
+    console.log("Evento ejecutado profesion");
+    this.filterOptions.profession = prof === "Ninguno" ? undefined : prof ;
+    this.getAfiliadosPerPage(1);
+  }
+
+  onZoneFilterChangeEvent( zone:string ){
+    console.log("Evento ejecutado zona");
+    this.filterOptions.zone = zone === "Ninguno" ? undefined : zone;
+    this.getAfiliadosPerPage(1);
+  }
+
+  onNeighborhoodFilterChangeEvent( neigh:string ){
+    console.log("Evento ejecutado");
+    this.filterOptions.subdivision = neigh === "Ninguno" ? undefined : neigh;
+    this.getAfiliadosPerPage(1);
+  }
+
+  onReligionFilterChangeEvent( religion:string ){
+    console.log("Evento ejecutado");
+    this.filterOptions.church = religion === "Ninguno" ? undefined : religion;
+    this.getAfiliadosPerPage(1); 
+  }
+
 
 
 }
