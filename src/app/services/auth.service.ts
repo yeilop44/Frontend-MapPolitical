@@ -33,6 +33,7 @@ export class AuthService {
             this.token = data.user.token
         }else{
           console.log("error de conexion con el servidor");
+          console.log(data);
         }
       }));
   }
